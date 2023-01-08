@@ -15,3 +15,4 @@ class NoParams extends Equatable {
 abstract class UseCaseCustomer<R, P> {
   Future<R> call({required P params});
 }
+

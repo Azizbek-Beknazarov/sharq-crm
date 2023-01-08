@@ -3,7 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sharq_crm/features/customers_page.dart';
+import 'package:sharq_crm/features/customers/presentation/page/customers_page.dart';
 
 import '../core/util/constants.dart';
 import '../core/util/loading_widget.dart';

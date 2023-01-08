@@ -2,7 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sharq_crm/features/customers_page.dart';
+import 'package:sharq_crm/features/customers/presentation/bloc/get_customers_cubit/get_cus_cubit.dart';
+import 'package:sharq_crm/features/customers/presentation/page/customers_page.dart';
 
 import 'features/auth/presentation/bloc/m_auth_bloc.dart';
 
@@ -28,9 +29,10 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
               create: (_) => di.sl<AuthBloc>()..add(GetCurrentManagerEvent())),
-          BlocProvider<CustomerBloc>(
-            create: (context) => di.sl<CustomerBloc>(),
+          BlocProvider<CustomerCubit>(
+            create: (context) => di.sl<CustomerCubit>()..loadCustomer(),
           ),
+          BlocProvider(create: (_)=>di.sl<CustomerBloc>()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
