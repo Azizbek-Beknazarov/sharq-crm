@@ -13,10 +13,16 @@ import 'package:sharq_crm/features/auth/domain/usecase/login_manager.dart';
 import 'package:sharq_crm/features/auth/domain/usecase/logout_manager.dart';
 import 'package:sharq_crm/features/auth/domain/usecase/register_manager.dart';
 import 'package:sharq_crm/features/auth/presentation/bloc/m_auth_bloc.dart';
+import 'package:sharq_crm/features/customers/data/repository/customer_repo_impl.dart';
+
 
 import '../core/network/network_info.dart';
 import 'auth/data/repository/manager_auth_repo_impl.dart';
 import 'auth/domain/repository/manager_repo.dart';
+import 'customers/data/datasourse/add_customer_r_ds.dart';
+import 'customers/domain/repository/customer_repo.dart';
+import 'customers/domain/usecase/new_customer_add_usecase.dart';
+import 'customers/presentation/bloc/new_customer_bloc.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -27,6 +33,7 @@ Future<void> init() async {
   sl.registerFactory(() =>
       AuthBloc(getCurrentManager: sl(), loginManager: sl(), registerManager: sl(), logoutManager: sl()));
 
+sl.registerFactory(() =>CustomerBloc(sl()) );
 
 
 
@@ -37,6 +44,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => LoginManager(sl()));
   sl.registerLazySingleton(() => LogoutManager(sl()));
 
+
+  sl.registerLazySingleton(() => AddNewCustomerUseCase(sl()));
   // Repository
 
   sl.registerLazySingleton<ManagerAuthRepository>(
@@ -48,6 +57,7 @@ Future<void> init() async {
         ),
   );
 
+  sl.registerLazySingleton<CustomerRepository>(() => CustomerRepositoryImpl(remodeDS: sl(), info: sl()));
 
   // Data sources
 
@@ -58,6 +68,9 @@ Future<void> init() async {
   sl.registerLazySingleton<ManagerAuthLocalDataSource>(
         () => ManagerAuthLocalDataSourceImpl(preferences: sl()),
   );
+
+
+  sl.registerLazySingleton(() =>AddCustomerRDS() );
 
 
   final sharedPreferences = await SharedPreferences.getInstance();

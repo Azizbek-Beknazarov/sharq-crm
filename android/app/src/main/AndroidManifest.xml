@@ -3,7 +3,7 @@
    <application
         android:label="sharq_crm"
         android:name="${applicationName}"
-        android:icon="@mipmap/logo2">
+        android:icon="@mipmap/logo">
         <activity
             android:name=".MainActivity"
             android:exported="true"

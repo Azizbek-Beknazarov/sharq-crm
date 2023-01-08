@@ -17,7 +17,7 @@ class SignInPage extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: MediaQuery.of(context).size.height - 150,
+                height: MediaQuery.of(context).size.height - 100,
                 child: Column(
                   children: [
                     _buildHeader(),
@@ -93,9 +93,9 @@ class SignInPage extends StatelessWidget {
 
   Widget buildLogo() {
     return Container(
-      height: 100,
-      width: 100,
-      child: Center(child: Image.asset("assets/images/logo2.png")),
+      height: 300,
+      width: 300,
+      child: Center(child: Image.asset("assets/images/logo.png")),
     );
   }
 }

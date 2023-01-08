@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Center(child: Image.asset('assets/images/logo2.png', width: 100)),
+        Center(child: Image.asset('assets/images/logo.png', width: 400,height: 400,)),
         LoadingWidget(
           color: primaryColor,
         )

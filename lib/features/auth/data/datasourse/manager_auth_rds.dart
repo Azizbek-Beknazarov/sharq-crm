@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sharq_crm/core/error/exception.dart';
 import 'package:sharq_crm/features/auth/domain/entity/manager_entity.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebaseAuth;

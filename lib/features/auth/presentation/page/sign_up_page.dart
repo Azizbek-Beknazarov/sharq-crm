@@ -92,9 +92,9 @@ class SignUpPage extends StatelessWidget {
 
   Widget buildLogo() {
     return Container(
-      height: 200,
-      width: 200,
-      child: Center(child: Image.asset("assets/images/logo2.png")),
+      height: 300,
+      width: 300,
+      child: Center(child: Image.asset("assets/images/logo.png")),
     );
   }
 }
