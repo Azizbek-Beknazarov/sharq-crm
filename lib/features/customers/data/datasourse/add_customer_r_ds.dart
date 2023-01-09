@@ -3,6 +3,8 @@ import 'package:sharq_crm/features/customers/data/model/customer_model.dart';
 
 abstract class CustomerRemoteDS {
   Future<List<CustomerModel>> getAllCustomer();
+
+  Future<void> deleteCustomer(String id);
 }
 
 class CustomerRemoteDSImpl implements CustomerRemoteDS {
@@ -21,6 +23,10 @@ class CustomerRemoteDSImpl implements CustomerRemoteDS {
     return Future.value(customer);
   }
 
+  @override
+  Future<void> deleteCustomer(String id) async {
+    return await reference.doc(id).delete();
+  }
 }
 
 class AddCustomerRDS {

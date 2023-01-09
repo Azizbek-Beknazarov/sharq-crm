@@ -12,6 +12,7 @@ import 'package:sharq_crm/features/auth/domain/usecase/logout_manager.dart';
 import 'package:sharq_crm/features/auth/domain/usecase/register_manager.dart';
 import 'package:sharq_crm/features/auth/presentation/bloc/m_auth_bloc.dart';
 import 'package:sharq_crm/features/customers/data/repository/customer_repo_impl.dart';
+import 'package:sharq_crm/features/customers/domain/usecase/delete_customer.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/get_customers_cubit/get_cus_cubit.dart';
 
 import '../core/network/network_info.dart';
@@ -38,7 +39,7 @@ Future<void> init() async {
   sl.registerFactory(() => CustomerBloc(
         sl(),
       ));
-  sl.registerFactory(() => CustomerCubit(getAllCus: sl()));
+  sl.registerFactory(() => CustomerCubit(getAllCus: sl(),deleteCus: sl() ));
 
   // Use cases
 
@@ -49,6 +50,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton(() => AddNewCustomerUseCase(sl()));
   sl.registerLazySingleton(() => GetAllCustomersUseCase(sl()));
+  sl.registerLazySingleton(() => CustomerDeleteUseCase(customerRepository: sl()));
   // Repository
 
   sl.registerLazySingleton<ManagerAuthRepository>(

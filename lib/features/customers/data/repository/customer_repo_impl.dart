@@ -41,4 +41,12 @@ class CustomerRepositoryImpl implements CustomerRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, void>> deleteCuctomers(String id)async {
+  if(await info.isConnected){
+    final result=await customerRemoteDS.deleteCustomer(id);
+    return Right(result);
+  }else return Left(ServerFailure());
+  }
 }

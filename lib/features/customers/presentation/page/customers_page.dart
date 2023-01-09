@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,25 +5,41 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/data/model/customer_model.dart';
 import 'package:uuid/uuid.dart';
 
+import '../bloc/get_customers_cubit/get_cus_cubit.dart';
 import '../bloc/new_customer_bloc.dart';
 import '../widget/customer_list.dart';
 
-class CustomersPage extends StatelessWidget {
+class CustomersPage extends StatefulWidget {
   CustomersPage({Key? key}) : super(key: key);
+
+  @override
+  State<CustomersPage> createState() => _CustomersPageState();
+}
+
+class _CustomersPageState extends State<CustomersPage> {
   TextEditingController nameController = TextEditingController();
+
   TextEditingController phoneController = TextEditingController();
+
   final uuid = Uuid();
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: CustomerList(),
+  void setState(VoidCallback fn) {
+    context.read<CustomerCubit>().loadCustomer();
+    print('customers_page ichida loadCustomer() chaqirildi.}');
+    super.setState(fn);
+  }
 
-      //
-      floatingActionButton: BlocBuilder<CustomerBloc, AddNewCustomerState>(
-          builder: (context, state) {
-        return FloatingActionButton(
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CustomerBloc, AddNewCustomerState>(
+        builder: (context, state) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: CustomerList(),
+
+        //
+        floatingActionButton: FloatingActionButton(
           onPressed: () {
             showDialog<void>(
                 context: context,
@@ -58,6 +72,10 @@ class CustomersPage extends StatelessWidget {
                           context
                               .read<CustomerBloc>()
                               .add(AddCustomerEvent(customerModel));
+                          setState(() {
+                            nameController.clear();
+                            phoneController.clear();
+                          });
                           Navigator.of(context).pop();
                         },
                       ),
@@ -66,8 +84,8 @@ class CustomersPage extends StatelessWidget {
                 });
           },
           child: Icon(Icons.add),
-        );
-      }),
-    );
+        ),
+      );
+    });
   }
 }
