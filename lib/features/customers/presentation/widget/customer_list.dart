@@ -11,6 +11,9 @@ import '../page/customer_detail_page.dart';
 
 class CustomerList extends StatefulWidget {
   CustomerList({Key? key}) : super(key: key);
+  TextEditingController nameController = TextEditingController();
+
+  TextEditingController phoneController = TextEditingController();
 
   @override
   State<CustomerList> createState() => _CustomerListState();
@@ -24,6 +27,51 @@ class _CustomerListState extends State<CustomerList> {
       // controller: scrollController,
       itemBuilder: (ctx, index) {
         return GestureDetector(
+          onDoubleTap: (){
+            showDialog<void>(
+                context: context,
+                builder: (ctx) {
+                  return Center(
+                      child: AlertDialog(
+                        title: Text('Update customer'),
+                        content: Column(
+                          children: [
+                            TextField(
+                              controller: widget.nameController,
+                            ),
+                            TextField(
+                              controller:widget.phoneController,
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              textStyle: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            child: const Text('Update'),
+                            onPressed: () {
+                            final  customerId=customers[index].id;
+                              var customerModel = CustomerModel(
+                                  name: widget.nameController.text,
+                                  phone: widget.phoneController.text,
+                                  id: customers[index].id);
+
+                              context
+                                  .read<CustomerCubit>()
+                                  .updateCustomer(customerModel, customerId);
+                              setState(() {
+                                widget.nameController.clear();
+                                widget.phoneController.clear();
+                              });
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      ));
+                });
+            print('Updated');
+          },
           onLongPress: () {
             showDialog(
                 context: context,

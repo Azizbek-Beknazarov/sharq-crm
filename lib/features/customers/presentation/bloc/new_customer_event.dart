@@ -12,3 +12,8 @@ class AddCustomerEvent extends CustomerEvent {
 
   AddCustomerEvent(this.customerModel) : super([customerModel]);
 }
+ // class CustomerUpdateEvent extends CustomerEvent{
+ //   final CustomerModel customerModel;
+ //
+ //  CustomerUpdateEvent(this.customerModel):super([customerModel]);
+ // }

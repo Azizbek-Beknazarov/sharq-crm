@@ -43,3 +43,6 @@ class CustomerDelState extends CustomersState{
   @override
   List<Object> get props => [];
 }
+class CustomerUpdateState extends CustomersState{
+
+}

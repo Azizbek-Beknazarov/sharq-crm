@@ -10,6 +10,6 @@ abstract class CustomerRepository {
 
   Future<Either<Failure, void>> deleteCuctomers(String id);
 
-  Future<Either<Failure, CustomerModel>> updateCuctomers(
-      CustomerModel customerModel, String id);
+  Future<Either<Failure, void>> updateCuctomers(
+      CustomerModel customerModel,String customerId);
 }

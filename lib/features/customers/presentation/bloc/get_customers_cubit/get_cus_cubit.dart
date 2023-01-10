@@ -19,13 +19,18 @@ import '../../../../../core/error/failures.dart';
 import '../../../../../core/util/constants.dart';
 import '../../../domain/usecase/delete_customer.dart';
 import '../../../domain/usecase/get_all_cus_usecase.dart';
+import '../../../domain/usecase/update_customer_usecase.dart';
 
 class CustomerCubit extends Cubit<CustomersState> {
   final GetAllCustomersUseCase getAllCus;
-   CustomerDeleteUseCase deleteCus;
+  CustomerDeleteUseCase deleteCus;
+  UpdateCustomerUseCase updateCus;
 
-  CustomerCubit(  {required this.getAllCus,required this.deleteCus,} )
-      : super(CustomerEmpty());
+  CustomerCubit({
+    required this.getAllCus,
+    required this.deleteCus,
+    required this.updateCus
+  }) : super(CustomerEmpty());
 
   void loadCustomer() async {
     if (state is CustomerLoading) return;
@@ -44,6 +49,13 @@ class CustomerCubit extends Cubit<CustomersState> {
     final failOrDel = await deleteCus.call(id);
     failOrDel.fold((l) => CustomerError(message: 'dont delete'),
         (r) => CustomerDelState());
+  }
+
+  void updateCustomer(CustomerModel customerModel, String customerId) async {
+    if (state is CustomerLoading) return;
+    final failOr = await updateCus.call(customerModel, customerId);
+    failOr.fold((l) => CustomerError(message: 'dont update'),
+        (r) => CustomerUpdateState());
   }
 
   String _mapFailureToMessage(Failure failure) {

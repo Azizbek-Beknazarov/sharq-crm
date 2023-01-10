@@ -43,10 +43,27 @@ class CustomerRepositoryImpl implements CustomerRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteCuctomers(String id)async {
-  if(await info.isConnected){
-    final result=await customerRemoteDS.deleteCustomer(id);
-    return Right(result);
-  }else return Left(ServerFailure());
+  Future<Either<Failure, void>> deleteCuctomers(String id) async {
+    if (await info.isConnected) {
+      final result = await customerRemoteDS.deleteCustomer(id);
+      return Right(result);
+    } else
+      return Left(ServerFailure());
+  }
+
+  @override
+  Future<Either<Failure, void>> updateCuctomers(
+      CustomerModel customerModel, String customerId) async {
+    if (await info.isConnected) {
+      try {
+        final result =
+            await customerRemoteDS.updateCustomer(customerModel, customerId);
+        return Right(result);
+      } catch (e) {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(ServerFailure());
+    }
   }
 }

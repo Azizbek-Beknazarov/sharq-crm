@@ -22,6 +22,7 @@ import 'customers/data/datasourse/add_customer_r_ds.dart';
 import 'customers/domain/repository/customer_repo.dart';
 import 'customers/domain/usecase/get_all_cus_usecase.dart';
 import 'customers/domain/usecase/new_customer_add_usecase.dart';
+import 'customers/domain/usecase/update_customer_usecase.dart';
 import 'customers/presentation/bloc/new_customer_bloc.dart';
 
 final GetIt sl = GetIt.instance;
@@ -39,7 +40,7 @@ Future<void> init() async {
   sl.registerFactory(() => CustomerBloc(
         sl(),
       ));
-  sl.registerFactory(() => CustomerCubit(getAllCus: sl(),deleteCus: sl() ));
+  sl.registerFactory(() => CustomerCubit(getAllCus: sl(),deleteCus: sl(), updateCus: sl() ));
 
   // Use cases
 
@@ -51,6 +52,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddNewCustomerUseCase(sl()));
   sl.registerLazySingleton(() => GetAllCustomersUseCase(sl()));
   sl.registerLazySingleton(() => CustomerDeleteUseCase(customerRepository: sl()));
+  sl.registerLazySingleton(() => UpdateCustomerUseCase(repository: sl()));
   // Repository
 
   sl.registerLazySingleton<ManagerAuthRepository>(

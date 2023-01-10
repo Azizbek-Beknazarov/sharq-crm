@@ -6,6 +6,9 @@ import '../error/failures.dart';
 abstract class UseCase<Type, Params> {
   Future<Either<Failure, Type>> call(Params params);
 }
+abstract class UseCaseUpdate<Type, Params, String> {
+  Future<Either<Failure, Type>> call(Params params, String id);
+}
 
 class NoParams extends Equatable {
   @override

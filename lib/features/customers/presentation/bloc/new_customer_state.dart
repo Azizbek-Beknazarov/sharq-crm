@@ -12,4 +12,5 @@ class AddNewCustomerFailedState extends AddNewCustomerState {
   final String error;
   AddNewCustomerFailedState(this.error);
 }
+class CustomerUpdatedState extends AddNewCustomerState{}
 
