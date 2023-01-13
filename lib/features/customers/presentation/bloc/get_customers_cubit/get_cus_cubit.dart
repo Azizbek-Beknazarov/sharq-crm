@@ -11,7 +11,7 @@
 // }
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/core/usecase/usecase.dart';
-import 'package:sharq_crm/features/customers/data/model/customer_model.dart';
+
 import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/get_customers_cubit/get_cus_state.dart';
 
@@ -51,9 +51,9 @@ class CustomerCubit extends Cubit<CustomersState> {
         (r) => CustomerDelState());
   }
 
-  void updateCustomer(CustomerModel customerModel, String customerId) async {
+  void updateCustomer(CustomerEntity customerEntity, String customerId) async {
     if (state is CustomerLoading) return;
-    final failOr = await updateCus.call(customerModel, customerId);
+    final failOr = await updateCus.call(CustomerUpdateParams(customerEntity, customerId));
     failOr.fold((l) => CustomerError(message: 'dont update'),
         (r) => CustomerUpdateState());
   }

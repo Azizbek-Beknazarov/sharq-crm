@@ -1,13 +1,17 @@
 import 'package:equatable/equatable.dart';
 
 class CustomerEntity extends Equatable {
-   String id;
+  String id;
   String name;
   String phone;
+  String dateOfSignUp;
 
-  CustomerEntity({required this.name , required this.phone,required this.id});
+  CustomerEntity(
+      {required this.name,
+      required this.phone,
+      required this.id,
+      required this.dateOfSignUp});
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [id,name,phone];
+  List<Object?> get props => [id, name, phone, dateOfSignUp];
 }

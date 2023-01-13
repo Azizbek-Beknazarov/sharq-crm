@@ -21,3 +21,213 @@ const String INVALID_DATE_FAILURE_MESSAGE =
 //
 final primaryColor = Color(0xff082659);
 final secondaryColor = Color(0xff51eec2);
+
+
+//
+//
+// class UserDTO {
+//   UserDTO({
+//     this.id
+//     this.email,
+//     this.firstName,
+//     this.lastName,
+//     this.occupation,
+//   });
+//
+//   int id;
+//   String? email;
+//   String? firstName;
+//   String? lastName;
+//   String? occupation;
+//
+//   factory UserDTO.fromJson(Map<String, dynamic> json) => UserDTO(
+//     id: json["id"],
+//     email: json["email"],
+//     firstName: json["first_name"],
+//     lastName: json["last_name"],
+//     occupation: json["occupation"],
+//   );
+//
+//   Map<String, dynamic> toJson() => {
+//     "id": id,
+//     "email": email,
+//     "first_name": firstName,
+//     "last_name": lastName,
+//     "occupation": occupation,
+//   };
+// }
+//
+//
+//
+// class UserRemoteDataSource {
+//   final HttpHandler httpHandler;
+//
+//   const UserRemoteDataSource({required this.httpHandler});
+//
+//   Future<UserDTO> getUserDetails(String userId) async {
+//     final String url =
+//         HttpRequestUrl.create(Constants.endpoint.userDetails);
+//
+//     final Map<String, dynamic> params = {
+//       "user_id": userId,
+//     };
+//
+//     try {
+//       final response = await httpHandler.get(
+//         url: url,
+//         queryParameters: params,
+//       );
+//       return UserDto.fromJson(response);
+//     } catch (e) {
+//       rethrow;
+//     }
+//   }
+//
+//   Future<List<UserDTO>> getUserList({required String companyId}) {
+//     // TODO: implement getUserList
+//     throw UnimplementedError();
+//   }
+// }
+//
+// class UserRepositoryImpl extends UserRepository {
+//   late UserRemoteDataSource _remoteDataSource;
+//
+//   UserRepositoryImpl({
+//     required UserRemoteDataSource userRemoteDataSource,
+//   }) {
+//     _remoteDataSource = userRemoteDataSource;
+//   }
+//
+//   @override
+//   Future<Either<Failure, UserEntity>> getUserDetails({
+//     required String userId,
+//   }) async {
+//     try {
+//       UserDTO userDto =
+//           await _remoteDataSource.getUserDetails(
+//         userId,
+//       );
+//
+//       UserEntity result =
+//           mapper.mapDTOtoEntity(userDto);
+//
+//       return Right(result);
+//     } on Exception catch (e) {
+//       rethrow;
+//     }
+//   }
+// }
+//
+//
+// class UserEntity extends Equatable {
+//   const UserEntity({
+//     required this.id,
+//     required this.email,
+//     required this.firstName,
+//     required this.lastName,
+//     required this.occupation,
+//   });
+//
+//   final int id;
+//   final String email;
+//   final String firstName;
+//   final String lastName;
+//   final String occupation;
+//
+//   String fullName() => firstName + " $lastName";
+//
+//   @override
+//   List<Object?> get props => [
+//         id,
+//         email,
+//         firstName,
+//         lastName,
+//         occupation,
+//       ];
+// }
+//
+// class GetUserDetailsUseCase extends UseCase<UserEntity, UserDetailParams> {
+//   final UserRepository repository;
+//
+//   const GetUserDetailsUseCase({required this.repository});
+//
+//   @override
+//   Future<Either<Failure, UserEntity>> call(UserDetailParams params) {
+//     return repository.getUserDetails(userId: params.userId);
+//   }
+// }
+//
+//
+// class UserDetailsController extends GetxController {
+//   late GetUserDetailsUsecase _useCase;
+//
+//   Rx<String> fullName = "".obs;
+//   Rx<String> occupation = "".obs;
+//   int userId = 1;
+//
+//   UserDetailsController({
+//     required GetUserDetailsUsecase useCase,
+//   }) {
+//     _useCase = useCase;
+//   }
+//
+//   @override
+//   void onInit() {
+//     getUserDetails(userId);
+//
+//     super.onInit();
+//   }
+//
+//   Future<void> getUserDetails(String userId) async {
+//     final result = await _useCase.call(params);
+//
+//     result.fold((Failure failure) {
+//       debugPrint(“Failed to fetch the data“);
+//     }, (data) {
+//       fullName.value = data.fullName();
+//       occupation.value = data.occupation;
+//     });
+//   }
+// }
+//
+//
+// class UserDetailsPage extends StatelessWidget {
+//   final UserDetailsController _controller = Get.find<UserDetailsController>();
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text("User Details"),
+//       ),
+//       body: SafeArea(
+//         child: Padding(
+//           padding: const EdgeInsets.all(8),
+//           child: Center(
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               mainAxisAlignment: MainAxisAlignment.start,
+//               children: <Widget>[
+//                 Text("Hello world!"),
+//                 _buildUserInformationWidget(),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+//
+//   Widget _buildUserInformationWidget() {
+//     return Container(
+//       child: Obx(
+//         () => Column(
+//           children: <Widget>[
+//             Text("My name is: ${_controller.fullName.value}"),
+//             Text("My occupation is: ${_controller.occupation.value}"),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

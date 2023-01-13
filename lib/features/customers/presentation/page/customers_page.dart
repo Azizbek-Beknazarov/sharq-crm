@@ -1,13 +1,16 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:sharq_crm/features/customers/data/model/customer_model.dart';
+
 import 'package:uuid/uuid.dart';
 
 import '../bloc/get_customers_cubit/get_cus_cubit.dart';
 import '../bloc/new_customer_bloc.dart';
 import '../widget/customer_list.dart';
+
 
 class CustomersPage extends StatefulWidget {
   CustomersPage({Key? key}) : super(key: key);
@@ -23,6 +26,7 @@ class _CustomersPageState extends State<CustomersPage> {
 
   final uuid = Uuid();
 
+
   @override
   void setState(VoidCallback fn) {
     context.read<CustomerCubit>().loadCustomer();
@@ -35,8 +39,12 @@ class _CustomersPageState extends State<CustomersPage> {
     return BlocBuilder<CustomerBloc, AddNewCustomerState>(
         builder: (context, state) {
       return Scaffold(
-        appBar: AppBar(),
-        body: CustomerList(),
+        appBar: AppBar(
+
+        ),
+        body:
+
+         CustomerList(),
 
         //
         floatingActionButton: FloatingActionButton(
@@ -50,9 +58,19 @@ class _CustomersPageState extends State<CustomersPage> {
                     content: Column(
                       children: [
                         TextField(
+                          keyboardType: TextInputType.name,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.person),
+                            labelText: 'Name',
+                          ),
                           controller: nameController,
                         ),
                         TextField(
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.phone),
+                            labelText: 'Phone',
+                          ),
                           controller: phoneController,
                         ),
                       ],
@@ -67,12 +85,14 @@ class _CustomersPageState extends State<CustomersPage> {
                           var customerModel = CustomerModel(
                               name: nameController.text,
                               phone: phoneController.text,
+                              dateOfSignUp: DateTime.now().toString(),
                               id: uuid.v4());
 
-                          context
-                              .read<CustomerBloc>()
-                              .add(AddCustomerEvent(customerModel));
+
                           setState(() {
+                            context
+                                .read<CustomerBloc>()
+                                .add(AddCustomerEvent(customerModel));
                             nameController.clear();
                             phoneController.clear();
                           });

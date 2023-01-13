@@ -14,6 +14,11 @@ import 'package:sharq_crm/features/auth/presentation/bloc/m_auth_bloc.dart';
 import 'package:sharq_crm/features/customers/data/repository/customer_repo_impl.dart';
 import 'package:sharq_crm/features/customers/domain/usecase/delete_customer.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/get_customers_cubit/get_cus_cubit.dart';
+import 'package:sharq_crm/features/orders/data/datasourse/car_datasource.dart';
+import 'package:sharq_crm/features/orders/data/repository/car_repo_impl.dart';
+import 'package:sharq_crm/features/orders/domain/repository/car_repo.dart';
+import 'package:sharq_crm/features/orders/domain/usecase/car_usecase/add_new_car.dart';
+import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_bloc.dart';
 
 import '../core/network/network_info.dart';
 import 'auth/data/repository/manager_auth_repo_impl.dart';
@@ -22,6 +27,7 @@ import 'customers/data/datasourse/add_customer_r_ds.dart';
 import 'customers/domain/repository/customer_repo.dart';
 import 'customers/domain/usecase/get_all_cus_usecase.dart';
 import 'customers/domain/usecase/new_customer_add_usecase.dart';
+
 import 'customers/domain/usecase/update_customer_usecase.dart';
 import 'customers/presentation/bloc/new_customer_bloc.dart';
 
@@ -31,30 +37,47 @@ Future<void> init() async {
   //! Features
   // Bloc
 
+  //1
   sl.registerFactory(() => AuthBloc(
       getCurrentManager: sl(),
       loginManager: sl(),
       registerManager: sl(),
       logoutManager: sl()));
 
+  //2
   sl.registerFactory(() => CustomerBloc(
         sl(),
       ));
-  sl.registerFactory(() => CustomerCubit(getAllCus: sl(),deleteCus: sl(), updateCus: sl() ));
+  //3
+  sl.registerFactory(
+      () => CustomerCubit(getAllCus: sl(), deleteCus: sl(), updateCus: sl()));
 
+  //4
+  sl.registerFactory(() => CarBloc(sl()));
+
+  //
   // Use cases
 
+  //1
   sl.registerLazySingleton(() => GetCurrentManager(sl()));
   sl.registerLazySingleton(() => RegisterManager(sl()));
   sl.registerLazySingleton(() => LoginManager(sl()));
   sl.registerLazySingleton(() => LogoutManager(sl()));
 
+  //2
   sl.registerLazySingleton(() => AddNewCustomerUseCase(sl()));
   sl.registerLazySingleton(() => GetAllCustomersUseCase(sl()));
-  sl.registerLazySingleton(() => CustomerDeleteUseCase(customerRepository: sl()));
+  sl.registerLazySingleton(
+      () => CustomerDeleteUseCase(customerRepository: sl()));
   sl.registerLazySingleton(() => UpdateCustomerUseCase(repository: sl()));
+
+  //3
+  sl.registerLazySingleton(() => AddNewCarUseCase(carRepo: sl()));
+
+
   // Repository
 
+  //1
   sl.registerLazySingleton<ManagerAuthRepository>(
     () => ManagerAuthRepositoryImpl(
       localDataSource: sl(),
@@ -63,23 +86,34 @@ Future<void> init() async {
     ),
   );
 
+  //2
   sl.registerLazySingleton<CustomerRepository>(() => CustomerRepositoryImpl(
       remodeDS: sl(), info: sl(), customerRemoteDS: sl()));
 
+  //3
+  sl.registerLazySingleton<CarRepo>(() => CarRepoImpl(carRemoteDataSource: sl(), info: sl()));
+
+
   // Data sources
 
+  //1
   sl.registerLazySingleton<ManagerAuthRemoteDataSource>(
     () => ManagerAuthRemoteDataSourceImpl(
       auth: sl(),
     ),
   );
 
+  //2
   sl.registerLazySingleton<ManagerAuthLocalDataSource>(
     () => ManagerAuthLocalDataSourceImpl(preferences: sl()),
   );
 
+  //3
   sl.registerLazySingleton(() => AddCustomerRDS());
   sl.registerLazySingleton<CustomerRemoteDS>(() => CustomerRemoteDSImpl());
+
+  //4
+  sl.registerLazySingleton<CarRemoteDataSource>(() => CarRemoteDataSourceImpl());
 
   final sharedPreferences = await SharedPreferences.getInstance();
 

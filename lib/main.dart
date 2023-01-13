@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/get_customers_cubit/get_cus_cubit.dart';
+import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_bloc.dart';
 
 
 import 'features/auth/presentation/bloc/m_auth_bloc.dart';
@@ -32,9 +33,10 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (_) => di.sl<AuthBloc>()..add(GetCurrentManagerEvent())),
           BlocProvider<CustomerCubit>(
-            create: (context) => di.sl<CustomerCubit>()..loadCustomer(),
+            create: (_) => di.sl<CustomerCubit>()..loadCustomer(),
           ),
           BlocProvider(create: (_)=>di.sl<CustomerBloc>()),
+          BlocProvider(create: (_)=>di.sl<CarBloc>()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

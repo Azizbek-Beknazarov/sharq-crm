@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart';
 
-import '../../../data/model/customer_model.dart';
+
 
 abstract class CustomersState extends Equatable {
   const CustomersState();
@@ -22,7 +23,7 @@ class CustomerLoading extends CustomersState {
 }
 
 class CustomersLoaded extends CustomersState {
-  final List<CustomerModel> customersLoaded;
+  final List<CustomerEntity> customersLoaded;
 
   CustomersLoaded({required this.customersLoaded});
   @override

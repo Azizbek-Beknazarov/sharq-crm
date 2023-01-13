@@ -1,13 +1,18 @@
 import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart';
 
 class CustomerModel extends CustomerEntity {
-  CustomerModel({required super.name, required super.phone, required super.id});
+  CustomerModel(
+      {required String name,
+      required  String phone,
+      required  String id,
+      required  String dateOfSignUp}):super(name: name,phone: phone,id: id,dateOfSignUp: dateOfSignUp);
 
-  static CustomerModel fromJson(Map<String, dynamic> json) {
+  factory CustomerModel.fromJson(Map<String, dynamic> json) {
     return CustomerModel(
         name: json['name'] ?? "",
         phone: json['phone'] ?? "",
-        id: json['id'] ?? "");
+        id: json['id'] ?? "",
+        dateOfSignUp: json['dateOfSignUp']);
   }
 
   Map<String, dynamic> toJson() {
@@ -15,6 +20,7 @@ class CustomerModel extends CustomerEntity {
       'id': id,
       'name': name,
       'phone': phone,
+      'dateOfSignUp':dateOfSignUp
     };
   }
 }
