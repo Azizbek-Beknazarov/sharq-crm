@@ -1,16 +1,11 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:sharq_crm/features/customers/data/model/customer_model.dart';
-
+import 'package:sharq_crm/features/customers/presentation/bloc/customer_state.dart';
 import 'package:uuid/uuid.dart';
-
-import '../bloc/get_customers_cubit/get_cus_cubit.dart';
-import '../bloc/new_customer_bloc.dart';
+import '../../domain/entity/customer_entity.dart';
+import '../bloc/customer_cubit.dart';
 import '../widget/customer_list.dart';
-
 
 class CustomersPage extends StatefulWidget {
   CustomersPage({Key? key}) : super(key: key);
@@ -26,7 +21,7 @@ class _CustomersPageState extends State<CustomersPage> {
 
   final uuid = Uuid();
 
-
+  //
   @override
   void setState(VoidCallback fn) {
     context.read<CustomerCubit>().loadCustomer();
@@ -34,78 +29,95 @@ class _CustomersPageState extends State<CustomersPage> {
     super.setState(fn);
   }
 
+  //
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CustomerBloc, AddNewCustomerState>(
-        builder: (context, state) {
+    return BlocBuilder<CustomerCubit, CustomersState>(
+        builder: (context, customerCubitstate) {
+      if (customerCubitstate is CustomerLoading) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (customerCubitstate is CustomerAddedState) {
+        return Center(
+          child: Text(customerCubitstate.toString()),
+        );
+      } else if (customerCubitstate is CustomerError) {
+        return Center(
+          child: Text(customerCubitstate.message),
+        );
+      }
       return Scaffold(
         appBar: AppBar(
-
+          title: Text('Customers'),
+          centerTitle: true,
         ),
-        body:
-
-         CustomerList(),
+        body: CustomerList(),
 
         //
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showDialog<void>(
-                context: context,
-                builder: (ctx) {
-                  return Center(
-                      child: AlertDialog(
-                    title: Text('New customer'),
-                    content: Column(
-                      children: [
-                        TextField(
-                          keyboardType: TextInputType.name,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.person),
-                            labelText: 'Name',
-                          ),
-                          controller: nameController,
-                        ),
-                        TextField(
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.phone),
-                            labelText: 'Phone',
-                          ),
-                          controller: phoneController,
-                        ),
-                      ],
-                    ),
-                    actions: [
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          textStyle: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        child: const Text('Add'),
-                        onPressed: () {
-                          var customerModel = CustomerModel(
-                              name: nameController.text,
-                              phone: phoneController.text,
-                              dateOfSignUp: DateTime.now().toString(),
-                              id: uuid.v4());
-
-
-                          setState(() {
-                            context
-                                .read<CustomerBloc>()
-                                .add(AddCustomerEvent(customerModel));
-                            nameController.clear();
-                            phoneController.clear();
-                          });
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  ));
-                });
-          },
-          child: Icon(Icons.add),
-        ),
+        floatingActionButton: _floatingCarAdd(context),
       );
     });
+  }
+
+  // method 1
+  Widget _floatingCarAdd(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        showDialog<void>(
+            context: context,
+            builder: (ctx) {
+              return Center(
+                  child: AlertDialog(
+                title: Text('New customer'),
+                content: Column(
+                  children: [
+                    TextField(
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.person),
+                        labelText: 'Name',
+                      ),
+                      controller: nameController,
+                    ),
+                    TextField(
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.phone),
+                        labelText: 'Phone',
+                      ),
+                      controller: phoneController,
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    child: const Text('Add'),
+                    onPressed: () {
+                      var customerEntity = CustomerEntity(
+                          name: nameController.text,
+                          phone: phoneController.text,
+                          dateOfSignUp: DateTime.now().toString(),
+                          id: uuid.v4());
+
+                      setState(() {
+                        context
+                            .read<CustomerCubit>()
+                            .addNewCustomer(customerEntity);
+                        nameController.clear();
+                        phoneController.clear();
+                      });
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ));
+            });
+      },
+      child: Icon(Icons.add),
+    );
   }
 }

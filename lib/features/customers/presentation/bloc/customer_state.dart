@@ -38,6 +38,7 @@ class CustomerError extends CustomersState {
   @override
   List<Object> get props => [message];
 }
+
 class CustomerDelState extends CustomersState{
 
   CustomerDelState();
@@ -45,5 +46,8 @@ class CustomerDelState extends CustomersState{
   List<Object> get props => [];
 }
 class CustomerUpdateState extends CustomersState{
+
+}
+class CustomerAddedState extends CustomersState{
 
 }

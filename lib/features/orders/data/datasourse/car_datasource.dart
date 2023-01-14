@@ -1,10 +1,12 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sharq_crm/features/orders/data/model/car_model.dart';
 
 abstract class CarRemoteDataSource {
   Future<void> addNewCar(CarModel newCar, String customerId);
 
-// Future<List<CarModel>> getAllCars();
+  Future<List<CarModel>> getAllCars(String customerId);
 //
 // Future<void> deleteCar(String carId);
 //
@@ -12,15 +14,27 @@ abstract class CarRemoteDataSource {
 }
 
 class CarRemoteDataSourceImpl implements CarRemoteDataSource {
-  CollectionReference carRreference =
+  CollectionReference carReference =
       FirebaseFirestore.instance.collection('customers');
 
   @override
   Future<void> addNewCar(CarModel newCar, String customerId) async {
-    return await carRreference
+    return await carReference
         .doc(customerId)
         .collection('cars')
         .doc(newCar.carId)
         .set(newCar.toJson());
+  }
+
+  @override
+  Future<List<CarModel>> getAllCars(String customerId) async {
+    QuerySnapshot snapshot =
+        await carReference.doc(customerId).collection('cars').get();
+
+    List<CarModel> cars = snapshot.docs
+        .map((e) => CarModel(carId: e['carId'], name: e['name']))
+        .toList();
+
+    return Future.value(cars);
   }
 }

@@ -231,3 +231,36 @@ final secondaryColor = Color(0xff51eec2);
 //     );
 //   }
 // }
+
+
+//   @override
+//   Future<List<CustomerModel>> searchCustomer(String query) {
+//
+//     // StreamBuilder(
+//     //     stream: ( searchtxt!= "" && searchtxt!= null)?FirebaseFirestore
+//     //         .instance.collection("addjop")
+//     //         .where("specilization",isNotEqualTo:searchtxt)
+//     //         .orderBy("specilization")
+//     //         .startAt([searchtxt,])
+//     //         .endAt([searchtxt+'\uf8ff',])
+//     //         .snapshots()
+//     //         :FirebaseFirestore.instance.collection("addjop").snapshots(),
+//     //
+//     //
+//     //     builder:(BuildContext context,snapshot) {
+//     //       if (snapshot.connectionState == ConnectionState.waiting &&
+//     //           snapshot.hasData != true) {
+//     //         return Center(
+//     //           child:CircularProgressIndicator(),
+//     //         );
+//     //       }
+//     //       else
+//     //       {retun widget();
+//     //       }
+//     //     })
+//
+//
+//     // return Future.value(cu)
+//   }
+// }
+

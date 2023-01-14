@@ -53,3 +53,13 @@ class CustomerUpdateParams extends Equatable {
   @override
   List<Object?> get props => [customerEntity, id];
 }
+//4
+
+class CarsParams extends Equatable {
+  final String customerID;
+
+  CarsParams( this.customerID);
+
+  @override
+  List<Object?> get props => [ customerID];
+}

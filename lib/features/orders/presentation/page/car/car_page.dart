@@ -7,6 +7,7 @@ import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_event.d
 import 'package:uuid/uuid.dart';
 
 import '../../../../customers/domain/entity/customer_entity.dart';
+import '../../../../customers/presentation/page/customer_detail_page.dart';
 
 class CarPage extends StatefulWidget {
   const CarPage({Key? key, required this.customer}) : super(key: key);
@@ -40,7 +41,9 @@ class _CarPageState extends State<CarPage> {
                   context
                       .read<CarBloc>()
                       .add(CarAddNewEvent(newCar, customerID));
+                  carNameController.clear();
                 });
+                Navigator.pop(context);
               },
               child: Text('add car')),
         ],

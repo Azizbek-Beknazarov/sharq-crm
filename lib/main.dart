@@ -2,13 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sharq_crm/features/customers/presentation/bloc/get_customers_cubit/get_cus_cubit.dart';
+import 'package:sharq_crm/features/customers/presentation/bloc/customer_cubit.dart';
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_bloc.dart';
-
-
 import 'features/auth/presentation/bloc/m_auth_bloc.dart';
-
-import 'features/customers/presentation/bloc/new_customer_bloc.dart';
 import 'features/injection_container.dart' as di;
 
 import 'features/splash_screen.dart';
@@ -35,7 +31,6 @@ class MyApp extends StatelessWidget {
           BlocProvider<CustomerCubit>(
             create: (_) => di.sl<CustomerCubit>()..loadCustomer(),
           ),
-          BlocProvider(create: (_)=>di.sl<CustomerBloc>()),
           BlocProvider(create: (_)=>di.sl<CarBloc>()),
         ],
         child: MaterialApp(

@@ -3,28 +3,68 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart';
 
-import 'package:sharq_crm/features/customers/presentation/bloc/get_customers_cubit/get_cus_cubit.dart';
-import 'package:sharq_crm/features/customers/presentation/bloc/get_customers_cubit/get_cus_state.dart';
+import 'package:sharq_crm/features/customers/presentation/bloc/customer_cubit.dart';
+import 'package:sharq_crm/features/customers/presentation/bloc/customer_state.dart';
+
 
 import '../page/customer_detail_page.dart';
 
+
 class CustomerList extends StatefulWidget {
-  CustomerList({Key? key, }) : super(key: key);
+  CustomerList({
+    Key? key,
+  }) : super(key: key);
   TextEditingController nameController = TextEditingController();
 
   TextEditingController phoneController = TextEditingController();
-
 
   @override
   State<CustomerList> createState() => _CustomerListState();
 }
 
 class _CustomerListState extends State<CustomerList> {
+  List<CustomerEntity> customers = [];
+  @override
+  void setState(VoidCallback fn) {
+    context.read<CustomerCubit>().loadCustomer();
+    print('customer list ichida loadCustomer() chaqirildi.}');
+    super.setState(fn);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CustomerCubit, CustomersState>(
+        builder: (context, customerCubitstate) {
+
+
+      if (customerCubitstate is CustomerLoading) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (customerCubitstate is CustomersLoaded) {
+        customers = customerCubitstate.customersLoaded;
+
+      } else if (customerCubitstate is CustomerError) {
+        return Text(
+          customerCubitstate.message,
+          style: const TextStyle(color: Colors.white, fontSize: 25),
+        );
+      }
+      return Scaffold(
+        body: listViewSeparated(customers, context),
+
+      );
+    });
+    //
+  }
+
   //
   Widget listViewSeparated(
       List<CustomerEntity> customers, BuildContext context) {
     return ListView.separated(
       itemBuilder: (ctx, index) {
+        widget.nameController.text = customers[index].name.toString();
+        widget.phoneController.text = customers[index].phone.toString();
         return GestureDetector(
           onDoubleTap: () {
             showDialog(
@@ -32,27 +72,27 @@ class _CustomerListState extends State<CustomerList> {
                 builder: (_) {
                   return Center(
                       child: AlertDialog(
-                    title: Text('Customer delete !'),
-                    content: Text('Are you sure delete this customer?'),
-                    actions: [
-                      ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              context
-                                  .read<CustomerCubit>()
-                                  .deleteCustomer(customers[index].id);
-                            });
-                            Navigator.pop(context);
-                            print('deleted');
-                          },
-                          child: Text('Yes')),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('No')),
-                    ],
-                  ));
+                        title: Text('Customer delete !'),
+                        content: Text('Are you sure delete this customer?'),
+                        actions: [
+                          ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  context
+                                      .read<CustomerCubit>()
+                                      .deleteCustomer(customers[index].id);
+                                });
+                                Navigator.pop(context);
+                                print('deleted');
+                              },
+                              child: Text('Yes')),
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('No')),
+                        ],
+                      ));
                 });
           },
           onLongPress: () {
@@ -61,54 +101,53 @@ class _CustomerListState extends State<CustomerList> {
                 builder: (ctx) {
                   return Center(
                       child: AlertDialog(
-                    title: Text('Update customer'),
-                    content: Column(
-                      children: [
-                        TextField(
-                          keyboardType: TextInputType.name
-                          ,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.person),
-                            labelText: 'Name',
-                          ),
-                          controller: widget.nameController,
+                        title: Text('Update customer'),
+                        content: Column(
+                          children: [
+                            TextField(
+                              keyboardType: TextInputType.name,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.person),
+                                labelText: 'Name',
+                              ),
+                              controller: widget.nameController,
+                            ),
+                            TextField(
+                              keyboardType: TextInputType.phone,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.phone),
+                                labelText: 'Phone',
+                              ),
+                              controller: widget.phoneController,
+                            ),
+                          ],
                         ),
-                        TextField(
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.phone),
-                            labelText: 'Phone',
-                          ),
-                          controller: widget.phoneController,
-                        ),
-                      ],
-                    ),
-                    actions: [
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          textStyle: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        child: const Text('Update'),
-                        onPressed: () {
-                          final customerId = customers[index].id;
-                          CustomerEntity entity=CustomerEntity(name: widget.nameController.text,
-                              phone: widget.phoneController.text,
-                              dateOfSignUp: DateTime.now().toString(),
-                              id: customers[index].id);
+                        actions: [
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              textStyle: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            child: const Text('Update'),
+                            onPressed: () {
+                              final customerId = customers[index].id;
+                              CustomerEntity entity = CustomerEntity(
+                                  name: widget.nameController.text,
+                                  phone: widget.phoneController.text,
+                                  dateOfSignUp: DateTime.now().toString(),
+                                  id: customers[index].id);
 
-
-                          context
-                              .read<CustomerCubit>()
-                              .updateCustomer(entity, customerId);
-                          setState(() {
-                            widget.nameController.clear();
-                            widget.phoneController.clear();
-                          });
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  ));
+                              context
+                                  .read<CustomerCubit>()
+                                  .updateCustomer(entity, customerId);
+                              setState(() {
+                                widget.nameController.clear();
+                                widget.phoneController.clear();
+                              });
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      ));
                 });
           },
           onTap: () {
@@ -117,8 +156,6 @@ class _CustomerListState extends State<CustomerList> {
                 customer: customers[index],
               );
             }));
-
-
           },
           child: ListTile(
             title: Text(customers[index].name),
@@ -135,33 +172,5 @@ class _CustomerListState extends State<CustomerList> {
     );
   }
 
-  //
-  @override
-  void setState(VoidCallback fn) {
-    context.read<CustomerCubit>().loadCustomer();
-    print('customer list ichida loadCustomer() chaqirildi.}');
-    super.setState(fn);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<CustomerCubit, CustomersState>(
-        builder: (context, state) {
-      List<CustomerEntity> customers = [];
-
-      if (state is CustomerLoading) {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state is CustomersLoaded) {
-        customers = state.customersLoaded;
-      } else if (state is CustomerError) {
-        return Text(
-          state.message,
-          style: const TextStyle(color: Colors.white, fontSize: 25),
-        );
-      }
-      return listViewSeparated(customers, context);
-    });
-  }
+//
 }

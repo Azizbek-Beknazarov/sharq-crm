@@ -9,14 +9,10 @@ import '../../domain/repository/customer_repo.dart';
 import '../datasourse/add_customer_r_ds.dart';
 
 class CustomerRepositoryImpl implements CustomerRepository {
-  final AddCustomerRDS remodeDS;
   final CustomerRemoteDS customerRemoteDS;
   NetworkInfo info;
 
-  CustomerRepositoryImpl(
-      {required this.remodeDS,
-      required this.info,
-      required this.customerRemoteDS});
+  CustomerRepositoryImpl({required this.info, required this.customerRemoteDS});
 
   //
   @override
@@ -46,26 +42,6 @@ class CustomerRepositoryImpl implements CustomerRepository {
   //
 
   @override
-  Future<void> addNewCustomer(CustomerEntity customerEntity) async {
-    if (await info.isConnected) {
-      try {
-        CustomerEntity entity = CustomerModel(
-            name: customerEntity.name,
-            phone: customerEntity.phone,
-            id: customerEntity.id,
-            dateOfSignUp: customerEntity.dateOfSignUp);
-        CustomerModel model = _convert(entity);
-        await remodeDS.createCustomer(model);
-      } catch (e) {
-        return Future.error(e.toString());
-      }
-    }
-  }
-
-  final _convert = (CustomerEntity e) => CustomerModel(
-      name: e.name, phone: e.phone, id: e.id, dateOfSignUp: e.dateOfSignUp);
-
-  @override
   Future<Either<Failure, void>> updateCuctomers(
       CustomerEntity customerEntity, String customerId) async {
     if (await info.isConnected) {
@@ -86,9 +62,27 @@ class CustomerRepositoryImpl implements CustomerRepository {
     }
   }
 
-//
-// @override
-// Future<Either<Failure, List<CustomerModel>>> searchCuctomers(String query) {
-//
-// }
+  @override
+  Future<Either<Failure, void>> addNewCustomer(
+      CustomerEntity customerEntity) async {
+    if (await info.isConnected) {
+      try {
+        CustomerEntity entity = CustomerModel(
+            name: customerEntity.name,
+            phone: customerEntity.phone,
+            id: customerEntity.id,
+            dateOfSignUp: customerEntity.dateOfSignUp);
+        CustomerModel model = _convert(entity);
+        final result = await customerRemoteDS.addNewCustomer(model);
+        return Right(result);
+      } catch (e) {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(ServerFailure());
+    }
+  }
+
+  final _convert = (CustomerEntity e) => CustomerModel(
+      name: e.name, phone: e.phone, id: e.id, dateOfSignUp: e.dateOfSignUp);
 }

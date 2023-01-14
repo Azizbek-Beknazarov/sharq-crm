@@ -1,6 +1,8 @@
+import 'package:dartz/dartz.dart';
 import 'package:sharq_crm/core/usecase/usecase.dart';
 
 
+import '../../../../core/error/failures.dart';
 import '../entity/customer_entity.dart';
 import '../repository/customer_repo.dart';
 
@@ -10,7 +12,7 @@ class AddNewCustomerUseCase implements UseCaseCustomer<void, CustomerEntity> {
   AddNewCustomerUseCase(this._addNewCustomerRepo);
 
   @override
-  Future<void> call({required CustomerEntity params}) {
+  Future<Either<Failure, void>> call({required CustomerEntity params}) {
     return _addNewCustomerRepo.addNewCustomer(params);
   }
 

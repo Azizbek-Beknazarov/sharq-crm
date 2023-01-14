@@ -13,7 +13,7 @@ import 'package:sharq_crm/features/auth/domain/usecase/register_manager.dart';
 import 'package:sharq_crm/features/auth/presentation/bloc/m_auth_bloc.dart';
 import 'package:sharq_crm/features/customers/data/repository/customer_repo_impl.dart';
 import 'package:sharq_crm/features/customers/domain/usecase/delete_customer.dart';
-import 'package:sharq_crm/features/customers/presentation/bloc/get_customers_cubit/get_cus_cubit.dart';
+import 'package:sharq_crm/features/customers/presentation/bloc/customer_cubit.dart';
 import 'package:sharq_crm/features/orders/data/datasourse/car_datasource.dart';
 import 'package:sharq_crm/features/orders/data/repository/car_repo_impl.dart';
 import 'package:sharq_crm/features/orders/domain/repository/car_repo.dart';
@@ -29,14 +29,15 @@ import 'customers/domain/usecase/get_all_cus_usecase.dart';
 import 'customers/domain/usecase/new_customer_add_usecase.dart';
 
 import 'customers/domain/usecase/update_customer_usecase.dart';
-import 'customers/presentation/bloc/new_customer_bloc.dart';
+
+import 'orders/domain/usecase/car_usecase/get_all_cars.dart';
 
 final GetIt sl = GetIt.instance;
 
 Future<void> init() async {
   //! Features
   // Bloc
-
+  //
   //1
   sl.registerFactory(() => AuthBloc(
       getCurrentManager: sl(),
@@ -45,19 +46,15 @@ Future<void> init() async {
       logoutManager: sl()));
 
   //2
-  sl.registerFactory(() => CustomerBloc(
-        sl(),
-      ));
-  //3
   sl.registerFactory(
-      () => CustomerCubit(getAllCus: sl(), deleteCus: sl(), updateCus: sl()));
+      () => CustomerCubit(getAllCus: sl(), deleteCus: sl(), updateCus: sl(), addNewCus: sl()));
 
-  //4
-  sl.registerFactory(() => CarBloc(sl()));
+  //3
+  sl.registerFactory(() => CarBloc(sl(),sl()));
 
   //
   // Use cases
-
+  //
   //1
   sl.registerLazySingleton(() => GetCurrentManager(sl()));
   sl.registerLazySingleton(() => RegisterManager(sl()));
@@ -73,10 +70,11 @@ Future<void> init() async {
 
   //3
   sl.registerLazySingleton(() => AddNewCarUseCase(carRepo: sl()));
+  sl.registerLazySingleton(() => GetAllCarsUseCase(repo: sl()));
 
-
+  //
   // Repository
-
+  //
   //1
   sl.registerLazySingleton<ManagerAuthRepository>(
     () => ManagerAuthRepositoryImpl(
@@ -88,14 +86,14 @@ Future<void> init() async {
 
   //2
   sl.registerLazySingleton<CustomerRepository>(() => CustomerRepositoryImpl(
-      remodeDS: sl(), info: sl(), customerRemoteDS: sl()));
+      info: sl(), customerRemoteDS: sl()));
 
   //3
   sl.registerLazySingleton<CarRepo>(() => CarRepoImpl(carRemoteDataSource: sl(), info: sl()));
 
-
+  //
   // Data sources
-
+  //
   //1
   sl.registerLazySingleton<ManagerAuthRemoteDataSource>(
     () => ManagerAuthRemoteDataSourceImpl(
@@ -109,20 +107,23 @@ Future<void> init() async {
   );
 
   //3
-  sl.registerLazySingleton(() => AddCustomerRDS());
   sl.registerLazySingleton<CustomerRemoteDS>(() => CustomerRemoteDSImpl());
 
   //4
   sl.registerLazySingleton<CarRemoteDataSource>(() => CarRemoteDataSourceImpl());
 
+
+  //
   final sharedPreferences = await SharedPreferences.getInstance();
 
+  //
   //! Core
-
+  //
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
+  //
   //! External
-
+  //
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   sl.registerLazySingleton(() => sharedPreferences);

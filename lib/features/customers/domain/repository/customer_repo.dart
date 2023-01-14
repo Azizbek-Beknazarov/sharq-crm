@@ -5,7 +5,7 @@ import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart'
 import '../../../../core/error/failures.dart';
 
 abstract class CustomerRepository {
-  Future<void> addNewCustomer(CustomerEntity customerEntity);
+  Future<Either<Failure, void>> addNewCustomer(CustomerEntity customerEntity);
 
   Future<Either<Failure, List<CustomerEntity>>> getAllCuctomers();
 
