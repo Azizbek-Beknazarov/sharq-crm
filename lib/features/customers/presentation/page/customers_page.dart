@@ -101,6 +101,7 @@ class _CustomersPageState extends State<CustomersPage> {
                     child: const Text('Add'),
                     onPressed: () {
                       var customerEntity = CustomerEntity(
+                        password: '',
                           name: nameController.text,
                           phone: phoneController.text,
                           dateOfSignUp: DateTime.now().millisecondsSinceEpoch,

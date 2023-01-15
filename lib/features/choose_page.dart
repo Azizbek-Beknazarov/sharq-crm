@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharq_crm/features/splash_screen.dart';
 
+import 'customers/presentation/page/customer_auth_pages/login_customer_page.dart';
+
 class ChoosePage extends StatelessWidget {
   const ChoosePage({Key? key}) : super(key: key);
 
@@ -27,7 +29,8 @@ class ChoosePage extends StatelessWidget {
                 color: Colors.black,
               ),
               ElevatedButton(
-                  onPressed: () {}, child: Text('Log in as Customer!')),
+                  onPressed: () { Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => LogInCustomerPage()));}, child: Text('Log in as Customer!')),
             ],
           ),
         ),

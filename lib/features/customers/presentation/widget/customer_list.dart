@@ -141,6 +141,7 @@ class _CustomerListState extends State<CustomerList> {
                     onPressed: () {
                       final customerId = customerList.id;
                       CustomerEntity entity = CustomerEntity(
+                        password: '',
                           name: widget.nameController.text,
                           phone: widget.phoneController.text,
                           dateOfSignUp: DateTime.now().millisecondsSinceEpoch,
