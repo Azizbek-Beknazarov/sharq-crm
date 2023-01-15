@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/customer_state.dart';
+import 'package:sharq_crm/features/orders/service_page.dart';
 import 'package:uuid/uuid.dart';
 import '../../domain/entity/customer_entity.dart';
 import '../bloc/customer_cubit.dart';
@@ -47,15 +48,23 @@ class _CustomersPageState extends State<CustomersPage> {
         return Center(
           child: Text(customerCubitstate.message),
         );
-      }else if(customerCubitstate is CustomersLoaded){
-        customersList=customerCubitstate.customersLoaded;
+      } else if (customerCubitstate is CustomersLoaded) {
+        customersList = customerCubitstate.customersLoaded;
       }
       return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>ServicePage()));
+            },
+            icon: Icon(Icons.arrow_forward_ios_rounded),
+          ),
           title: Text('Customers'),
           centerTitle: true,
         ),
-        body: CustomerList(customersList: customersList,),
+        body: CustomerList(
+          customersList: customersList,
+        ),
 
         //
         floatingActionButton: _floatingCarAdd(context),
@@ -101,7 +110,7 @@ class _CustomersPageState extends State<CustomersPage> {
                     child: const Text('Add'),
                     onPressed: () {
                       var customerEntity = CustomerEntity(
-                        password: '',
+                          password: '',
                           name: nameController.text,
                           phone: phoneController.text,
                           dateOfSignUp: DateTime.now().millisecondsSinceEpoch,

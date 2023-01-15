@@ -9,6 +9,6 @@ class AddNewCarUseCase extends UseCaseCar<void, CarParams> {
 
   @override
   Future<void> call({required CarParams params}) async{
-    return await carRepo.addNewCar(params.carParam, params.customerID);
+    return await carRepo.addNewCar(params.carParam);
   }
 }

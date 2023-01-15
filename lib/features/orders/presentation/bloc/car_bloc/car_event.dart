@@ -11,15 +11,15 @@ abstract class CarEvents extends Equatable {
 //1
 class CarAddNewEvent extends CarEvents {
   final CarEntity newCar;
-  final String customerID;
 
-  CarAddNewEvent(this.newCar, this.customerID) : super([newCar, customerID]);
+
+  CarAddNewEvent(this.newCar, ) : super([newCar, ]);
 }
 
 //2
 class CarGetAllEvent extends CarEvents {
 
-  final String customerID;
 
-  CarGetAllEvent(this.customerID);
+
+  CarGetAllEvent();
 }

@@ -24,7 +24,7 @@ class CarRepoImpl implements CarRepo {
       price: e.price);
 
   @override
-  Future<void> addNewCar(CarEntity newCar, String customerID) async {
+  Future<void> addNewCar(CarEntity newCar) async {
     CarEntity entity = CarModel(
         carId: newCar.carId,
         name: newCar.name,
@@ -34,14 +34,14 @@ class CarRepoImpl implements CarRepo {
         dateTime: newCar.dateTime,
         price: newCar.price);
     CarModel model = _convert(entity);
-    return await carRemoteDataSource.addNewCar(model, customerID);
+    return await carRemoteDataSource.addNewCar(model);
   }
 
   @override
-  Future<Either<Failure, List<CarEntity>>> getAllCars(String customerId) async {
+  Future<Either<Failure, List<CarEntity>>> getAllCars() async {
     if (await info.isConnected) {
       try {
-        final remoteCar = await carRemoteDataSource.getAllCars(customerId);
+        final remoteCar = await carRemoteDataSource.getAllCars();
         return Right(remoteCar);
       } on ServerException {
         return Left(ServerFailure());

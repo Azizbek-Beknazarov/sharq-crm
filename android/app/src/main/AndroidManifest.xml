@@ -1,29 +1,29 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sharq_crm">
 
-    <!-- Provide required visibility configuration for API level 30 and above -->
-    <queries>
-        <!-- If your app opens https URLs -->
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="https" />
-        </intent>
-        <!-- If your app sends emails -->
-        <intent>
-            <action android:name="android.intent.action.SEND" />
-            <data android:mimeType="*/*" />
-        </intent>
-        <!-- If your app checks for SMS support -->
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="sms" />
-        </intent>
-        <!-- If your app checks for call support -->
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="tel" />
-        </intent>
-    </queries>
+<!--    &lt;!&ndash; Provide required visibility configuration for API level 30 and above &ndash;&gt;-->
+<!--    <queries>-->
+<!--        &lt;!&ndash; If your app opens https URLs &ndash;&gt;-->
+<!--        <intent>-->
+<!--            <action android:name="android.intent.action.VIEW" />-->
+<!--            <data android:scheme="https" />-->
+<!--        </intent>-->
+<!--        &lt;!&ndash; If your app sends emails &ndash;&gt;-->
+<!--        <intent>-->
+<!--            <action android:name="android.intent.action.SEND" />-->
+<!--            <data android:mimeType="*/*" />-->
+<!--        </intent>-->
+<!--        &lt;!&ndash; If your app checks for SMS support &ndash;&gt;-->
+<!--        <intent>-->
+<!--            <action android:name="android.intent.action.VIEW" />-->
+<!--            <data android:scheme="sms" />-->
+<!--        </intent>-->
+<!--        &lt;!&ndash; If your app checks for call support &ndash;&gt;-->
+<!--        <intent>-->
+<!--            <action android:name="android.intent.action.VIEW" />-->
+<!--            <data android:scheme="tel" />-->
+<!--        </intent>-->
+<!--    </queries>-->
 
     <application
         android:name="${applicationName}"

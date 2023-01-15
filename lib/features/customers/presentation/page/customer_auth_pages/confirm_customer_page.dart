@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sharq_crm/features/customers/presentation/page/customer_auth_pages/service_page.dart';
+import 'package:sharq_crm/features/orders/service_page.dart';
 
 class ConfirmationPageCustomer extends StatelessWidget {
   ConfirmationPageCustomer({Key? key}) : super(key: key);

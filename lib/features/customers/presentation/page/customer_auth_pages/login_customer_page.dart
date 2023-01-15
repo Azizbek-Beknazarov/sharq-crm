@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharq_crm/features/customers/presentation/page/customer_auth_pages/signup_customer_page.dart';
-import 'package:sharq_crm/features/customers/presentation/page/customer_auth_pages/service_page.dart';
+import 'package:sharq_crm/features/orders/service_page.dart';
 
 
 class LogInCustomerPage extends StatelessWidget {

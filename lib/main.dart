@@ -7,8 +7,8 @@ import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_bloc.da
 import 'features/auth/presentation/bloc/m_auth_bloc.dart';
 import 'features/choose_page.dart';
 import 'features/injection_container.dart' as di;
+import 'features/orders/service_page.dart';
 
-import 'features/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

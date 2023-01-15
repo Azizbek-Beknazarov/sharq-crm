@@ -35,12 +35,11 @@ class NoParams extends Equatable {
 //2
 class CarParams extends Equatable {
   final CarEntity carParam;
-  final String customerID;
 
-  CarParams(this.carParam, this.customerID);
+  CarParams(this.carParam);
 
   @override
-  List<Object?> get props => [carParam, customerID];
+  List<Object?> get props => [carParam];
 }
 
 //3
@@ -55,11 +54,11 @@ class CustomerUpdateParams extends Equatable {
 }
 //4
 
-class CarsParams extends Equatable {
-  final String customerID;
-
-  CarsParams( this.customerID);
-
-  @override
-  List<Object?> get props => [ customerID];
-}
+// class CarsParams extends Equatable {
+//   final String customerID;
+//
+//   CarsParams( this.customerID);
+//
+//   @override
+//   List<Object?> get props => [ customerID];
+// }

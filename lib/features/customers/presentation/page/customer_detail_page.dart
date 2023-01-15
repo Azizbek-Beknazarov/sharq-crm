@@ -36,11 +36,11 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
   //
   @override
   void setState(VoidCallback fn) {
-    context.read<CarBloc>().add(CarGetAllEvent(widget.customer.id));
+    context.read<CarBloc>().add(CarGetAllEvent());
     print('CarGetAllEvent chaqirildi:');
     if (update == true) {
       print('Update chaqirildi: true buldi');
-      context.read<CarBloc>().add(CarGetAllEvent(widget.customer.id));
+      context.read<CarBloc>().add(CarGetAllEvent());
     }
 
     super.setState(fn);
@@ -49,7 +49,7 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
   @override
   Widget build(BuildContext context) {
     print('CustomerDetailPage ichidagi build() chaqirildi');
-    context.read<CarBloc>().add(CarGetAllEvent(widget.customer.id));
+    context.read<CarBloc>().add(CarGetAllEvent());
     int ts = widget.customer.dateOfSignUp;
     DateTime tsdate = DateTime.fromMillisecondsSinceEpoch(ts);
     String datetime = tsdate.year.toString() + "/" + tsdate.month.toString() + "/" + tsdate.day.toString()+" | "+tsdate.hour.toString()+":"+tsdate.minute.toString();
@@ -119,7 +119,7 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
 
                         context
                             .read<CarBloc>()
-                            .add(CarAddNewEvent(newCar, customerID));
+                            .add(CarAddNewEvent(newCar, ));
                         carNameController.clear();
 
                         setState(() {

@@ -16,7 +16,7 @@ class CarBloc extends Bloc<CarEvents, CarStates> {
       if (event is CarAddNewEvent) {
         emit(CarLoadingState());
         await _newCarUseCase
-            .call(params: CarParams(event.newCar, event.customerID))
+            .call(params: CarParams(event.newCar, ))
             .then((value) => emit(CarAddedState()))
             .catchError((error) => emit(CarErrorState(error: error)));
       }
@@ -25,7 +25,7 @@ class CarBloc extends Bloc<CarEvents, CarStates> {
     on<CarGetAllEvent>((event, emit) async{
       if(event is CarGetAllEvent){
         emit(CarLoadingState());
-        final failOrCar=await _getAllCarsUseCase.call(CarsParams(event.customerID));
+        final failOrCar=await _getAllCarsUseCase.call(NoParams());
         failOrCar.fold((l) => emit(CarErrorState(error: 'CarGetAllEvent error in CarBloc')),
                 (r) => emit(CarLoadedState(cars: r)));
       }
