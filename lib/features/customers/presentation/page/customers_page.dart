@@ -20,12 +20,13 @@ class _CustomersPageState extends State<CustomersPage> {
   TextEditingController phoneController = TextEditingController();
 
   final uuid = Uuid();
+  List<CustomerEntity> customersList = [];
 
   //
   @override
   void setState(VoidCallback fn) {
     context.read<CustomerCubit>().loadCustomer();
-    print('customers_page ichida loadCustomer() chaqirildi.}');
+    print('page ichida loadCustomer() chaqirildi.}');
     super.setState(fn);
   }
 
@@ -46,13 +47,15 @@ class _CustomersPageState extends State<CustomersPage> {
         return Center(
           child: Text(customerCubitstate.message),
         );
+      }else if(customerCubitstate is CustomersLoaded){
+        customersList=customerCubitstate.customersLoaded;
       }
       return Scaffold(
         appBar: AppBar(
           title: Text('Customers'),
           centerTitle: true,
         ),
-        body: CustomerList(),
+        body: CustomerList(customersList: customersList,),
 
         //
         floatingActionButton: _floatingCarAdd(context),
@@ -100,7 +103,7 @@ class _CustomersPageState extends State<CustomersPage> {
                       var customerEntity = CustomerEntity(
                           name: nameController.text,
                           phone: phoneController.text,
-                          dateOfSignUp: DateTime.now().toString(),
+                          dateOfSignUp: DateTime.now().millisecondsSinceEpoch,
                           id: uuid.v4());
 
                       setState(() {

@@ -10,8 +10,9 @@ import '../../../../customers/domain/entity/customer_entity.dart';
 import '../../../../customers/presentation/page/customer_detail_page.dart';
 
 class CarPage extends StatefulWidget {
-  const CarPage({Key? key, required this.customer}) : super(key: key);
+   CarPage({Key? key, required this.customer,required this.update}) : super(key: key);
   final CustomerEntity customer;
+  bool update;
 
   @override
   State<CarPage> createState() => _CarPageState();
@@ -35,9 +36,10 @@ class _CarPageState extends State<CarPage> {
           ElevatedButton(
               onPressed: () {
                 CarEntity newCar =
-                    CarEntity(carId: uuid.v4(), name: carNameController.text);
+                    CarEntity(carId: uuid.v4(), name: carNameController.text, carNumber: '', color: '', address: '', dateTime: 1, price: 1, );
                 final customerID = widget.customer.id;
-                setState(() {
+
+                setState(() { widget.update=true;
                   context
                       .read<CarBloc>()
                       .add(CarAddNewEvent(newCar, customerID));

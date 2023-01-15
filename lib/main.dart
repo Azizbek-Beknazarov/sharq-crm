@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/customer_cubit.dart';
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_bloc.dart';
 import 'features/auth/presentation/bloc/m_auth_bloc.dart';
+import 'features/choose_page.dart';
 import 'features/injection_container.dart' as di;
 
 import 'features/splash_screen.dart';
@@ -20,10 +21,8 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-
     return MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -31,14 +30,14 @@ class MyApp extends StatelessWidget {
           BlocProvider<CustomerCubit>(
             create: (_) => di.sl<CustomerCubit>()..loadCustomer(),
           ),
-          BlocProvider(create: (_)=>di.sl<CarBloc>()),
+          BlocProvider(create: (_) => di.sl<CarBloc>())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'CRM',
 
           // home: CustomersPage(),
-          home: SplashScreen(),
+          home: ChoosePage(),
         ));
   }
 }

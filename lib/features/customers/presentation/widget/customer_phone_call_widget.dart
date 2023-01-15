@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CustomerCallWidget extends StatefulWidget {
-  CustomerCallWidget({Key? key, required this.phone}) : super(key: key);
-  String phone;
+import '../../domain/entity/customer_entity.dart';
 
+class CustomerCallWidget extends StatelessWidget {
+   CustomerCallWidget({Key? key,required this.customer}) : super(key: key);
+   CustomerEntity customer;
   @override
-  State<CustomerCallWidget> createState() => _CustomerCallWidgetState();
-}
-
-class _CustomerCallWidgetState extends State<CustomerCallWidget> {
+  Widget build(BuildContext context) {
+    return _customerPhone(customer.phone);
+  }
   Widget _customerPhone(String phone) {
     return Padding(
       padding: const EdgeInsets.all(18.0),
@@ -42,10 +42,5 @@ class _CustomerCallWidgetState extends State<CustomerCallWidget> {
         ),
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _customerPhone(widget.phone);
   }
 }

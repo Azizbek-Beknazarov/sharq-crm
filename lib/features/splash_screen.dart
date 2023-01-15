@@ -29,12 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Timer(Duration(seconds: 2), () {
             if (state is LoadedManagerState) {
               Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx)=>CustomersPage()),(_)=>false);
-              // Navigator.of(context).pushReplacement(MaterialPageRoute(
-              //     builder: (BuildContext context) => BlocProvider<GetCarBloc>(
-              //       create: (context) =>
-              //       sl<GetCarBloc>()..add(GetAllCarEvent()),
-              //       child: CarListPage(),
-              //     )));
+
             } else if (state is AuthInitial) {
               Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
                   builder: (BuildContext context) => SignUpPage()),(_)=>false);

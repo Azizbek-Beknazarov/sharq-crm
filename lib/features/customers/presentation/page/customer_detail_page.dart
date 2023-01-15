@@ -6,16 +6,20 @@ import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart'
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_bloc.dart';
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_event.dart';
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_state.dart';
-import 'package:sharq_crm/features/orders/presentation/page/car/car_page.dart';
-import 'package:sharq_crm/features/customers/presentation/widget/customer_call_widget.dart';
+
+import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../orders/domain/entity/car_entity.dart';
-import '../../../orders/presentation/page/car/widget/car_order_widget.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
+import '../widget/customer_phone_call_widget.dart';
 
 class CustomerDetailPage extends StatefulWidget {
   const CustomerDetailPage({Key? key, required this.customer})
       : super(key: key);
+
+
   final CustomerEntity customer;
 
   @override
@@ -23,77 +27,156 @@ class CustomerDetailPage extends StatefulWidget {
 }
 
 class _CustomerDetailPageState extends State<CustomerDetailPage> {
+  List<CarEntity> cars = [];
+  bool update = false;
+  TextEditingController carNameController = TextEditingController();
+  final uuid = Uuid();
+
+  //
+  //
   @override
   void setState(VoidCallback fn) {
     context.read<CarBloc>().add(CarGetAllEvent(widget.customer.id));
     print('CarGetAllEvent chaqirildi:');
+    if (update == true) {
+      print('Update chaqirildi: true buldi');
+      context.read<CarBloc>().add(CarGetAllEvent(widget.customer.id));
+    }
+
     super.setState(fn);
   }
+
   @override
   Widget build(BuildContext context) {
-    DateTime time = DateTime.parse(widget.customer.dateOfSignUp.toString());
-    return BlocBuilder<CarBloc,CarStates>(
+    print('CustomerDetailPage ichidagi build() chaqirildi');
+    context.read<CarBloc>().add(CarGetAllEvent(widget.customer.id));
+    int ts = widget.customer.dateOfSignUp;
+    DateTime tsdate = DateTime.fromMillisecondsSinceEpoch(ts);
+    String datetime = tsdate.year.toString() + "/" + tsdate.month.toString() + "/" + tsdate.day.toString()+" | "+tsdate.hour.toString()+":"+tsdate.minute.toString();
 
-        builder: (context, carState) {
-          List<CarEntity> cars=[];
-          if (carState is CarLoadingState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (carState is CarLoadedState) {
-
-            setState(() {
-              cars = carState.cars;
-
-            });
-
-          } else if (carState is CarErrorState) {
-            return Text(
-              carState.error,
-              style: const TextStyle(color: Colors.white, fontSize: 25),
-            );
-          }
-
+    return BlocBuilder<CarBloc, CarStates>(builder: (context, state) {
+      if (state is CarLoadedState) {
+        cars = state.cars;
+      }
       return Scaffold(
         appBar: AppBar(
-          title: Text(widget.customer.name),
           centerTitle: true,
-        ),
-        body: Container(
-          child: Center(
-            child: Column(
-              children: [
-                CustomerCallWidget(phone: widget.customer.phone),
-                SizedBox(height: 5,),
-                CarOrderWidget(cars: cars),
-
-
-                Text(widget.customer.id),
-                Text(time.toString()),
-              ],
-            ),
+          title: Text(
+            widget.customer.name,
           ),
         ),
-        floatingActionButton: _floatingActionButton(),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+
+            children: [
+              // call to customer phone
+              CustomerCallWidget( customer: widget.customer,),
+              // order cars
+              _carOrder(cars),
+              Text(datetime),
+
+            ],
+          ),
+        ),
+
+        floatingActionButton: SpeedDial(
+          children: [
+           SpeedDialChild(child: Text('car'),onTap: ()=>_floatingCar(update)),
+           SpeedDialChild(child: Text('photo')),
+           SpeedDialChild(child: Text('club')),
+            //
+
+          ],
+        ),
+        // _floatingActionButton(update),
       );
     });
+
   }
 
-  //1
-  _floatingActionButton() {
-    return FloatingActionButton(
-      onPressed: () {
-        MaterialPageRoute route = MaterialPageRoute(
-            builder: (_) => CarPage(
-                  customer: widget.customer,
-                ));
-        Navigator.push(context, route);
-      },
-      child: Icon(Icons.add),
+  //1 car
+  _floatingCar(bool update) {
+    return
+        showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text('Car add'),
+                content: Column(
+                  children: [
+                    TextFormField(
+                      controller: carNameController,
+                    )
+                  ],
+                ),
+                actions: [
+                  ElevatedButton(
+                      onPressed: () {
+                        CarEntity newCar = CarEntity(
+                            carId: uuid.v4(), name: carNameController.text, carNumber: '', color: '', address: '', dateTime: 1, price: 1);
+                        final customerID = widget.customer.id;
+
+                        context
+                            .read<CarBloc>()
+                            .add(CarAddNewEvent(newCar, customerID));
+                        carNameController.clear();
+
+                        setState(() {
+                          update = true;
+                          print("update true buldi button ichida");
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: Text("add"))
+                ],
+              );
+            });
+
+        // MaterialPageRoute route = MaterialPageRoute(
+        //     builder: (_) => CarPage(
+        //           customer: widget.customer, update: update
+        //         ));
+        //
+        // Navigator.push(context, route);
+
+
+  }
+
+  //2
+  Widget _carOrder(List<CarEntity> cars) {
+    return Container(
+      padding: EdgeInsets.all(2),
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.black, width: 3),
+          color: Colors.amber.shade200,
+          borderRadius: BorderRadius.all(Radius.circular(11))),
+      child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          padding: EdgeInsets.all(6),
+          itemCount: cars.length,
+          itemBuilder: (context, index) {
+            return Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black, width: 3),
+                  color: Colors.amber.shade200,
+                  borderRadius: BorderRadius.all(Radius.circular(11))),
+              child: ListTile(
+                title: Container(
+                    decoration: BoxDecoration(
+                        border:
+                        Border.all(color: Colors.black, width: 3),
+                        color: Colors.amber.shade200,
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(11))),
+                    child: Text(cars[index].name)),
+              ),
+            );
+          }),
     );
   }
 
-
-
+  //3
 
 }

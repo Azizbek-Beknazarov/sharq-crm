@@ -5,7 +5,7 @@ class CustomerModel extends CustomerEntity {
       {required String name,
       required  String phone,
       required  String id,
-      required  String dateOfSignUp}):super(name: name,phone: phone,id: id,dateOfSignUp: dateOfSignUp);
+      required  int dateOfSignUp}):super(name: name,phone: phone,id: id,dateOfSignUp: dateOfSignUp);
 
   factory CustomerModel.fromJson(Map<String, dynamic> json) {
     return CustomerModel(

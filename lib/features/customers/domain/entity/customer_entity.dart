@@ -4,7 +4,7 @@ class CustomerEntity extends Equatable {
   String id;
   String name;
   String phone;
-  String dateOfSignUp;
+  int dateOfSignUp;
 
   CustomerEntity(
       {required this.name,
