@@ -19,6 +19,11 @@ import 'package:sharq_crm/features/orders/data/repository/car_repo_impl.dart';
 import 'package:sharq_crm/features/orders/domain/repository/car_repo.dart';
 import 'package:sharq_crm/features/orders/domain/usecase/car_usecase/add_new_car.dart';
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_bloc.dart';
+import 'package:sharq_crm/features/services/photo_studio/data/datasourse/photostudio_remote_ds.dart';
+import 'package:sharq_crm/features/services/photo_studio/data/repository/photostudio_repo_impl.dart';
+import 'package:sharq_crm/features/services/photo_studio/domain/repository/photostudio_repo.dart';
+import 'package:sharq_crm/features/services/photo_studio/domain/usecase/get_photostudio_usecase.dart';
+import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
 
 import '../core/network/network_info.dart';
 import 'auth/data/repository/manager_auth_repo_impl.dart';
@@ -52,6 +57,9 @@ Future<void> init() async {
   //3
   sl.registerFactory(() => CarBloc(sl(),sl()));
 
+  //4
+  sl.registerFactory(() => PhotoStudioBloc(sl()));
+
   //
   // Use cases
   //
@@ -72,6 +80,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddNewCarUseCase(carRepo: sl()));
   sl.registerLazySingleton(() => GetAllCarsUseCase(repo: sl()));
 
+  //4
+  sl.registerLazySingleton(() => GetPhotoStudioUseCase(repo: sl()));
+
   //
   // Repository
   //
@@ -91,6 +102,9 @@ Future<void> init() async {
   //3
   sl.registerLazySingleton<CarRepo>(() => CarRepoImpl(carRemoteDataSource: sl(), info: sl()));
 
+  //4
+  sl.registerLazySingleton<PhotoStudioRepo>(() => PhotoStudioRepoImpl(remoteDS: sl(), info: sl()));
+
   //
   // Data sources
   //
@@ -100,17 +114,19 @@ Future<void> init() async {
       auth: sl(),
     ),
   );
-
-  //2
+  //
   sl.registerLazySingleton<ManagerAuthLocalDataSource>(
     () => ManagerAuthLocalDataSourceImpl(preferences: sl()),
   );
 
-  //3
+  //2
   sl.registerLazySingleton<CustomerRemoteDS>(() => CustomerRemoteDSImpl());
 
-  //4
+  //3
   sl.registerLazySingleton<CarRemoteDataSource>(() => CarRemoteDataSourceImpl());
+
+  //4
+  sl.registerLazySingleton<PhotoStudioRemoteDS>(() => PhotoStudioRemoteDSImpl());
 
 
   //

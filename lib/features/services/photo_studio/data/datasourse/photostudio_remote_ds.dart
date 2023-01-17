@@ -13,7 +13,7 @@ class PhotoStudioRemoteDSImpl implements PhotoStudioRemoteDS {
   Future<List<PhotoStudioModel>> getPhotoStudio() async {
     QuerySnapshot snapshot = await reference.get();
     List<PhotoStudioModel> photoStudioModel =
-        snapshot.docs.map((e) => e.data() as PhotoStudioModel).toList();
+        snapshot.docs.map((e) => PhotoStudioModel(photo_studio_id: e['photo_studio_id'], price: e['price'])).toList();
     return Future.value(photoStudioModel);
   }
 }
