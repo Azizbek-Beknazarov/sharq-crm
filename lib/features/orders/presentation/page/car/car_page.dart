@@ -7,7 +7,7 @@ import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_event.d
 import 'package:uuid/uuid.dart';
 
 import '../../../../customers/domain/entity/customer_entity.dart';
-import '../../../../customers/presentation/page/customer_detail_page.dart';
+import '../../../../customers/presentation/page/manager_part/customer_detail_page.dart';
 
 class CarPage extends StatefulWidget {
    CarPage({Key? key, }) : super(key: key);

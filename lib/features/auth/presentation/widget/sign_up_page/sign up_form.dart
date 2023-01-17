@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/util/loading_widget.dart';
 import '../../../../../core/util/snackbar_message.dart';
-import '../../../../customers/presentation/page/customers_page.dart';
+import '../../../../customers/presentation/page/manager_part/customers_page.dart';
 import '../../bloc/m_auth_bloc.dart';
 import 'sign_up_submit_buttons.dart';
 

@@ -5,9 +5,11 @@ import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart'
 
 import 'package:sharq_crm/features/customers/presentation/bloc/customer_cubit.dart';
 
+import '../customer_detail_page.dart';
 
 
-import '../page/customer_detail_page.dart';
+
+
 
 
 class CustomerList extends StatefulWidget {

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/auth/presentation/widget/sign_in_page/sign_in_submit_buttons.dart';
-import 'package:sharq_crm/features/customers/presentation/page/customers_page.dart';
+import 'package:sharq_crm/features/customers/presentation/page/manager_part/customers_page.dart';
 
 import '../../../../../core/util/loading_widget.dart';
 import '../../../../../core/util/snackbar_message.dart';

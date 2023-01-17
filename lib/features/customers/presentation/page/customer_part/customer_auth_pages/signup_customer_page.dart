@@ -2,12 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart';
-import 'package:sharq_crm/features/customers/presentation/page/customer_auth_pages/login_customer_page.dart';
+
 import 'package:uuid/uuid.dart';
 
-import '../../../../customers/presentation/page/customer_auth_pages/confirm_customer_page.dart';
-import '../../bloc/customer_cubit.dart';
-import '../../bloc/customer_state.dart';
+import '../../../bloc/customer_cubit.dart';
+import '../../../bloc/customer_state.dart';
+import 'confirm_customer_page.dart';
+import 'login_customer_page.dart';
+
+
 
 class SignUpCustomerPage extends StatelessWidget {
   SignUpCustomerPage({Key? key}) : super(key: key);

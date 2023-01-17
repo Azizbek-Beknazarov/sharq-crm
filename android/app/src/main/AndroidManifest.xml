@@ -27,7 +27,7 @@
 
     <application
         android:name="${applicationName}"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/ic_launcher"
         android:label="sharq_crm">
 
         <activity
@@ -50,8 +50,8 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
 
-                <action android:name="android.intent.action.VIEW" />
-                <data android:scheme="tel" />
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <data android:scheme="tel" />-->
             </intent-filter>
 
             <!-- Provide required visibility configuration for API level 30 and above -->

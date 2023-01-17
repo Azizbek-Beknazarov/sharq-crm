@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_home_page.dart';
 import 'package:sharq_crm/features/orders/service_page.dart';
 
 class ConfirmationPageCustomer extends StatelessWidget {
@@ -28,7 +29,7 @@ class ConfirmationPageCustomer extends StatelessWidget {
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => ServicePage()),
+                          builder: (_) => CustomerHomePage()),
                       (route) => false);
                 },
                 child: Text('Sign Up!')),

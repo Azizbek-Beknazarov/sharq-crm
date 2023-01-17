@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sharq_crm/features/customers/presentation/page/customer_auth_pages/signup_customer_page.dart';
+import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_auth_pages/signup_customer_page.dart';
+import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_home_page.dart';
 import 'package:sharq_crm/features/orders/service_page.dart';
 
 
@@ -42,7 +43,7 @@ class LogInCustomerPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (_) => ServicePage()),
+                      MaterialPageRoute(builder: (_) => CustomerHomePage()),
                       (route) => false);
                 },
                 child: Text('Log In!')),

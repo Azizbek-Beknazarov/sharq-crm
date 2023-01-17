@@ -7,13 +7,15 @@ import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_bloc.da
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_event.dart';
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_state.dart';
 
-import 'package:url_launcher/url_launcher.dart';
+
 import 'package:uuid/uuid.dart';
 
-import '../../../orders/domain/entity/car_entity.dart';
+import '../../../../orders/domain/entity/car_entity.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-import '../widget/customer_phone_call_widget.dart';
+import 'widget/customer_phone_call_widget.dart';
+
+
 
 class CustomerDetailPage extends StatefulWidget {
   const CustomerDetailPage({Key? key, required this.customer})
