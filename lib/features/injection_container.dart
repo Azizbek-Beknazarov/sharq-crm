@@ -23,6 +23,7 @@ import 'package:sharq_crm/features/services/photo_studio/data/datasourse/photost
 import 'package:sharq_crm/features/services/photo_studio/data/repository/photostudio_repo_impl.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/repository/photostudio_repo.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/get_photostudio_usecase.dart';
+import 'package:sharq_crm/features/services/photo_studio/domain/usecase/update_photostudio_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
 
 import '../core/network/network_info.dart';
@@ -58,7 +59,7 @@ Future<void> init() async {
   sl.registerFactory(() => CarBloc(sl(),sl()));
 
   //4
-  sl.registerFactory(() => PhotoStudioBloc(sl()));
+  sl.registerFactory(() => PhotoStudioBloc(sl(),sl()));
 
   //
   // Use cases
@@ -82,6 +83,7 @@ Future<void> init() async {
 
   //4
   sl.registerLazySingleton(() => GetPhotoStudioUseCase(repo: sl()));
+  sl.registerLazySingleton(() => AddPhotoStudioUseCase(repo: sl()));
 
   //
   // Repository

@@ -41,9 +41,7 @@ class _CustomersPageState extends State<CustomersPage> {
           child: CircularProgressIndicator(),
         );
       } else if (customerCubitstate is CustomerAddedState) {
-        return Center(
-          child: Text(customerCubitstate.toString()),
-        );
+
       } else if (customerCubitstate is CustomerError) {
         return Center(
           child: Text(customerCubitstate.message),

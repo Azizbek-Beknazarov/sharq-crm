@@ -2,11 +2,15 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart';
 import 'package:sharq_crm/features/orders/domain/entity/car_entity.dart';
+import 'package:sharq_crm/features/services/photo_studio/domain/entity/photostudio_entity.dart';
 
 import '../error/failures.dart';
 
 abstract class UseCase<Type, Params> {
   Future<Either<Failure, Type>> call(Params params);
+}
+abstract class UseCasePhotoStudio<Type, Params> {
+  Future< Type> call({required Params params});
 }
 
 abstract class UseCaseUpdate<Type, Params> {
@@ -53,6 +57,14 @@ class CustomerUpdateParams extends Equatable {
   List<Object?> get props => [customerEntity, id];
 }
 //4
+class PhotoStudioParams extends Equatable{
+ final PhotoStudioEntity newPhotoStudio;
+
+  PhotoStudioParams( this.newPhotoStudio,);
+  @override
+
+  List<Object?> get props => [newPhotoStudio];
+}
 
 // class CarsParams extends Equatable {
 //   final String customerID;

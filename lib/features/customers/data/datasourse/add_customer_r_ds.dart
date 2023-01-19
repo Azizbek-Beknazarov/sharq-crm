@@ -22,13 +22,19 @@ class CustomerRemoteDSImpl implements CustomerRemoteDS {
   Future<List<CustomerModel>> getAllCustomer() async {
     QuerySnapshot snapshot = await reference.get();
 
+    print("object::  ${snapshot.docs.map((e) => e.data()).toList()}");
+    // var customers= snapshot.docs.map((e) => CustomerModel.fromJson(e) ).toList();
     List<CustomerModel> customers = snapshot.docs
-        .map((e) => CustomerModel(
-            name: e['name'],
-            phone: e['phone'],
-            id: e['id'],
-            dateOfSignUp: e['dateOfSignUp']))
-        .toList();
+    .map((e) => CustomerModel.fromJson(e.data() as Map<String,dynamic>)).toList();
+    //     .map((e) => CustomerModel
+    //
+    //   (
+    //         name: e['name'],
+    //         phone: e['phone'],
+    //         id: e['id'],
+    //         dateOfSignUp: e['dateOfSignUp']),
+    // )
+    //     .toList();
 
     return Future.value(customers);
   }
@@ -41,14 +47,15 @@ class CustomerRemoteDSImpl implements CustomerRemoteDS {
   @override
   Future<void> updateCustomer(
       CustomerModel customerModel, String customerId) async {
+    print("customer model id: ${customerModel.id.toString()}");
+    print("customerId: ${customerId.toString()}");
     await reference.doc(customerId).update(customerModel.toJson());
     return Future.value(customerModel);
   }
 
   @override
-  Future<void> addNewCustomer(CustomerModel customerModel) async{
-   await reference.doc(customerModel.id).set(customerModel.toJson());
-   return Future.value(customerModel);
+  Future<void> addNewCustomer(CustomerModel customerModel) async {
+    await reference.doc(customerModel.id).set(customerModel.toJson());
+    return Future.value(customerModel);
   }
 }
-

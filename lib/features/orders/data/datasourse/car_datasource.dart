@@ -28,14 +28,17 @@ class CarRemoteDataSourceImpl implements CarRemoteDataSource {
         await carReference.get();
 
     List<CarModel> cars = snapshot.docs
-        .map((e) => CarModel(
-            carId: e['carId'],
-            name: e['name'],
-            carNumber: '',
-            color: '',
-            address: '',
-            dateTime: 1,
-            price: 1))
+        .map((e) => CarModel.fromJson(e.data() as Map<String,dynamic>
+            // carId: e['carId'],
+            // name: e['name'],
+            // carNumber: '',
+            // color: '',
+            // address: '',
+            // dateTime: 1,
+            // price: 1
+
+
+    ))
         .toList();
 
     return Future.value(cars);

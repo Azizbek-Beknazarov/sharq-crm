@@ -21,7 +21,9 @@ class CarRepoImpl implements CarRepo {
       color: e.color,
       address: e.address,
       dateTime: e.dateTime,
-      price: e.price);
+      price: e.price
+
+  );
 
   @override
   Future<void> addNewCar(CarEntity newCar) async {

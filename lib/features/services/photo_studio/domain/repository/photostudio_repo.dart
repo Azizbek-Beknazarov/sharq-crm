@@ -3,6 +3,8 @@ import 'package:sharq_crm/features/services/photo_studio/domain/entity/photostud
 
 import '../../../../../core/error/failures.dart';
 
-abstract class PhotoStudioRepo{
+abstract class PhotoStudioRepo {
   Future<Either<Failure, List<PhotoStudioEntity>>> getPhotoStudio();
+
+  Future<void> addPhotoStudio(PhotoStudioEntity newPhotoStudio);
 }

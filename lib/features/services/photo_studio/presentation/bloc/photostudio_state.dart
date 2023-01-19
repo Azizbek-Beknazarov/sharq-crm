@@ -7,16 +7,24 @@ abstract class PhotoStudioStates extends Equatable {
   @override
   List<Object> get props => [];
 }
-class PhotoStudioInitialState extends PhotoStudioStates{}
-class PhotoStudioLoadingState extends PhotoStudioStates{}
-class PhotoStudioLoadedState extends PhotoStudioStates{
+
+class PhotoStudioInitialState extends PhotoStudioStates {}
+
+class PhotoStudioLoadingState extends PhotoStudioStates {}
+
+class PhotoStudioAddedState extends PhotoStudioStates {}
+
+class PhotoStudioLoadedState extends PhotoStudioStates {
   final List<PhotoStudioEntity> loaded;
 
   PhotoStudioLoadedState({required this.loaded});
+
   @override
   List<Object> get props => [loaded];
 }
-class PhotoStudioErrorState extends PhotoStudioStates{
+
+
+class PhotoStudioErrorState extends PhotoStudioStates {
   final String message;
 
   const PhotoStudioErrorState({required this.message});

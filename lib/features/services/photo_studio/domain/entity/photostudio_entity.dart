@@ -1,11 +1,36 @@
 import 'package:equatable/equatable.dart';
 
 class PhotoStudioEntity extends Equatable {
-  final String photo_studio_id;
-  final int price;
+   String photo_studio_id;
+   int price;
+   int dateTimeOfWedding;
+   int ordersNumber;
 
-  PhotoStudioEntity(this.photo_studio_id, this.price);
+   int largeImage;
+   int smallImage;
+
+   String description;
+
+
+  PhotoStudioEntity(
+      {required this.photo_studio_id,
+      required this.price,
+      required this.dateTimeOfWedding,
+      required this.largeImage,
+      required this.ordersNumber,
+      required this.smallImage,
+      required this.description
+
+      });
 
   @override
-  List<Object?> get props => [photo_studio_id, price];
+  List<Object?> get props => [
+        photo_studio_id,
+        price,
+        dateTimeOfWedding,
+        ordersNumber,
+        largeImage,
+        smallImage,
+        description
+      ];
 }

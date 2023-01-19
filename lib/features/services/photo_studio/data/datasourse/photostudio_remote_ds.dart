@@ -3,17 +3,27 @@ import 'package:sharq_crm/features/services/photo_studio/data/model/photostudio_
 
 abstract class PhotoStudioRemoteDS {
   Future<List<PhotoStudioModel>> getPhotoStudio();
+
+  Future<void> addPhotoStudio(
+       PhotoStudioModel newPhotoStudio);
 }
 
 class PhotoStudioRemoteDSImpl implements PhotoStudioRemoteDS {
-  CollectionReference reference =
+  CollectionReference photoReference =
       FirebaseFirestore.instance.collection('photo_studio');
 
   @override
   Future<List<PhotoStudioModel>> getPhotoStudio() async {
-    QuerySnapshot snapshot = await reference.get();
+    QuerySnapshot snapshot = await photoReference.get();
+    print("object in photo studio remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
     List<PhotoStudioModel> photoStudioModel =
-        snapshot.docs.map((e) => PhotoStudioModel(photo_studio_id: e['photo_studio_id'], price: e['price'])).toList();
+        snapshot.docs.map((e) => PhotoStudioModel.fromJson(e.data() as Map<String,dynamic>)).toList();
     return Future.value(photoStudioModel);
   }
+
+  @override
+  Future<void> addPhotoStudio(PhotoStudioModel newPhotoStudio) async{
+    return await photoReference.doc(newPhotoStudio.photo_studio_id).set(newPhotoStudio.toJson());
+  }
+
 }

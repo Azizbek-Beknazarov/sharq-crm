@@ -5,6 +5,7 @@ import 'package:sharq_crm/features/services/photo_studio/domain/entity/photostud
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_event.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_state.dart';
+import 'package:sharq_crm/features/services/photo_studio/presentation/page/photo_studio_update_page_for_manager.dart';
 
 class PhotoStudioHomePage extends StatefulWidget {
   PhotoStudioHomePage({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
         builder: (context, photeState) {
       if (photeState is PhotoStudioLoadingState) {
         return Scaffold(
+
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -49,30 +51,45 @@ class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
       //
       //
       return Scaffold(
-        appBar: AppBar(
-          title: Text('Photo Studio Home Page'),
-        ),
+        appBar: AppBar(title: Text('Photo Studio Home Page'), actions: [IconButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (ctx)=>PhotoStudioUpdatePageForManager()));
+        }, icon: Icon(Icons.settings))]),
         body: ListView(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           padding: EdgeInsets.all(12),
           children: [
             Text('Rasmxona suratlari galeriya korinishida boladi'),
+
             SizedBox(
               height: 5,
             ),
             Column(
               children: photoStudio.map((e) {
                 return Card(
-                  child: ListTile(
-                    title: Text(e.photo_studio_id),
-                    subtitle: Text(e.price.toString()),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text(e.description),
+                        subtitle: Text(e.largeImage.toString()),
+                      ),
+                      ListTile(
+                        title: Text(e.photo_studio_id),
+                        subtitle: Text(e.price.toString()),
+                      ),
+                      ListTile(
+                        title: Text(e.photo_studio_id),
+                        subtitle: Text(e.price.toString()),
+                      ),
+                    ],
                   ),
                 );
               }).toList(),
             ),
             // Text('Rasmxona narxi 700 000'),
-            TextButton(onPressed: () {}, child: Text('zakaz qilish'))
+            TextButton(onPressed: () {
+
+            }, child: Text('zakaz qilish'))
           ],
         ),
       );
