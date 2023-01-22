@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,9 +23,17 @@ class _SignInFormState extends State<SignInForm> {
   bool _obscureText = false;
 
   SizedBox space = const SizedBox(height: 15);
+  bool isEmail(String textEmail) {
+    String pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
+    RegExp regExp = new RegExp(pattern);
+    return regExp.hasMatch(textEmail);
+  }
   @override
   Widget build(BuildContext context) {
+
+
     return Form(
       key: _formKey,
       child: Column(
@@ -40,9 +45,13 @@ class _SignInFormState extends State<SignInForm> {
               labelText: 'Email',
             ),
             validator: (value) {
+              //
               if (value!.isEmpty) {
-                return 'Please enter some Email';
+                return 'Iltimos, emailingizni kiriting!';
+              } else if (!isEmail(value)) {
+                return 'Email noto\'g\'ri kiritilgan';
               }
+
               return null;
             },
             onChanged: (val) {
@@ -55,7 +64,7 @@ class _SignInFormState extends State<SignInForm> {
           space,
           TextFormField(
             decoration: InputDecoration(
-              labelText: 'Password',
+              labelText: 'Parol',
               prefixIcon: const Icon(Icons.lock_outline),
               suffixIcon: GestureDetector(
                 onTap: () {
@@ -76,7 +85,9 @@ class _SignInFormState extends State<SignInForm> {
             obscureText: !_obscureText,
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Please enter some Password';
+                return 'Iltimos, parolni kiriting!';
+              } else if (value.length < 6) {
+                return 'Eng kamida 6 ta belgi';
               }
               return null;
             },
@@ -93,7 +104,9 @@ class _SignInFormState extends State<SignInForm> {
                 SnackBarMessage().showSuccessSnackBar(
                     message: state.message, context: context);
               } else if (state is LoadedManagerState) {
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx)=>CustomersPage()),(_)=>false);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (ctx) => CustomersPage()),
+                    (_) => false);
                 // Navigator.pushAndRemoveUntil(
                 //     context,
                 //     MaterialPageRoute(

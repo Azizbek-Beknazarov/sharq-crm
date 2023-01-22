@@ -14,6 +14,7 @@ class PhotoStudioGetEvent extends PhotoStudioEvents{
 }
 class PhotoStudioAddEvent extends PhotoStudioEvents{
 final  PhotoStudioEntity addEvent;
+final String customerId;
 
-  PhotoStudioAddEvent(this.addEvent):super([addEvent]);
+  PhotoStudioAddEvent({required this.addEvent,required this.customerId}):super([addEvent,customerId]);
 }

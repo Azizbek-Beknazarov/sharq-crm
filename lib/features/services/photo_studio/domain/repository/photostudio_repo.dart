@@ -6,5 +6,5 @@ import '../../../../../core/error/failures.dart';
 abstract class PhotoStudioRepo {
   Future<Either<Failure, List<PhotoStudioEntity>>> getPhotoStudio();
 
-  Future<void> addPhotoStudio(PhotoStudioEntity newPhotoStudio);
+  Future<void> addPhotoStudio(PhotoStudioEntity newPhotoStudio, String customerId);
 }

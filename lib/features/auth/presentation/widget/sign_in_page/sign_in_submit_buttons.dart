@@ -39,7 +39,7 @@ class SignInSubmitButtons extends StatelessWidget {
                 primary: Theme.of(context).primaryColor,
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(8.0)))),
-            child: const Text('Sign In'),
+            child: const Text('Kirish'),
           ),
         ),
       ],

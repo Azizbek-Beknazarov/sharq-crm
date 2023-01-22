@@ -1,27 +1,29 @@
 import 'package:equatable/equatable.dart';
 
 class PhotoStudioEntity extends Equatable {
-   String photo_studio_id;
-   int price;
-   int dateTimeOfWedding;
-   int ordersNumber;
+  String photo_studio_id;
+  int price;
+  String dateTimeOfWedding;
+  int ordersNumber;
+  int smallPhotoNumber;
+  int largePhotosNumber;
 
-   int largeImage;
-   int smallImage;
+  String largeImage;
+  String smallImage;
 
-   String description;
+  String description;
 
-
-  PhotoStudioEntity(
-      {required this.photo_studio_id,
-      required this.price,
-      required this.dateTimeOfWedding,
-      required this.largeImage,
-      required this.ordersNumber,
-      required this.smallImage,
-      required this.description
-
-      });
+  PhotoStudioEntity({
+    required this.photo_studio_id,
+    required this.price,
+    required this.dateTimeOfWedding,
+    required this.largeImage,
+    required this.ordersNumber,
+    required this.smallImage,
+    required this.description,
+    required this.largePhotosNumber,
+    required this.smallPhotoNumber,
+  });
 
   @override
   List<Object?> get props => [
@@ -31,6 +33,8 @@ class PhotoStudioEntity extends Equatable {
         ordersNumber,
         largeImage,
         smallImage,
-        description
+        description,
+        smallPhotoNumber,
+        largePhotosNumber,
       ];
 }

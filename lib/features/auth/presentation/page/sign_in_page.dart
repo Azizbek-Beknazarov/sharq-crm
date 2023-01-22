@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sharq_crm/features/auth/presentation/page/sign_up_page.dart';
+import 'package:sharq_crm/features/auth/presentation/page/reset_pass.dart';
+import 'package:sharq_crm/features/auth/presentation/widget/sign_in_page/sign_in_form.dart';
 
 import '../../../../core/util/constants.dart';
-import '../widget/sign_in_page/sign_in_form.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -14,56 +14,29 @@ class SignInPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height - 100,
-                child: Column(
-                  children: [
-                    _buildHeader(),
-                    _buildForm(),
-                  ],
-                ),
-              ),
-              _buildSignUpButton(context),
-            ],
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: double.infinity,
+            child: Column(
+              children: [_buildHeader(), SignInForm(), _resetPassword(context)],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Align _buildSignUpButton(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text('New here ? ',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushAndRemoveUntil(
-                  context, MaterialPageRoute(builder: (ctx) => SignUpPage()),(_)=>false);
-            },
-            child: Text('Sign Up !',
-                style: TextStyle(
-                    fontSize: 15,
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold)),
-          )
-        ],
-      ),
-    );
-  }
+  Row _resetPassword(BuildContext context){
+    return Row(children: [
 
-  Padding _buildForm() {
-    return const Padding(
-      padding: EdgeInsets.all(8.0),
-      child: SignInForm(),
-    );
-  }
+      TextButton(onPressed: (){
 
+        Navigator.push(context, MaterialPageRoute(builder: (ctx)=>EmailVerificationPage()));
+
+
+      }, child: Text("Parolni qayta tiklash",)),
+    ],);
+  }
   Column _buildHeader() {
     return Column(
       children: [

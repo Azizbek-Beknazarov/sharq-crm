@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 
 import 'package:sharq_crm/features/orders/presentation/page/car/car_service_page.dart';
 
-import '../services/photo_studio/presentation/page/photostudio_home_page.dart';
+import '../services/photo_studio/presentation/page/customer_part/photostudio_home_page.dart';
 
 class ServicePage extends StatefulWidget {
-  const ServicePage({Key? key}) : super(key: key);
+   ServicePage({Key? key, required this.customerId}) : super(key: key);
+  String customerId;
 
   @override
   State<ServicePage> createState() => _ServicePageState();
@@ -128,7 +129,7 @@ class _ServicePageState extends State<ServicePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => PhotoStudioHomePage()));
+                                  builder: (_) => PhotoStudioHomePage(customerId: widget.customerId,)));
                         },
                         style: ListTileStyle.list,
                         leading: Icon(Icons.photo),

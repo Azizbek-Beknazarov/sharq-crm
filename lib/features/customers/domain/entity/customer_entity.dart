@@ -5,15 +5,19 @@ class CustomerEntity extends Equatable {
   String name;
   String phone;
   int dateOfSignUp;
-  String? password;
 
-  CustomerEntity(
-      {required this.name,
-      required this.phone,
-      required this.id,
-      required this.dateOfSignUp,
-      this.password});
+  CustomerEntity({
+    required this.name,
+    required this.phone,
+    required this.id,
+    required this.dateOfSignUp,
+  });
 
   @override
-  List<Object?> get props => [id, name, phone, dateOfSignUp, password];
+  List<Object?> get props => [
+        id,
+        name,
+        phone,
+        dateOfSignUp,
+      ];
 }

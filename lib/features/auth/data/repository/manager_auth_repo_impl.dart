@@ -78,7 +78,7 @@ class ManagerAuthRepositoryImpl implements ManagerAuthRepository {
       } on CanceledByUserException {
         return Left(CanceledByUserFailure());
       } on FirebaseDataException catch (error) {
-        return Left(FirebaseDataFailure(error.message));
+        return Left(FirebaseDataFailure("Manager mavjud emas :("));
       }
     } else {
       return Left(OfflineFailure());

@@ -50,7 +50,8 @@ class CustomerRepositoryImpl implements CustomerRepository {
             name: customerEntity.name,
             phone: customerEntity.phone,
             id: customerEntity.id,
-            dateOfSignUp: customerEntity.dateOfSignUp,password: customerEntity.password);
+            dateOfSignUp: customerEntity.dateOfSignUp,
+            );
         CustomerModel model = _convert(entity);
         final result = await customerRemoteDS.updateCustomer(model, customerId);
         return Right(result);
@@ -68,10 +69,11 @@ class CustomerRepositoryImpl implements CustomerRepository {
     if (await info.isConnected) {
       try {
         CustomerEntity entity = CustomerModel(
-            name: customerEntity.name,
-            phone: customerEntity.phone,
-            id: customerEntity.id,
-            dateOfSignUp: customerEntity.dateOfSignUp,password: customerEntity.password);
+          name: customerEntity.name,
+          phone: customerEntity.phone,
+          id: customerEntity.id,
+          dateOfSignUp: customerEntity.dateOfSignUp,
+        );
         CustomerModel model = _convert(entity);
         final result = await customerRemoteDS.addNewCustomer(model);
         return Right(result);
@@ -84,5 +86,9 @@ class CustomerRepositoryImpl implements CustomerRepository {
   }
 
   final _convert = (CustomerEntity e) => CustomerModel(
-      name: e.name, phone: e.phone, id: e.id, dateOfSignUp: e.dateOfSignUp,password: e.password);
+        name: e.name,
+        phone: e.phone,
+        id: e.id,
+        dateOfSignUp: e.dateOfSignUp,
+      );
 }

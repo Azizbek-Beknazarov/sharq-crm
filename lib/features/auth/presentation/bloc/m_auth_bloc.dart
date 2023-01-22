@@ -82,6 +82,6 @@ String _mapFailureToMessage(Failure failure) {
       failure as FirebaseDataFailure;
       return _firebaseFailure.message;
     default:
-      return 'Unexpected Error, Please try again later .';
+      return 'Kutilmagan xatolik, iltimos keyinroq urinib ko\'ring.';
   }
 }

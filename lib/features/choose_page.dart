@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_auth_pages/signup_customer_page.dart';
 import 'package:sharq_crm/features/splash_screen.dart';
 
-import 'customers/presentation/page/customer_part/customer_auth_pages/login_customer_page.dart';
 
 
 
@@ -32,7 +32,7 @@ class ChoosePage extends StatelessWidget {
               ),
               ElevatedButton(
                   onPressed: () { Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => LogInCustomerPage()));}, child: Text('Log in as Customer!')),
+                      MaterialPageRoute(builder: (_) => SignUpCustomerPage()));}, child: Text('Log in as Customer!')),
             ],
           ),
         ),

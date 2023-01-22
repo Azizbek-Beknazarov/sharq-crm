@@ -1,18 +1,13 @@
 import 'dart:async';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sharq_crm/features/auth/presentation/page/sign_in_page.dart';
 import 'package:sharq_crm/features/customers/presentation/page/manager_part/customers_page.dart';
 
 import '../core/util/constants.dart';
 import '../core/util/loading_widget.dart';
 import 'auth/presentation/bloc/m_auth_bloc.dart';
-import 'auth/presentation/page/sign_up_page.dart';
-
-
-
-
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -28,11 +23,14 @@ class _SplashScreenState extends State<SplashScreen> {
         listener: (context, state) {
           Timer(Duration(seconds: 2), () {
             if (state is LoadedManagerState) {
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx)=>CustomersPage()),(_)=>false);
-
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (ctx) => CustomersPage()),
+                  (_) => false);
             } else if (state is AuthInitial) {
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-                  builder: (BuildContext context) => SignUpPage()),(_)=>false);
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => SignInPage()),
+                  (_) => false);
             }
           });
         },
@@ -45,7 +43,12 @@ class _SplashScreenState extends State<SplashScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Center(child: Image.asset('assets/images/logo.png', width: 400,height: 400,)),
+        Center(
+            child: Image.asset(
+          'assets/images/logo.png',
+          width: 400,
+          height: 400,
+        )),
         LoadingWidget(
           color: primaryColor,
         )

@@ -31,18 +31,20 @@ class PhotoStudioRepoImpl implements PhotoStudioRepo {
   }
 
   final _convert = (PhotoStudioEntity e) => PhotoStudioModel(
-      photo_studio_id: e.photo_studio_id,
-      price: e.price,
-      dateTimeOfWedding: e.dateTimeOfWedding,
-      largeImage: e.largeImage,
-      ordersNumber: e.ordersNumber,
-      smallImage: e.smallImage,
-      description: e.description
-      //
+        photo_studio_id: e.photo_studio_id,
+        price: e.price,
+        dateTimeOfWedding: e.dateTimeOfWedding,
+        largeImage: e.largeImage,
+        ordersNumber: e.ordersNumber,
+        smallImage: e.smallImage,
+        description: e.description,
+        smallPhotoNumber: e.smallPhotoNumber,
+        largePhotosNumber: e.largePhotosNumber,
+        //
       );
 
   @override
-  Future<void> addPhotoStudio(PhotoStudioEntity newPhotoStudio) async {
+  Future<void> addPhotoStudio(PhotoStudioEntity newPhotoStudio,String customerId) async {
     PhotoStudioEntity entity = PhotoStudioModel(
       photo_studio_id: newPhotoStudio.photo_studio_id,
       price: newPhotoStudio.price,
@@ -51,8 +53,10 @@ class PhotoStudioRepoImpl implements PhotoStudioRepo {
       ordersNumber: newPhotoStudio.ordersNumber,
       smallImage: newPhotoStudio.smallImage,
       description: newPhotoStudio.description,
+      smallPhotoNumber: newPhotoStudio.smallPhotoNumber,
+      largePhotosNumber: newPhotoStudio.largePhotosNumber,
     );
     PhotoStudioModel model = _convert(entity);
-    return await remoteDS.addPhotoStudio(model);
+    return await remoteDS.addPhotoStudio(model,customerId);
   }
 }

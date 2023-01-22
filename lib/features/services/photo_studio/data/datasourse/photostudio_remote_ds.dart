@@ -5,12 +5,14 @@ abstract class PhotoStudioRemoteDS {
   Future<List<PhotoStudioModel>> getPhotoStudio();
 
   Future<void> addPhotoStudio(
-       PhotoStudioModel newPhotoStudio);
+       PhotoStudioModel newPhotoStudio, String customerId);
 }
 
 class PhotoStudioRemoteDSImpl implements PhotoStudioRemoteDS {
   CollectionReference photoReference =
       FirebaseFirestore.instance.collection('photo_studio');
+  CollectionReference photoReferenceForCustomer =
+      FirebaseFirestore.instance.collection('customers');
 
   @override
   Future<List<PhotoStudioModel>> getPhotoStudio() async {
@@ -22,8 +24,8 @@ class PhotoStudioRemoteDSImpl implements PhotoStudioRemoteDS {
   }
 
   @override
-  Future<void> addPhotoStudio(PhotoStudioModel newPhotoStudio) async{
-    return await photoReference.doc(newPhotoStudio.photo_studio_id).set(newPhotoStudio.toJson());
+  Future<void> addPhotoStudio(PhotoStudioModel newPhotoStudio,String customerId) async{
+    return await photoReferenceForCustomer.doc(customerId).collection('photo_studio_order').doc(newPhotoStudio.photo_studio_id).set(newPhotoStudio.toJson());
   }
 
 }

@@ -94,18 +94,18 @@ class _PhotoStudioUpdatePageForManagerState
                     int _largeInt = int.tryParse(_largeImageController.text) ?? 30;
                     int _ordersNumber =
                         int.tryParse(_ordersNumberController.text) ?? 8;
-                    int _smallInt = int.tryParse(_smallImageController.text) ?? 20;
+
                     final docId = uuid.v4();
-                    int date=DateTime.now().millisecondsSinceEpoch;
+                    String date=DateTime.now().toString();
 
                     PhotoStudioEntity addStudio = PhotoStudioEntity(
                         photo_studio_id: docId ?? '',
                         price: _priceInt,
                         dateTimeOfWedding: date,
-                        largeImage: _largeInt,
+                        largeImage: "30x40",
                         ordersNumber: _ordersNumber,
-                        smallImage: _smallInt,
-                        description: _descriptionController.text ?? ''
+                        smallImage: "15x20",
+                        description: _descriptionController.text ?? '', largePhotosNumber: 1, smallPhotoNumber: 40
 
 
                     );
@@ -113,12 +113,12 @@ class _PhotoStudioUpdatePageForManagerState
                     print('object:::${date.toString()}');
                     print('object:::${_descriptionController.text}');
 
-                    setState(() {
-                      context
-                          .read<PhotoStudioBloc>()
-                          .add(PhotoStudioAddEvent(addStudio));
-                      print('added photo');
-                    });
+                    // setState(() {
+                    //   context
+                    //       .read<PhotoStudioBloc>()
+                    //       .add(PhotoStudioAddEvent(addStudio));
+                    //   print('added photo');
+                    // });
                   },
                   child: Text('Add'))
             ],

@@ -9,7 +9,7 @@ class AddPhotoStudioUseCase extends UseCasePhotoStudio<void, PhotoStudioParams> 
 
   @override
   Future<void> call({required PhotoStudioParams params}) async{
-   return await repo.addPhotoStudio(params.newPhotoStudio);
+   return await repo.addPhotoStudio(params.newPhotoStudio,params.customerId);
   }
 
 

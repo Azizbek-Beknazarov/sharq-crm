@@ -43,14 +43,17 @@ class _CustomerListState extends State<CustomerList> {
         widget.nameController.text = customersList[index].name.toString();
         widget.phoneController.text = customersList[index].phone.toString();
         CustomerEntity customerList = customersList[index];
+        print("object::customerId: ${customerList.id.toString()}");
         return GestureDetector(
           onDoubleTap: () {
             _deleteCustomer(context, customerList);
           },
           onLongPress: () {
+
             _updateCustomer(context, customerList);
           },
           onTap: () {
+            print("object::customerId: ${customerList.id.toString()}");
             Navigator.push(context, MaterialPageRoute(builder: (_) {
               return CustomerDetailPage(
                 customer: customerList,
@@ -140,7 +143,7 @@ class _CustomerListState extends State<CustomerList> {
                 onPressed: () {
                   final customerId = customerList.id;
                   CustomerEntity entity = CustomerEntity(
-                      password: '',
+
                       name: widget.nameController.text,
                       phone: widget.phoneController.text,
                       dateOfSignUp: DateTime.now().millisecondsSinceEpoch,

@@ -53,7 +53,12 @@ class _CustomersPageState extends State<CustomersPage> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>ServicePage()));
+              var customerId=customersList.map((e) {
+                String idd=e.id;
+                return idd;
+              }).toString();
+              print("object::: customerId: ${customerId}");
+              // Navigator.push(context, MaterialPageRoute(builder: (_)=>ServicePage(customerId: customerId,)));
             },
             icon: Icon(Icons.arrow_forward_ios_rounded),
           ),
@@ -108,7 +113,7 @@ class _CustomersPageState extends State<CustomersPage> {
                     child: const Text('Add'),
                     onPressed: () {
                       var customerEntity = CustomerEntity(
-                          password: '',
+
                           name: nameController.text,
                           phone: phoneController.text,
                           dateOfSignUp: DateTime.now().millisecondsSinceEpoch,

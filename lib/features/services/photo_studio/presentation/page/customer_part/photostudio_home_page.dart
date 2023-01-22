@@ -5,17 +5,19 @@ import 'package:sharq_crm/features/services/photo_studio/domain/entity/photostud
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_event.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_state.dart';
-import 'package:sharq_crm/features/services/photo_studio/presentation/page/photo_studio_update_page_for_manager.dart';
+import 'package:sharq_crm/features/services/photo_studio/presentation/page/customer_part/customer_photostudio_order_page.dart';
 
 class PhotoStudioHomePage extends StatefulWidget {
-  PhotoStudioHomePage({Key? key}) : super(key: key);
-
+  PhotoStudioHomePage({Key? key,required this.customerId}) : super(key: key);
+String customerId;
   @override
   State<PhotoStudioHomePage> createState() => _PhotoStudioHomePageState();
 }
 
 class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
   List<PhotoStudioEntity> photoStudio = [];
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,6 @@ class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
         builder: (context, photeState) {
       if (photeState is PhotoStudioLoadingState) {
         return Scaffold(
-
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -51,16 +52,18 @@ class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
       //
       //
       return Scaffold(
-        appBar: AppBar(title: Text('Photo Studio Home Page'), actions: [IconButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (ctx)=>PhotoStudioUpdatePageForManager()));
-        }, icon: Icon(Icons.settings))]),
+        appBar: AppBar(
+          title: Text('Photo Studio Home Page'),
+        ),
         body: ListView(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           padding: EdgeInsets.all(12),
           children: [
-            Text('Rasmxona suratlari galeriya korinishida boladi'),
-
+            Text(
+              'Rasmxona suratlari galeriya korinishida boladi',
+              style: TextStyle(fontSize: 22),
+            ),
             SizedBox(
               height: 5,
             ),
@@ -70,26 +73,39 @@ class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
                   child: Column(
                     children: [
                       ListTile(
-                        title: Text(e.description),
-                        subtitle: Text(e.largeImage.toString()),
+                        title: Text(
+                          'Katta rasm o\'lchami: ${e.largeImage.toString()}',
+                          style: TextStyle(fontSize: 22),
+                        ),
                       ),
                       ListTile(
-                        title: Text(e.photo_studio_id),
-                        subtitle: Text(e.price.toString()),
+                        title: Text(
+                          'Kichik rasm o\'lchami: ${e.smallImage.toString()}',
+                          style: TextStyle(fontSize: 22),
+                        ),
                       ),
                       ListTile(
-                        title: Text(e.photo_studio_id),
-                        subtitle: Text(e.price.toString()),
+                        title: Text(
+                          'Rasmxona narxi: ${e.price.toString()}',
+                          style: TextStyle(fontSize: 22),
+                        ),
                       ),
                     ],
                   ),
                 );
               }).toList(),
             ),
-            // Text('Rasmxona narxi 700 000'),
-            TextButton(onPressed: () {
-
-            }, child: Text('zakaz qilish'))
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (ctx) => CustomerPhotoStudioOrderPage(customerId: widget.customerId,)));
+                },
+                child: Text(
+                  'Zakaz qilish',
+                  style: TextStyle(fontSize: 22),
+                ))
           ],
         ),
       );

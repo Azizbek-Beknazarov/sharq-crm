@@ -59,8 +59,8 @@ class CustomerUpdateParams extends Equatable {
 //4
 class PhotoStudioParams extends Equatable{
  final PhotoStudioEntity newPhotoStudio;
-
-  PhotoStudioParams( this.newPhotoStudio,);
+String customerId;
+  PhotoStudioParams( this.newPhotoStudio, this.customerId,);
   @override
 
   List<Object?> get props => [newPhotoStudio];

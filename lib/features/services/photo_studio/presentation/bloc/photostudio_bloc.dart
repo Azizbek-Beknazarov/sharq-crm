@@ -29,7 +29,7 @@ class PhotoStudioBloc extends Bloc<PhotoStudioEvents, PhotoStudioStates> {
         emit(PhotoStudioLoadingState());
 
         await addPhotoStudioUseCase
-            .call(params: PhotoStudioParams(event.addEvent))
+            .call(params: PhotoStudioParams(event.addEvent,event.customerId))
             .then((value) => emit(PhotoStudioAddedState()))
             .catchError((error) => emit(PhotoStudioErrorState(message: error)));
       }

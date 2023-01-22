@@ -13,6 +13,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../orders/domain/entity/car_entity.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
+import '../../../../services/photo_studio/presentation/page/customer_part/photostudio_home_page.dart';
 import 'widget/customer_phone_call_widget.dart';
 
 
@@ -72,6 +73,10 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
           child: Column(
 
             children: [
+              TextButton(onPressed: (){
+                print("object::customerId: ${widget.customer.id.toString()}");
+                Navigator.push(context, MaterialPageRoute(builder: (ctx)=>PhotoStudioHomePage(customerId: widget.customer.id.toString(),)));
+              }, child: Text('unknown')),
               // call to customer phone
               CustomerCallWidget( customer: widget.customer,),
               // order cars
