@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 const CACHED_MANAGER = 'CACHED_MANAGER';
+const CACHED_CUSTOMER = 'CACHED_CUSTOMER';
 //
 const ADD_SUSCESS_MESSAGE = "Muvafaqqiyatli qo\'shildi";
 const DELETE_SUSCESS_MESSAGE = "Muvafaqqiyatli o\'chirildi";

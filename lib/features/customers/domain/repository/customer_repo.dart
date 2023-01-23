@@ -14,5 +14,6 @@ abstract class CustomerRepository {
   Future<Either<Failure, void>> updateCuctomers(
       CustomerEntity customerEntity, String customerId);
 
+  Future<Either<Failure, CustomerEntity>> getCurrentCustomer();
   // Future<Either<Failure, List<CustomerModel>>> searchCuctomers(String query);
 }

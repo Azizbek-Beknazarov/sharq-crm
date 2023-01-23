@@ -43,7 +43,7 @@ class _CustomerListState extends State<CustomerList> {
         widget.nameController.text = customersList[index].name.toString();
         widget.phoneController.text = customersList[index].phone.toString();
         CustomerEntity customerList = customersList[index];
-        print("object::customerId: ${customerList.id.toString()}");
+        print("object::customerId: ${customerList.customerId.toString()}");
         return GestureDetector(
           onDoubleTap: () {
             _deleteCustomer(context, customerList);
@@ -53,7 +53,7 @@ class _CustomerListState extends State<CustomerList> {
             _updateCustomer(context, customerList);
           },
           onTap: () {
-            print("object::customerId: ${customerList.id.toString()}");
+            print("object::customerId: ${customerList.customerId.toString()}");
             Navigator.push(context, MaterialPageRoute(builder: (_) {
               return CustomerDetailPage(
                 customer: customerList,
@@ -90,7 +90,7 @@ class _CustomerListState extends State<CustomerList> {
                     setState(() {
                       context
                           .read<CustomerCubit>()
-                          .deleteCustomer(customerList.id);
+                          .deleteCustomer(customerList.customerId!);
                     });
                     Navigator.pop(context);
                     print('deleted');
@@ -141,19 +141,19 @@ class _CustomerListState extends State<CustomerList> {
                 ),
                 child: const Text('Update'),
                 onPressed: () {
-                  final customerId = customerList.id;
+                  final customerId = customerList.customerId;
                   CustomerEntity entity = CustomerEntity(
 
                       name: widget.nameController.text,
                       phone: widget.phoneController.text,
                       dateOfSignUp: DateTime.now().millisecondsSinceEpoch,
-                      id: customerList.id);
+                      customerId: customerList.customerId, managerAdded: true);
 
 
                   setState(() {
                     context
                         .read<CustomerCubit>()
-                        .updateCustomer(entity, customerId);
+                        .updateCustomer(entity, customerId!);
                     widget.nameController.clear();
                     widget.phoneController.clear();
                   });

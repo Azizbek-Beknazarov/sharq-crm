@@ -19,6 +19,7 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/util/constants.dart';
 import '../../domain/usecase/delete_customer.dart';
 import '../../domain/usecase/get_all_cus_usecase.dart';
+import '../../domain/usecase/get_current_customer.dart';
 import '../../domain/usecase/new_customer_add_usecase.dart';
 import '../../domain/usecase/update_customer_usecase.dart';
 
@@ -27,12 +28,13 @@ class CustomerCubit extends Cubit<CustomersState> {
   final CustomerDeleteUseCase deleteCus;
   final UpdateCustomerUseCase updateCus;
   final AddNewCustomerUseCase addNewCus;
+  final GetCurrentCustomerUsecase getCurrentCustomer;
 
   CustomerCubit(
       {required this.getAllCus,
       required this.deleteCus,
       required this.updateCus,
-      required this.addNewCus})
+      required this.addNewCus,required this.getCurrentCustomer})
       : super(CustomerEmpty());
 
 
@@ -74,6 +76,19 @@ class CustomerCubit extends Cubit<CustomersState> {
     failOr.fold(
             (error) => CustomerError(message: 'dont added'),
             (customer) => CustomerAddedState());
+  }
+
+  //5
+  void getCurrentCustomerEvent()async{
+    if (state is CustomerLoading) return;
+    final failureOr = await getCurrentCustomer.call(NoParams());
+    emit(failureOr.fold(
+          (_) => CustomerEmpty(),
+          (customer) => CustomerGetLoadedState(getLoadedCustomer: customer),
+    ));
+
+
+
   }
 
 

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:sharq_crm/core/error/exception.dart';
 import 'package:sharq_crm/core/error/failures.dart';
+import 'package:sharq_crm/features/customers/data/datasourse/customer_local_datasource.dart';
 import 'package:sharq_crm/features/customers/data/model/customer_model.dart';
 import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart';
 
@@ -10,9 +11,10 @@ import '../datasourse/add_customer_r_ds.dart';
 
 class CustomerRepositoryImpl implements CustomerRepository {
   final CustomerRemoteDS customerRemoteDS;
+  final CustomerLocalDataSource localDataSource;
   NetworkInfo info;
 
-  CustomerRepositoryImpl({required this.info, required this.customerRemoteDS});
+  CustomerRepositoryImpl({required this.info, required this.customerRemoteDS,required this.localDataSource});
 
   //
   @override
@@ -47,11 +49,12 @@ class CustomerRepositoryImpl implements CustomerRepository {
     if (await info.isConnected) {
       try {
         CustomerEntity entity = CustomerModel(
-            name: customerEntity.name,
-            phone: customerEntity.phone,
-            id: customerEntity.id,
-            dateOfSignUp: customerEntity.dateOfSignUp,
-            );
+          name: customerEntity.name,
+          phone: customerEntity.phone,
+          customerId: customerEntity.customerId,
+          dateOfSignUp: customerEntity.dateOfSignUp,
+          managerAdded: customerEntity.managerAdded,
+        );
         CustomerModel model = _convert(entity);
         final result = await customerRemoteDS.updateCustomer(model, customerId);
         return Right(result);
@@ -69,13 +72,14 @@ class CustomerRepositoryImpl implements CustomerRepository {
     if (await info.isConnected) {
       try {
         CustomerEntity entity = CustomerModel(
-          name: customerEntity.name,
-          phone: customerEntity.phone,
-          id: customerEntity.id,
-          dateOfSignUp: customerEntity.dateOfSignUp,
-        );
+            name: customerEntity.name,
+            phone: customerEntity.phone,
+            customerId: customerEntity.customerId,
+            dateOfSignUp: customerEntity.dateOfSignUp,
+            managerAdded: customerEntity.managerAdded);
         CustomerModel model = _convert(entity);
         final result = await customerRemoteDS.addNewCustomer(model);
+        await localDataSource.saveCustomer(model);
         return Right(result);
       } catch (e) {
         return Left(ServerFailure());
@@ -88,7 +92,20 @@ class CustomerRepositoryImpl implements CustomerRepository {
   final _convert = (CustomerEntity e) => CustomerModel(
         name: e.name,
         phone: e.phone,
-        id: e.id,
+        customerId: e.customerId,
         dateOfSignUp: e.dateOfSignUp,
+        managerAdded: e.managerAdded,
       );
+
+  @override
+  Future<Either<Failure, CustomerEntity>> getCurrentCustomer() async{
+    try {
+      final current = await localDataSource.getCurrentCustomer();
+      return Right(current);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
+  }
+
+
 }

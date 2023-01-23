@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sharq_crm">
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
 <!--    &lt;!&ndash; Provide required visibility configuration for API level 30 and above &ndash;&gt;-->
 <!--    <queries>-->

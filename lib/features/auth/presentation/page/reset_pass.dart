@@ -34,7 +34,6 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
             child: Padding(
               padding: const EdgeInsets.all(18.0),
               child: Column(
-
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -60,16 +59,18 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                     },
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  ElevatedButton(onPressed: () async{
-                    if (_formKey.currentState!.validate()) {
-                      await auth.sendPasswordResetEmail(email: email!.trim());
-                      Navigator.push(context, MaterialPageRoute(builder: (ctx)=>SignInPage()));
-
-                    }
-
-
-
-                  }, child: Text('Tasdiqlash')),
+                  ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await auth.sendPasswordResetEmail(
+                              email: email!.trim());
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (ctx) => SignInPage()));
+                        }
+                      },
+                      child: Text('Tasdiqlash')),
                 ],
               ),
             ),

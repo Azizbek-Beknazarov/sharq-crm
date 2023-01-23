@@ -21,6 +21,12 @@ class CustomerLoading extends CustomersState {
   @override
   List<Object> get props => [];
 }
+class CustomerGetLoadedState extends CustomersState{
+  CustomerEntity getLoadedCustomer;
+  CustomerGetLoadedState({required this.getLoadedCustomer});
+  @override
+  List<Object> get props => [getLoadedCustomer];
+}
 
 class CustomersLoaded extends CustomersState {
   final List<CustomerEntity> customersLoaded;

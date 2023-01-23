@@ -11,6 +11,7 @@ import 'package:sharq_crm/features/auth/domain/usecase/login_manager.dart';
 import 'package:sharq_crm/features/auth/domain/usecase/logout_manager.dart';
 import 'package:sharq_crm/features/auth/domain/usecase/register_manager.dart';
 import 'package:sharq_crm/features/auth/presentation/bloc/m_auth_bloc.dart';
+import 'package:sharq_crm/features/customers/data/datasourse/customer_local_datasource.dart';
 import 'package:sharq_crm/features/customers/data/repository/customer_repo_impl.dart';
 import 'package:sharq_crm/features/customers/domain/usecase/delete_customer.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/customer_cubit.dart';
@@ -32,6 +33,7 @@ import 'auth/domain/repository/manager_repo.dart';
 import 'customers/data/datasourse/add_customer_r_ds.dart';
 import 'customers/domain/repository/customer_repo.dart';
 import 'customers/domain/usecase/get_all_cus_usecase.dart';
+import 'customers/domain/usecase/get_current_customer.dart';
 import 'customers/domain/usecase/new_customer_add_usecase.dart';
 
 import 'customers/domain/usecase/update_customer_usecase.dart';
@@ -53,7 +55,7 @@ Future<void> init() async {
 
   //2
   sl.registerFactory(
-      () => CustomerCubit(getAllCus: sl(), deleteCus: sl(), updateCus: sl(), addNewCus: sl()));
+      () => CustomerCubit(getAllCus: sl(), deleteCus: sl(), updateCus: sl(), addNewCus: sl(), getCurrentCustomer: sl()));
 
   //3
   sl.registerFactory(() => CarBloc(sl(),sl()));
@@ -76,6 +78,8 @@ Future<void> init() async {
   sl.registerLazySingleton(
       () => CustomerDeleteUseCase(customerRepository: sl()));
   sl.registerLazySingleton(() => UpdateCustomerUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetCurrentCustomerUsecase(sl()));
+
 
   //3
   sl.registerLazySingleton(() => AddNewCarUseCase(carRepo: sl()));
@@ -99,7 +103,7 @@ Future<void> init() async {
 
   //2
   sl.registerLazySingleton<CustomerRepository>(() => CustomerRepositoryImpl(
-      info: sl(), customerRemoteDS: sl()));
+      info: sl(), customerRemoteDS: sl(), localDataSource: sl()));
 
   //3
   sl.registerLazySingleton<CarRepo>(() => CarRepoImpl(carRemoteDataSource: sl(), info: sl()));
@@ -123,6 +127,7 @@ Future<void> init() async {
 
   //2
   sl.registerLazySingleton<CustomerRemoteDS>(() => CustomerRemoteDSImpl());
+  sl.registerLazySingleton<CustomerLocalDataSource>(() => CustomerLocalDataSourceImpl(preferences: sl()));
 
   //3
   sl.registerLazySingleton<CarRemoteDataSource>(() => CarRemoteDataSourceImpl());

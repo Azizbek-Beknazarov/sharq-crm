@@ -9,6 +9,7 @@ import '../error/failures.dart';
 abstract class UseCase<Type, Params> {
   Future<Either<Failure, Type>> call(Params params);
 }
+
 abstract class UseCasePhotoStudio<Type, Params> {
   Future< Type> call({required Params params});
 }

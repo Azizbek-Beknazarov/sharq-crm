@@ -2,13 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart';
-
+import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_auth_pages/confirm_customer_page.dart';
+import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_home_page.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../domain/entity/customer_entity.dart';
 import '../../../bloc/customer_cubit.dart';
 import '../../../bloc/customer_state.dart';
-import 'confirm_customer_page.dart';
+
 
 class SignUpCustomerPage extends StatefulWidget {
   SignUpCustomerPage({Key? key}) : super(key: key);
@@ -22,9 +23,12 @@ class _SignUpCustomerPageState extends State<SignUpCustomerPage> {
 
   TextEditingController _phoneController = TextEditingController();
 
-  final uuid = Uuid();
+
+
+
   final _formKey = GlobalKey<FormState>();
-  final auth=FirebaseAuth.instance;
+  final auth = FirebaseAuth.instance;
+  bool loading=false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,47 +71,57 @@ class _SignUpCustomerPageState extends State<SignUpCustomerPage> {
                       },
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
-                          hintText: '99 999 99 99',
+                          hintText: '+998945678090',
                           border: OutlineInputBorder()),
                       controller: _phoneController,
                     ),
+
+
                     Divider(
                       color: Colors.black,
                     ),
+
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
 
-                            auth.verifyPhoneNumber(
-                              phoneNumber: _phoneController.text,
-                                verificationCompleted: (_){},
-                                verificationFailed:(e){
-                                return ;
-                                } ,
-                                codeSent: (String verificationId, int? token){
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => ConfirmationPageCustomer(verificationId: verificationId,)),
-                                          (route) => false);
+                            String name=_nameController.text.trim();
+
+                            await auth.verifyPhoneNumber(
+                              //
+                                phoneNumber: _phoneController.text.trim(),
+                                //
+                                timeout: const Duration(seconds: 60),
+                                //
+                                verificationCompleted: (_) async{
+setState(() {
+  loading=false;
+});
+
                                 },
-                                codeAutoRetrievalTimeout:(_){}
+                                verificationFailed: (  e) {
+                                  setState(() {
+                                    loading=false;
+                                  });
+                                },
+                                codeSent: (String verificationId, int? token) async{
+                                  setState(() {
+                                    loading=false;
+                                  });
 
-                            );
-                            final int dt =
-                                DateTime.now().millisecondsSinceEpoch;
-
-                            // CustomerEntity customerEntity = CustomerEntity(
-                            //     name: _nameController.text,
-                            //     phone: _phoneController.text,
-                            //     id: uuid.v4(),
-                            //     dateOfSignUp: dt,
-                            //     );
-                            // context
-                            //     .read<CustomerCubit>()
-                            //     .addNewCustomer(customerEntity);
+                         Navigator.pushAndRemoveUntil(context,
+                             MaterialPageRoute(builder: (ctx)=>
+                                 ConfirmationPageCustomer(verificationId: verificationId, name: name, loading: loading)), (route) => false);
 
 
+
+
+                                },
+                                codeAutoRetrievalTimeout: (_) {
+                                  setState(() {
+                                    loading=false;
+                                  });
+                                });
                           }
                         },
                         child: Text('Kirish')),

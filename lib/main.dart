@@ -31,6 +31,9 @@ class MyApp extends StatelessWidget {
           BlocProvider<CustomerCubit>(
             create: (_) => di.sl<CustomerCubit>()..loadCustomer(),
           ),
+          BlocProvider<CustomerCubit>(
+            create: (_) => di.sl<CustomerCubit>()..getCurrentCustomerEvent(),
+          ),
           BlocProvider(create: (_) => di.sl<CarBloc>()),
           BlocProvider(create: (_)=>di.sl<PhotoStudioBloc>()),
 

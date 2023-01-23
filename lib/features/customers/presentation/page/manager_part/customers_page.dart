@@ -54,7 +54,7 @@ class _CustomersPageState extends State<CustomersPage> {
           leading: IconButton(
             onPressed: () {
               var customerId=customersList.map((e) {
-                String idd=e.id;
+                String? idd=e.customerId;
                 return idd;
               }).toString();
               print("object::: customerId: ${customerId}");
@@ -117,7 +117,7 @@ class _CustomersPageState extends State<CustomersPage> {
                           name: nameController.text,
                           phone: phoneController.text,
                           dateOfSignUp: DateTime.now().millisecondsSinceEpoch,
-                          id: uuid.v4());
+                          customerId: uuid.v4(), managerAdded: true);
 
                       setState(() {
                         context

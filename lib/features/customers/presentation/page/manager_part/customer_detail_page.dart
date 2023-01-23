@@ -74,8 +74,8 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
 
             children: [
               TextButton(onPressed: (){
-                print("object::customerId: ${widget.customer.id.toString()}");
-                Navigator.push(context, MaterialPageRoute(builder: (ctx)=>PhotoStudioHomePage(customerId: widget.customer.id.toString(),)));
+                print("object::customerId: ${widget.customer.customerId.toString()}");
+                Navigator.push(context, MaterialPageRoute(builder: (ctx)=>PhotoStudioHomePage(customerId: widget.customer.customerId.toString(),)));
               }, child: Text('unknown')),
               // call to customer phone
               CustomerCallWidget( customer: widget.customer,),
@@ -122,7 +122,7 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                       onPressed: () {
                         CarEntity newCar = CarEntity(
                             carId: uuid.v4(), name: carNameController.text, carNumber: '', color: '', address: '', dateTime: 1, price: 1);
-                        final customerID = widget.customer.id;
+                        final customerID = widget.customer.customerId;
 
                         context
                             .read<CarBloc>()

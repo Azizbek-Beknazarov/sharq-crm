@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 import 'package:sharq_crm/features/customers/data/model/customer_model.dart';
 
 abstract class CustomerRemoteDS {
@@ -25,7 +26,8 @@ class CustomerRemoteDSImpl implements CustomerRemoteDS {
     print("object::  ${snapshot.docs.map((e) => e.data()).toList()}");
     // var customers= snapshot.docs.map((e) => CustomerModel.fromJson(e) ).toList();
     List<CustomerModel> customers = snapshot.docs
-    .map((e) => CustomerModel.fromJson(e.data() as Map<String,dynamic>)).toList();
+        .map((e) => CustomerModel.fromJson(e.data() as Map<String, dynamic>))
+        .toList();
     //     .map((e) => CustomerModel
     //
     //   (
@@ -47,7 +49,7 @@ class CustomerRemoteDSImpl implements CustomerRemoteDS {
   @override
   Future<void> updateCustomer(
       CustomerModel customerModel, String customerId) async {
-    print("customer model id: ${customerModel.id.toString()}");
+    print("customer model id: ${customerModel.customerId.toString()}");
     print("customerId: ${customerId.toString()}");
     await reference.doc(customerId).update(customerModel.toJson());
     return Future.value(customerModel);
@@ -55,7 +57,9 @@ class CustomerRemoteDSImpl implements CustomerRemoteDS {
 
   @override
   Future<void> addNewCustomer(CustomerModel customerModel) async {
-    await reference.doc(customerModel.id).set(customerModel.toJson());
+
+
+    await reference.doc(customerModel.customerId).set(customerModel.toJson());
     return Future.value(customerModel);
   }
 }

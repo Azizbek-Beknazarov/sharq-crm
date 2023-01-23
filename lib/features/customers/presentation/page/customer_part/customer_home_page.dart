@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sharq_crm/core/util/loading_widget.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/customer_state.dart';
 import 'package:sharq_crm/features/customers/presentation/page/customer_part/payment_page.dart';
 import 'package:sharq_crm/features/orders/service_page.dart';
 
 import '../../../domain/entity/customer_entity.dart';
+import '../../bloc/customer_cubit.dart';
 
 class CustomerHomePage extends StatefulWidget {
   const CustomerHomePage({Key? key}) : super(key: key);
@@ -19,10 +21,10 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
    late String customerId;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
+    return BlocBuilder<CustomerCubit,CustomersState>(
       builder: (context,customerState) {
         if(customerState is CustomerLoading){
-          return Scaffold(body: Center(child:  CircularProgressIndicator(),),);
+          return Scaffold(body: Center(child:  LoadingWidget(),),);
         }else if( customerState is CustomerError){
           return Scaffold(body: Center(child:  Text(customerState.message.toString()),),);
         }else if(customerState is CustomersLoaded){
@@ -45,11 +47,11 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
             shrinkWrap: true,
             itemBuilder: (context, index){
               if(customersLoaded.isEmpty){
-                return Center(child: Text('No data yet'),);
+                return Center(child: Text('Ma\'lumot mavjud emas'),);
 
               }
 
-                customerId=customersLoaded[index].id;
+                customerId=customersLoaded[index].customerId!;
               return ListTile(title: Text(customersLoaded[index].name),);
             },
 

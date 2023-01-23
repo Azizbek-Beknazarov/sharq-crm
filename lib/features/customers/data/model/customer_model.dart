@@ -4,30 +4,34 @@ class CustomerModel extends CustomerEntity {
   CustomerModel({
     required String name,
     required String phone,
-    required String id,
+     String? customerId,
     required int dateOfSignUp,
+    required bool managerAdded,
   }) : super(
           name: name,
           phone: phone,
-          id: id,
+         customerId: customerId,
           dateOfSignUp: dateOfSignUp,
+    managerAdded: managerAdded,
         );
 
   factory CustomerModel.fromJson(Map<String, dynamic> json) {
     return CustomerModel(
       name: json['name'] ?? "",
       phone: json['phone'] ?? "",
-      id: json['id'] ?? "",
+      customerId: json['customerId'] ?? "",
       dateOfSignUp: json['dateOfSignUp'] ?? "",
+      managerAdded: json['managerAdded']??false,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'customerId': customerId,
       'name': name,
       'phone': phone,
       'dateOfSignUp': dateOfSignUp,
+      "managerAdded":managerAdded,
     };
   }
 }
