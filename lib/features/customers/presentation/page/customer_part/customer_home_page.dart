@@ -10,67 +10,73 @@ import '../../../domain/entity/customer_entity.dart';
 import '../../bloc/customer_cubit.dart';
 
 class CustomerHomePage extends StatefulWidget {
-  const CustomerHomePage({Key? key}) : super(key: key);
+  CustomerHomePage({Key? key}) : super(key: key);
 
   @override
   State<CustomerHomePage> createState() => _CustomerHomePageState();
 }
 
 class _CustomerHomePageState extends State<CustomerHomePage> {
-   List<CustomerEntity> customersLoaded=[];
-   late String customerId;
+  String customerId = '';
+  late CustomerEntity currentCustomer;
+  @override
+  void setState(VoidCallback fn) {
+    context.read<CustomerCubit>().getCurrentCustomerEvent();
+    super.setState(fn);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CustomerCubit,CustomersState>(
-      builder: (context,customerState) {
-        if(customerState is CustomerLoading){
-          return Scaffold(body: Center(child:  LoadingWidget(),),);
-        }else if( customerState is CustomerError){
-          return Scaffold(body: Center(child:  Text(customerState.message.toString()),),);
-        }else if(customerState is CustomersLoaded){
-          customersLoaded=customerState.customersLoaded;
-        }
+
+    return BlocBuilder<CustomerCubit, CustomersState>(
+        builder: (context, customerState) {
+      if (customerState is CustomerLoading) {
+        print(
+            " CustomerHomePagedagi CustomerState: ${customerState.toString()}");
         return Scaffold(
-          appBar: AppBar(
-            title: Text('Customer Home Page'),
-            leading: IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (ctx) => ServicePage(customerId: customerId,)));
-              },
-              icon: Icon(Icons.home_repair_service),
-            ),
-          ),
-          body: ListView.builder(
-            itemCount: customersLoaded.length,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemBuilder: (context, index){
-              if(customersLoaded.isEmpty){
-                return Center(child: Text('Ma\'lumot mavjud emas'),);
-
-              }
-
-                customerId=customersLoaded[index].customerId!;
-              return ListTile(title: Text(customersLoaded[index].name),);
-            },
-
-
-
-
-            //
-            // children: [
-            //   Text('mijoz qilgan zakazlar buladi'),
-            //   TextButton(
-            //       onPressed: () {
-            //         Navigator.push(context,
-            //             MaterialPageRoute(builder: (ctx) => PaymentPage()));
-            //       },
-            //       child: Text('tulov qilish'))
-            // ],
+          body: Center(
+            child: LoadingWidget(),
           ),
         );
+      } else if (customerState is CustomerError) {
+        return Scaffold(
+          body: Center(
+            child: Text(customerState.message.toString()),
+          ),
+        );
+      } else if (customerState is CustomerGetLoadedState) {
+        currentCustomer = customerState.getLoadedCustomer;
+        customerId = currentCustomer.customerId!;
+        print(
+            "current customer entity: ${currentCustomer.customerId.toString()}");
       }
-    );
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Customer Home Page'),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (ctx) => ServicePage(
+                            customerId: customerId,
+                          )));
+            },
+            icon: Icon(Icons.home_repair_service),
+          ),
+        ),
+        body: ListView(
+          children: [
+            ListTile(title: Text(currentCustomer.name),subtitle: Text(currentCustomer.phone),),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (ctx) => PaymentPage()));
+                },
+                child: Text('tulov qilish'))
+          ],
+        ),
+      );
+    });
   }
 }

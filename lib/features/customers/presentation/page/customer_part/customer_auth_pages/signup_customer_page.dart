@@ -10,7 +10,6 @@ import '../../../../domain/entity/customer_entity.dart';
 import '../../../bloc/customer_cubit.dart';
 import '../../../bloc/customer_state.dart';
 
-
 class SignUpCustomerPage extends StatefulWidget {
   SignUpCustomerPage({Key? key}) : super(key: key);
 
@@ -23,12 +22,9 @@ class _SignUpCustomerPageState extends State<SignUpCustomerPage> {
 
   TextEditingController _phoneController = TextEditingController();
 
-
-
-
   final _formKey = GlobalKey<FormState>();
   final auth = FirebaseAuth.instance;
-  bool loading=false;
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -75,53 +71,48 @@ class _SignUpCustomerPageState extends State<SignUpCustomerPage> {
                           border: OutlineInputBorder()),
                       controller: _phoneController,
                     ),
-
-
                     Divider(
                       color: Colors.black,
                     ),
-
                     ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-
-                            String name=_nameController.text.trim();
+                            String name = _nameController.text.trim();
 
                             await auth.verifyPhoneNumber(
-                              //
+                                //
                                 phoneNumber: _phoneController.text.trim(),
                                 //
-                                timeout: const Duration(seconds: 60),
+                                timeout: const Duration(seconds: 10),
                                 //
-                                verificationCompleted: (_) async{
-setState(() {
-  loading=false;
-});
-
-                                },
-                                verificationFailed: (  e) {
+                                verificationCompleted: (_) async {
                                   setState(() {
-                                    loading=false;
+                                    loading = false;
                                   });
                                 },
-                                codeSent: (String verificationId, int? token) async{
+                                verificationFailed: (e) {
                                   setState(() {
-                                    loading=false;
+                                    loading = false;
                                   });
-
-                         Navigator.pushAndRemoveUntil(context,
-                             MaterialPageRoute(builder: (ctx)=>
-                                 ConfirmationPageCustomer(verificationId: verificationId, name: name, loading: loading)), (route) => false);
-
-
-
-
                                 },
-                                codeAutoRetrievalTimeout: (_) {
+                                codeSent:
+                                    (String verificationId, int? token) async {
                                   setState(() {
-                                    loading=false;
+                                    loading = false;
                                   });
-                                });
+
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (ctx) =>
+                                              ConfirmationPageCustomer(
+                                                  verificationId:
+                                                      verificationId,
+                                                  name: name,
+                                                  loading: loading)),
+                                      (route) => false);
+                                },
+                                codeAutoRetrievalTimeout: (_) {});
                           }
                         },
                         child: Text('Kirish')),
