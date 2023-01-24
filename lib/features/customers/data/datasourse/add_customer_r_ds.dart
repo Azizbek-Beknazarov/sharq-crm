@@ -11,6 +11,8 @@ abstract class CustomerRemoteDS {
   Future<void> updateCustomer(CustomerModel customerModel, String customerId);
 
   Future<void> addNewCustomer(CustomerModel customerModel);
+  Future<CustomerModel> getCurrentCustomerFromCollection(String customerID);
+
 
 // Future<List<CustomerModel>> searchCustomer(String query);
 }
@@ -61,5 +63,14 @@ class CustomerRemoteDSImpl implements CustomerRemoteDS {
 
     await reference.doc(customerModel.customerId).set(customerModel.toJson());
     return Future.value(customerModel);
+  }
+
+  @override
+  Future<CustomerModel> getCurrentCustomerFromCollection(String customerID) async{
+    DocumentSnapshot snapshot = await reference.doc(customerID).get();
+
+    CustomerModel model=CustomerModel.fromJson(snapshot.data() as Map<String,dynamic>);
+    print("getCurrentCustomerFromCollection ichidagi model: ${model.toString()}");
+    return Future.value(model);
   }
 }

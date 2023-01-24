@@ -20,6 +20,7 @@ import '../../../../core/util/constants.dart';
 import '../../domain/usecase/delete_customer.dart';
 import '../../domain/usecase/get_all_cus_usecase.dart';
 import '../../domain/usecase/get_current_customer.dart';
+import '../../domain/usecase/get_current_customer_from_collection.dart';
 import '../../domain/usecase/new_customer_add_usecase.dart';
 import '../../domain/usecase/update_customer_usecase.dart';
 
@@ -29,14 +30,17 @@ class CustomerCubit extends Cubit<CustomersState> {
   final UpdateCustomerUseCase updateCus;
   final AddNewCustomerUseCase addNewCus;
   final GetCurrentCustomerUsecase getCurrentCustomer;
+  final GetCurrentCustomerFromCollectionUsecase
+      getCurrentCustomerFromCollection;
 
   CustomerCubit(
       {required this.getAllCus,
       required this.deleteCus,
       required this.updateCus,
-      required this.addNewCus,required this.getCurrentCustomer})
+      required this.addNewCus,
+      required this.getCurrentCustomer,
+      required this.getCurrentCustomerFromCollection})
       : super(CustomerEmpty());
-
 
   //1
   void loadCustomer() async {
@@ -50,7 +54,6 @@ class CustomerCubit extends Cubit<CustomersState> {
       emit(CustomersLoaded(customersLoaded: customer));
     });
   }
-
 
   //2
   void deleteCustomer(String id) async {
@@ -70,28 +73,36 @@ class CustomerCubit extends Cubit<CustomersState> {
   }
 
   //4
-  void addNewCustomer(CustomerEntity customerEntity)async{
+  void addNewCustomer(CustomerEntity customerEntity) async {
     if (state is CustomerLoading) return;
-    final failOr =await addNewCus.call(params: customerEntity);
-    failOr.fold(
-            (error) => CustomerError(message: 'dont added'),
-            (customer) => CustomerAddedState());
+    final failOr = await addNewCus.call(params: customerEntity);
+    failOr.fold((error) => CustomerError(message: 'dont added'),
+        (customer) => CustomerAddedState('customer added'));
   }
 
   //5
-  void getCurrentCustomerEvent()async{
+  void getCurrentCustomerEvent() async {
     if (state is CustomerLoading) return;
     final failureOr = await getCurrentCustomer.call(NoParams());
     emit(failureOr.fold(
-          (_) => CustomerEmpty(),
-          (customer) => CustomerGetLoadedState(getLoadedCustomer: customer),
+      (_) => CustomerEmpty(),
+      (customer) => CustomerGetLoadedState(getLoadedCustomer: customer),
     ));
-
-
-
   }
 
+  //6
+  void loadCustomerFromCollection(String customerID) async {
+    if (state is CustomerLoading) return;
 
+    final failureOr = await getCurrentCustomerFromCollection
+        .call(CustomerFromCollectionParam(customerID: customerID));
+
+    failureOr.fold(
+        (error) => emit(CustomerError(message: _mapFailureToMessage(error))),
+        (customer) {
+      emit(CustomerLoadedFromCollectionState(customer));
+    });
+  }
 
   //
   String _mapFailureToMessage(Failure failure) {

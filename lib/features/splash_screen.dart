@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:sharq_crm/features/injection_container.dart' as di;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/auth/presentation/page/sign_in_page.dart';
@@ -17,7 +17,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MultiBlocProvider(providers: [
+      BlocProvider(
+          create: (_) => di.sl<AuthBloc>()..add(GetCurrentManagerEvent())),
+    ], child: Scaffold(
       backgroundColor: Colors.white,
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
@@ -25,18 +28,20 @@ class _SplashScreenState extends State<SplashScreen> {
             if (state is LoadedManagerState) {
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (ctx) => CustomersPage()),
-                  (_) => false);
+                      (_) => false);
             } else if (state is AuthInitial) {
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                       builder: (BuildContext context) => SignInPage()),
-                  (_) => false);
+                      (_) => false);
             }
           });
         },
         child: _buildSplashScreen(),
       ),
-    );
+    ));
+
+
   }
 
   Column _buildSplashScreen() {

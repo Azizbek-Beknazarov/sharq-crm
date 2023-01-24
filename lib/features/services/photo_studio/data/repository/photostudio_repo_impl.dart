@@ -59,4 +59,18 @@ class PhotoStudioRepoImpl implements PhotoStudioRepo {
     PhotoStudioModel model = _convert(entity);
     return await remoteDS.addPhotoStudio(model,customerId);
   }
+
+  @override
+  Future<Either<Failure, List<PhotoStudioEntity>>> getPhotoStudioForCustomer(String customerId) async{
+    if (await info.isConnected) {
+      try {
+        final result = await remoteDS.getPhotoStudioForCustomer(customerId);
+        return Right(result);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(ServerFailure());
+    }
+  }
 }

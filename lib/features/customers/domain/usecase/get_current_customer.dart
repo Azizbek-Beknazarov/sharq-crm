@@ -11,12 +11,7 @@ class GetCurrentCustomerUsecase extends UseCase<CustomerEntity, NoParams> {
   GetCurrentCustomerUsecase(this.repository);
 
   @override
-  Future<Either<Failure, CustomerEntity>> call(NoParams params) async{
-    return  await repository.getCurrentCustomer();
+  Future<Either<Failure, CustomerEntity>> call(NoParams params) async {
+    return await repository.getCurrentCustomer();
   }
-
-
-
-
-
 }

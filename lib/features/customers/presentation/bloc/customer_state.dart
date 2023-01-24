@@ -55,5 +55,14 @@ class CustomerUpdateState extends CustomersState{
 
 }
 class CustomerAddedState extends CustomersState{
-
+  final String message;
+  CustomerAddedState(this.message);
+  @override
+  List<Object> get props => [message];
+}
+class CustomerLoadedFromCollectionState extends CustomersState{
+  CustomerEntity entity;
+  CustomerLoadedFromCollectionState(this.entity);
+  @override
+  List<Object> get props => [entity];
 }

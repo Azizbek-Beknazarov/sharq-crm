@@ -26,14 +26,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(
-              create: (_) => di.sl<AuthBloc>()..add(GetCurrentManagerEvent())),
-          BlocProvider<CustomerCubit>(
-            create: (_) => di.sl<CustomerCubit>()..loadCustomer(),
-          ),
-          BlocProvider<CustomerCubit>(
-            create: (_) => di.sl<CustomerCubit>()..getCurrentCustomerEvent(),
-          ),
+
+
+
           BlocProvider(create: (_) => di.sl<CarBloc>()),
           BlocProvider(create: (_)=>di.sl<PhotoStudioBloc>()),
 

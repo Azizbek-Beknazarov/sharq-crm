@@ -11,7 +11,7 @@ abstract class UseCase<Type, Params> {
 }
 
 abstract class UseCasePhotoStudio<Type, Params> {
-  Future< Type> call({required Params params});
+  Future<Type> call({required Params params});
 }
 
 abstract class UseCaseUpdate<Type, Params> {
@@ -57,14 +57,39 @@ class CustomerUpdateParams extends Equatable {
   @override
   List<Object?> get props => [customerEntity, id];
 }
-//4
-class PhotoStudioParams extends Equatable{
- final PhotoStudioEntity newPhotoStudio;
-String customerId;
-  PhotoStudioParams( this.newPhotoStudio, this.customerId,);
-  @override
 
+//4
+class PhotoStudioParams extends Equatable {
+  final PhotoStudioEntity newPhotoStudio;
+  String customerId;
+
+  PhotoStudioParams(
+    this.newPhotoStudio,
+    this.customerId,
+  );
+
+  @override
   List<Object?> get props => [newPhotoStudio];
+}
+
+//5
+class PhotoStudioGetParams extends Equatable {
+  String customerId;
+
+  PhotoStudioGetParams({required this.customerId});
+
+  @override
+  List<Object?> get props => [customerId];
+}
+
+//6
+class CustomerFromCollectionParam {
+  String customerID;
+
+  CustomerFromCollectionParam({required this.customerID});
+
+  @override
+  List<Object?> get props => [customerID];
 }
 
 // class CarsParams extends Equatable {

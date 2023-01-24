@@ -107,5 +107,19 @@ class CustomerRepositoryImpl implements CustomerRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, CustomerEntity>> getCurrentCustomerFromCollection(String customerID) async{
+    if (await info.isConnected) {
+      try {
+        final remoteC = await customerRemoteDS.getCurrentCustomerFromCollection(customerID);
+        return Right(remoteC);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(ServerFailure());
+    }
+  }
+
 
 }

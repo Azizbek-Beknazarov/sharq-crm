@@ -40,6 +40,7 @@ class _ConfirmationPageCustomerState extends State<ConfirmationPageCustomer> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextFormField(
+                keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Iltimos, raqamlarni kiriting!';

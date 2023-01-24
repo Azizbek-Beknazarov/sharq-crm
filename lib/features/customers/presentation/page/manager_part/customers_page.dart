@@ -7,6 +7,7 @@ import 'package:uuid/uuid.dart';
 import '../../../domain/entity/customer_entity.dart';
 import '../../bloc/customer_cubit.dart';
 import 'widget/customer_list.dart';
+import 'package:sharq_crm/features/injection_container.dart' as di;
 
 class CustomersPage extends StatefulWidget {
   CustomersPage({Key? key}) : super(key: key);
@@ -34,45 +35,54 @@ class _CustomersPageState extends State<CustomersPage> {
   //
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CustomerCubit, CustomersState>(
-        builder: (context, customerCubitstate) {
-      if (customerCubitstate is CustomerLoading) {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (customerCubitstate is CustomerAddedState) {
+    return  BlocProvider<CustomerCubit>(
+      create: (_) => di.sl<CustomerCubit>()..loadCustomer(),
+      child: BlocBuilder<CustomerCubit, CustomersState>(
+          builder: (context, customerCubitstate) {
+            if (customerCubitstate is CustomerLoading) {
+              return Column(
+                children: [
+                  Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  Text('loading...'),
+                ],
+              );
+            } else if (customerCubitstate is CustomerAddedState) {
+              return Center(
+                child: Text(customerCubitstate.message),
+              );
+            } else if (customerCubitstate is CustomerError) {
+              return Center(
+                child: Text(customerCubitstate.message),
+              );
+            } else if (customerCubitstate is CustomersLoaded) {
+              customersList = customerCubitstate.customersLoaded;
+            }
+            return Scaffold(
+              appBar: AppBar(
+                leading: IconButton(
+                  onPressed: () {
+                    var customerId=customersList.map((e)=>e.name).toString();
+                    print("object::: customerId: ${customerId}");
+                    // Navigator.push(context, MaterialPageRoute(builder: (_)=>ServicePage(customerId: customerId,)));
+                  },
+                  icon: Icon(Icons.arrow_forward_ios_rounded),
+                ),
+                title: Text('Customers'),
+                centerTitle: true,
+              ),
+              body: CustomerList(
+                customersList: customersList,
+              ),
 
-      } else if (customerCubitstate is CustomerError) {
-        return Center(
-          child: Text(customerCubitstate.message),
-        );
-      } else if (customerCubitstate is CustomersLoaded) {
-        customersList = customerCubitstate.customersLoaded;
-      }
-      return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              var customerId=customersList.map((e) {
-                String? idd=e.customerId;
-                return idd;
-              }).toString();
-              print("object::: customerId: ${customerId}");
-              // Navigator.push(context, MaterialPageRoute(builder: (_)=>ServicePage(customerId: customerId,)));
-            },
-            icon: Icon(Icons.arrow_forward_ios_rounded),
-          ),
-          title: Text('Customers'),
-          centerTitle: true,
-        ),
-        body: CustomerList(
-          customersList: customersList,
-        ),
+              //
+              floatingActionButton: _floatingCarAdd(context),
+            );
+          }),
+    );
 
-        //
-        floatingActionButton: _floatingCarAdd(context),
-      );
-    });
+
   }
 
   // method 1

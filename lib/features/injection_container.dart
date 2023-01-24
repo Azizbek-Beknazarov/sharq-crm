@@ -14,6 +14,7 @@ import 'package:sharq_crm/features/auth/presentation/bloc/m_auth_bloc.dart';
 import 'package:sharq_crm/features/customers/data/datasourse/customer_local_datasource.dart';
 import 'package:sharq_crm/features/customers/data/repository/customer_repo_impl.dart';
 import 'package:sharq_crm/features/customers/domain/usecase/delete_customer.dart';
+import 'package:sharq_crm/features/customers/domain/usecase/get_current_customer_from_collection.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/customer_cubit.dart';
 import 'package:sharq_crm/features/orders/data/datasourse/car_datasource.dart';
 import 'package:sharq_crm/features/orders/data/repository/car_repo_impl.dart';
@@ -24,6 +25,7 @@ import 'package:sharq_crm/features/services/photo_studio/data/datasourse/photost
 import 'package:sharq_crm/features/services/photo_studio/data/repository/photostudio_repo_impl.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/repository/photostudio_repo.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/get_photostudio_usecase.dart';
+import 'package:sharq_crm/features/services/photo_studio/domain/usecase/getphotostudio_for_customer_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/update_photostudio_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
 
@@ -54,14 +56,19 @@ Future<void> init() async {
       logoutManager: sl()));
 
   //2
-  sl.registerFactory(
-      () => CustomerCubit(getAllCus: sl(), deleteCus: sl(), updateCus: sl(), addNewCus: sl(), getCurrentCustomer: sl()));
+  sl.registerFactory(() => CustomerCubit(
+      getAllCus: sl(),
+      deleteCus: sl(),
+      updateCus: sl(),
+      addNewCus: sl(),
+      getCurrentCustomer: sl(),
+      getCurrentCustomerFromCollection: sl()));
 
   //3
-  sl.registerFactory(() => CarBloc(sl(),sl()));
+  sl.registerFactory(() => CarBloc(sl(), sl()));
 
   //4
-  sl.registerFactory(() => PhotoStudioBloc(sl(),sl()));
+  sl.registerFactory(() => PhotoStudioBloc(sl(), sl(), sl()));
 
   //
   // Use cases
@@ -79,7 +86,7 @@ Future<void> init() async {
       () => CustomerDeleteUseCase(customerRepository: sl()));
   sl.registerLazySingleton(() => UpdateCustomerUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetCurrentCustomerUsecase(sl()));
-
+  sl.registerLazySingleton(() => GetCurrentCustomerFromCollectionUsecase(sl()));
 
   //3
   sl.registerLazySingleton(() => AddNewCarUseCase(carRepo: sl()));
@@ -88,6 +95,7 @@ Future<void> init() async {
   //4
   sl.registerLazySingleton(() => GetPhotoStudioUseCase(repo: sl()));
   sl.registerLazySingleton(() => AddPhotoStudioUseCase(repo: sl()));
+  sl.registerLazySingleton(() => GetPhotoStudioForCustomerUseCase(repo: sl()));
 
   //
   // Repository
@@ -106,10 +114,12 @@ Future<void> init() async {
       info: sl(), customerRemoteDS: sl(), localDataSource: sl()));
 
   //3
-  sl.registerLazySingleton<CarRepo>(() => CarRepoImpl(carRemoteDataSource: sl(), info: sl()));
+  sl.registerLazySingleton<CarRepo>(
+      () => CarRepoImpl(carRemoteDataSource: sl(), info: sl()));
 
   //4
-  sl.registerLazySingleton<PhotoStudioRepo>(() => PhotoStudioRepoImpl(remoteDS: sl(), info: sl()));
+  sl.registerLazySingleton<PhotoStudioRepo>(
+      () => PhotoStudioRepoImpl(remoteDS: sl(), info: sl()));
 
   //
   // Data sources
@@ -127,14 +137,16 @@ Future<void> init() async {
 
   //2
   sl.registerLazySingleton<CustomerRemoteDS>(() => CustomerRemoteDSImpl());
-  sl.registerLazySingleton<CustomerLocalDataSource>(() => CustomerLocalDataSourceImpl(preferences: sl()));
+  sl.registerLazySingleton<CustomerLocalDataSource>(
+      () => CustomerLocalDataSourceImpl(preferences: sl()));
 
   //3
-  sl.registerLazySingleton<CarRemoteDataSource>(() => CarRemoteDataSourceImpl());
+  sl.registerLazySingleton<CarRemoteDataSource>(
+      () => CarRemoteDataSourceImpl());
 
   //4
-  sl.registerLazySingleton<PhotoStudioRemoteDS>(() => PhotoStudioRemoteDSImpl());
-
+  sl.registerLazySingleton<PhotoStudioRemoteDS>(
+      () => PhotoStudioRemoteDSImpl());
 
   //
   final sharedPreferences = await SharedPreferences.getInstance();
