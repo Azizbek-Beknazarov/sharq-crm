@@ -92,6 +92,18 @@ class CustomerFromCollectionParam {
   List<Object?> get props => [customerID];
 }
 
+//7
+class PhotoStudioDeleteParams extends Equatable {
+
+  String customerId;
+  String photoStudioID;
+
+  PhotoStudioDeleteParams({required this.customerId,required this.photoStudioID});
+
+  @override
+  List<Object?> get props => [customerId,photoStudioID];
+}
+
 // class CarsParams extends Equatable {
 //   final String customerID;
 //

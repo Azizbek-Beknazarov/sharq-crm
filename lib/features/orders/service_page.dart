@@ -39,36 +39,7 @@ class _ServicePageState extends State<ServicePage> {
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold),
                     ),
-                    Card(
-                      child: Column(
-                        children: <Widget>[
-                          // new Image.network('https://i.ytimg.com/vi/fq4N0hgOWzU/maxresdefault.jpg'),
-                          Padding(
-                              padding: EdgeInsets.all(7.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.all(7.0),
-                                    child: Icon(Icons.add_a_photo),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(7.0),
-                                    child: Icon(Icons.car_crash_outlined),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(7.0),
-                                    child: Icon(Icons.car_crash_outlined),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(7.0),
-                                    child: Text('Comments',
-                                        style: TextStyle(fontSize: 18.0)),
-                                  )
-                                ],
-                              ))
-                        ],
-                      ),
-                    )
+                    SizedBox(height: 29,)
                   ],
                 ),
               ),
@@ -126,6 +97,7 @@ class _ServicePageState extends State<ServicePage> {
                     Card(
                       child: ListTile(
                         onTap: () {
+                          print("Service page dagi customer ID: ${widget.customerId}");
                           Navigator.push(
                               context,
                               MaterialPageRoute(

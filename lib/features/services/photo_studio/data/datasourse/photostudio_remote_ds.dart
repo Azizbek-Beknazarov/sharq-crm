@@ -7,6 +7,7 @@ abstract class PhotoStudioRemoteDS {
 
   Future<void> addPhotoStudio(
        PhotoStudioModel newPhotoStudio, String customerId);
+  Future<void> deletePhotoStudio({required String customerId,required String photostudioID});
 }
 
 class PhotoStudioRemoteDSImpl implements PhotoStudioRemoteDS {
@@ -36,8 +37,14 @@ class PhotoStudioRemoteDSImpl implements PhotoStudioRemoteDS {
     QuerySnapshot snapshot = await photoReferenceForCustomer.doc(customerId).collection('photo_studio_order').get();
     print("object in photo studio remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
     List<PhotoStudioModel> photoStudioModel =
-    snapshot.docs.map((e) => PhotoStudioModel.fromJson(e.data() as Map<String,dynamic>)).toList();
+    await snapshot.docs.map((e) => PhotoStudioModel.fromJson(e.data() as Map<String,dynamic>)).toList();
     return Future.value(photoStudioModel);
+  }
+
+  @override
+  Future<void> deletePhotoStudio({required String customerId, required String photostudioID}) async{
+
+  return  await photoReferenceForCustomer.doc(customerId).collection('photo_studio_order').doc(photostudioID).delete();
   }
 
 }

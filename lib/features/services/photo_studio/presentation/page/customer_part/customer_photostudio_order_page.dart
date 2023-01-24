@@ -34,6 +34,7 @@ _dateTimeOfWeddingController.clear();
   //
   @override
   Widget build(BuildContext context) {
+    print("Rasmxonaga buyurtma berish page dagi customer ID: ${widget.customerId}");
     return BlocBuilder<PhotoStudioBloc, PhotoStudioStates>(
         builder: (context, photeState) {
       if (photeState is PhotoStudioLoadingState) {
@@ -84,7 +85,7 @@ _dateTimeOfWeddingController.clear();
                   String date = _dateTimeOfWeddingController.text;
 
                   PhotoStudioEntity addStudio = PhotoStudioEntity(
-                    photo_studio_id: docId ?? '',
+                    photo_studio_id: docId ?? 'docid',
                     dateTimeOfWedding: date,
                     ordersNumber: _ordersNumber,
                     price: 700000,
@@ -103,7 +104,7 @@ _dateTimeOfWeddingController.clear();
                   });
                   Navigator.pop(context);
                 },
-                child: Text('Add'))
+                child: Text('Tasdiqlash'))
           ],
         ),
       );

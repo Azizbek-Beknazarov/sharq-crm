@@ -23,130 +23,242 @@ class CustomerHomePage extends StatefulWidget {
 }
 
 class _CustomerHomePageState extends State<CustomerHomePage> {
-  List<PhotoStudioEntity> photoStudioForCustomer = [];
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void setState(VoidCallback fn) {
-    super.setState(fn);
-  }
+  List<PhotoStudioEntity> photoStudioForCustomerlist = [];
 
   @override
   Widget build(BuildContext context) {
-    String customerId;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Customer Home Page'),
-        leading: IconButton(
-          onPressed: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (ctx) => ServicePage(
-            //           customerId: customerId,
-            //         )));
-          },
-          icon: Icon(Icons.home_repair_service),
+    String customerId = '0';
+    double totalPrice = 0.0;
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) =>
+          di.sl<CustomerCubit>()
+            ..getCurrentCustomerEvent(),
         ),
-      ),
-      body: ListView(
-        children: [
-          BlocProvider<CustomerCubit>(
-            create: (_) => di.sl<CustomerCubit>()..getCurrentCustomerEvent(),
-            child: Column(
-              children: [
-                BlocBuilder<CustomerCubit, CustomersState>(
-                    builder: (context, customerState) {
-                  if (customerState is CustomerLoading) {
-                    return LoadingWidget();
-                  } else if (customerState is CustomerError) {
-                    return Text(customerState.message);
-                  } else if (customerState is CustomerGetLoadedState) {
-                    CustomerEntity currentCustomer =
-                        customerState.getLoadedCustomer;
-                    // current customer id getted
+        BlocProvider(
+          create: (context) => di.sl<PhotoStudioBloc>(),
+        ),
+      ],
+      child: BlocBuilder<CustomerCubit, CustomersState>(
+          builder: (context, customerState) {
+            if (customerState is CustomerLoading) {
+              return LoadingWidget();
+            } else if (customerState is CustomerError) {
+              return Text(customerState.message);
+            } else if (customerState is CustomerGetLoadedState) {
+              CustomerEntity currentCustomer = customerState.getLoadedCustomer;
+              // current customer id getted
 
-                    customerId = currentCustomer.customerId!;
-                    print(
-                        'loadCustomerFromCollection customerID: ${customerId}');
-                    context
-                        .read<CustomerCubit>()
-                        .loadCustomerFromCollection(customerId);
-                  }
-                  return BlocBuilder<CustomerCubit, CustomersState>(
-                      builder: (context, customerStatefrom) {
-                    print(customerStatefrom.toString());
-                    if (customerStatefrom is CustomerLoading) {
-                      return LoadingWidget();
-                    } else if (customerStatefrom is CustomerError) {
-                      return Text(customerStatefrom.message);
-                    } else if (customerStatefrom
-                        is CustomerLoadedFromCollectionState) {
-                      CustomerEntity currentCustomer = customerStatefrom.entity;
+              customerId = currentCustomer.customerId!;
+              print('loadCustomerFromCollection customerID: ${customerId}');
+              context.read<CustomerCubit>().loadCustomerFromCollection(
+                  customerId);
+            }
+            return Scaffold(
+              appBar: _appBar(customerId),
 
-                      return Container(
-                        child: Column(
+              //
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    //current customer info
+                    BlocBuilder<CustomerCubit, CustomersState>(
+                        builder: (context, customerStatefrom) {
+                          print(customerStatefrom.toString());
+                          if (customerStatefrom is CustomerLoading) {
+                            return LoadingWidget();
+                          } else if (customerStatefrom is CustomerError) {
+                            return Text(customerStatefrom.message);
+                          } else if (customerStatefrom
+                          is CustomerLoadedFromCollectionState) {
+                            CustomerEntity currentCustomer = customerStatefrom
+                                .entity;
+
+                            return _currentCustomerInfo(currentCustomer);
+                          }
+                          return Text('data2');
+                        }),
+                    BlocBuilder<PhotoStudioBloc, PhotoStudioStates>(
+                      builder: (contextPhotostudio, photoState) {
+                        print("PhotoStudioStates: $photoState");
+                        if (photoState is PhotoStudioInitialState) {
+                          // return Text('Initial state...');
+                        } else if (photoState is PhotoStudioLoadingState) {
+                          return LoadingWidget();
+                        } else if (photoState is PhotoStudioErrorState) {
+                          return Center(
+                            child: Text(
+                                'photoState da error bor: ${photoState
+                                    .message}'),
+                          );
+                        } else
+                        if (photoState is PhotoStudioLoadedForCustomerState) {
+                          print("PhotoStudioStates: $photoState");
+                          photoStudioForCustomerlist = photoState.loaded;
+                          print(
+                              "photoStudioForCustomerlist: ${photoStudioForCustomerlist
+                                  .toString()}");
+                        }
+
+                        return Column(
                           children: [
-                            Text(currentCustomer.name),
-                            Text(currentCustomer.phone.toString()),
-                            Text(currentCustomer.customerId.toString()),
+                            ElevatedButton(
+                                onPressed: () {
+                                  BlocProvider.of<PhotoStudioBloc>(
+                                      contextPhotostudio, //context
+                                      listen: false)
+                                      .add(
+                                      PhotoStudioGetForCustomerEvent(
+                                          customerId));
+                                },
+                                child: Text('PhotoStudio info')),
+                            _currentPhotoStudioInfo(
+                                photoStudioForCustomerlist, contextPhotostudio,customerId),
                           ],
-                        ),
-                      );
-                    }
-                    return Text('data2');
-                  });
-                }),
-              ],
-            ),
-          ),
+                        );
+                      },
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (ctx) =>
+                                  PaymentPage()));
+                        },
+                        child: Text('tulov qilish')),
+                  ],
+                ),
+              ),
+            );
+          }),
+    );
+  }
 
-          // ListTile(
-          //   title: Text(currentCustomer.name),
-          //   subtitle: Text(currentCustomer.phone),
-          // ),
-          TextButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (ctx) => PaymentPage()));
-              },
-              child: Text('tulov qilish'))
+  AppBar _appBar(String customerId) {
+    return AppBar(
+      title: Text('Customer Home Page'),
+      leading: IconButton(
+        onPressed: () {
+          print("cus ID: $customerId");
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (ctx) =>
+                      ServicePage(
+                        customerId: customerId,
+                      )));
+        },
+        icon: Icon(Icons.home_repair_service),
+      ),
+    );
+  }
+
+//
+  Padding _currentCustomerInfo(CustomerEntity currentCustomer) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            currentCustomer.name,
+            style: TextStyle(fontSize: 20),
+          ),
+          Text(
+            currentCustomer.phone.toString(),
+            style: TextStyle(fontSize: 20),
+          ),
+          Text(
+            currentCustomer.customerId.toString(),
+            style: TextStyle(fontSize: 20),
+          ),
         ],
       ),
     );
+  }
 
-    // BlocBuilder<CustomerCubit, CustomersState>(
-    //     builder: (context, customerState) {
-    //   if (customerState is CustomerLoading) {
-    //     print(
-    //         " CustomerHomePagedagi CustomerState: ${customerState.toString()}");
-    //     return Center(
-    //         child: LoadingWidget(),
-    //       );
-    //
-    //   } else if (customerState is CustomerError) {
-    //     print(
-    //         " CustomerHomePagedagi CustomerState: ${customerState.toString()}");
-    //     return  Center(
-    //         child: Text(customerState.message.toString()),
-    //       );
-    //
-    //   } else if (customerState is CustomerGetLoadedState) {
-    //     print(
-    //         " CustomerHomePagedagi CustomerState: ${customerState.toString()}");
-    //     currentCustomer = customerState.getLoadedCustomer;
-    //     customerId = currentCustomer.customerId!;
-    //     print(
-    //         "current customer entity: ${currentCustomer.customerId.toString()}");
-    //   }
-    //
-    // });
+  //
+  Padding _currentPhotoStudioInfo(
+      List<PhotoStudioEntity> photoStudioForCustomerlist,
+      BuildContext contextPhotostudio, String customerId) {
+    double price = 0;
+    photoStudioForCustomerlist.forEach((element) {
+      price += element.price * element.ordersNumber;
+    });
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text('Umumiy narx: ${price.toString()}'),
+            Container(
+              width: double.infinity,
+              height: 400,
+              child: ListView.builder(
+                itemBuilder: (ctx, index) {
+                  if (photoStudioForCustomerlist.isEmpty) {
+                    return Center(
+                      child: Text('Buyurtma mavjud emas'),
+                    );
+                  }
+                  PhotoStudioEntity photoStudio = photoStudioForCustomerlist[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(7.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                          color: Colors.black12),
+                      child: Column(
+                        children: [
+                          ListTile(
+                              title:
+                              Text("Zakz sanasi: ${photoStudio
+                                  .dateTimeOfWedding}"),
+                              subtitle:
+                              Text(
+                                  "Zakzlar soni: ${photoStudio.ordersNumber}")),
+                          ListTile(
+                              title: Text(
+                                  "30x40 rasm soni: ${photoStudio
+                                      .largePhotosNumber} ta."),
+                              subtitle: Text(
+                                  "15x20 rasm soni: : ${photoStudio
+                                      .smallPhotoNumber} ta.")),
+                          ListTile(
+                              title: Text("Narxi: ${photoStudio.price}"),
+                              subtitle: Text(
+                                  "ID: ${photoStudio.photo_studio_id}")),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
 
-    //
+                                onPressed: () {
+                                  contextPhotostudio.read<PhotoStudioBloc>()
+                                      .add(PhotoStudioDeleteEvent(
+                                      customerId:customerId, photoStudioId:photoStudio.photo_studio_id
+
+                                  ));
+                                  SnackBarMessage().showSuccessSnackBar(message: 'O\'chirildi',context: contextPhotostudio);
+
+                                }, child: Text('O\'chirish')),
+                          )
+
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                itemCount: photoStudioForCustomerlist.length,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

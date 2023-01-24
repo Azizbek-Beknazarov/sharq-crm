@@ -8,8 +8,9 @@ import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photo
 import 'package:sharq_crm/features/services/photo_studio/presentation/page/customer_part/customer_photostudio_order_page.dart';
 
 class PhotoStudioHomePage extends StatefulWidget {
-  PhotoStudioHomePage({Key? key,required this.customerId}) : super(key: key);
-String customerId;
+  PhotoStudioHomePage({Key? key, required this.customerId}) : super(key: key);
+  String customerId;
+
   @override
   State<PhotoStudioHomePage> createState() => _PhotoStudioHomePageState();
 }
@@ -17,10 +18,9 @@ String customerId;
 class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
   List<PhotoStudioEntity> photoStudio = [];
 
-
-
   @override
   Widget build(BuildContext context) {
+    print("Photostudio home page dagi customer ID: ${widget.customerId}");
     context.read<PhotoStudioBloc>().add(PhotoStudioGetEvent(photoStudio));
     return BlocBuilder<PhotoStudioBloc, PhotoStudioStates>(
         builder: (context, photeState) {
@@ -100,7 +100,9 @@ class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (ctx) => CustomerPhotoStudioOrderPage(customerId: widget.customerId,)));
+                          builder: (ctx) => CustomerPhotoStudioOrderPage(
+                                customerId: widget.customerId,
+                              )));
                 },
                 child: Text(
                   'Zakaz qilish',

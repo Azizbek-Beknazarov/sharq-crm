@@ -8,4 +8,6 @@ abstract class PhotoStudioRepo {
   Future<Either<Failure, List<PhotoStudioEntity>>> getPhotoStudioForCustomer(String customerId);
 
   Future<void> addPhotoStudio(PhotoStudioEntity newPhotoStudio, String customerId);
+  Future<void> deletePhotoStudio( String customerId,String photoStudioID);
+
 }

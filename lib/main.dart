@@ -10,7 +10,6 @@ import 'features/choose_page.dart';
 import 'features/injection_container.dart' as di;
 import 'features/orders/service_page.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -26,12 +25,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-
-
-
+          BlocProvider(
+            create: (context) => di.sl<PhotoStudioBloc>(),
+          ),
           BlocProvider(create: (_) => di.sl<CarBloc>()),
-          BlocProvider(create: (_)=>di.sl<PhotoStudioBloc>()),
-
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

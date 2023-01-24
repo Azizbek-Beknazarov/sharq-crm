@@ -22,6 +22,14 @@ class PhotoStudioLoadedState extends PhotoStudioStates {
   @override
   List<Object> get props => [loaded];
 }
+class PhotoStudioLoadedForCustomerState extends PhotoStudioStates {
+  final List<PhotoStudioEntity> loaded;
+
+  PhotoStudioLoadedForCustomerState({required this.loaded});
+
+  @override
+  List<Object> get props => [loaded];
+}
 
 
 class PhotoStudioErrorState extends PhotoStudioStates {
@@ -32,3 +40,4 @@ class PhotoStudioErrorState extends PhotoStudioStates {
   @override
   List<Object> get props => [message];
 }
+class PhotoStudioDeletedState extends PhotoStudioStates {}

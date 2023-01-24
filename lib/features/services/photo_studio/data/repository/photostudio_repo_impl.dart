@@ -73,4 +73,10 @@ class PhotoStudioRepoImpl implements PhotoStudioRepo {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<void> deletePhotoStudio(String customerId, String photoStudioID)async {
+
+    return await remoteDS.deletePhotoStudio(customerId: customerId, photostudioID: photoStudioID);
+  }
 }
