@@ -23,7 +23,7 @@ class _SignUpCustomerPageState extends State<SignUpCustomerPage> {
   TextEditingController _phoneController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  final auth = FirebaseAuth.instance;
+  final auth = FirebaseAuth.instance; //I need make this clean code :)
   bool loading = false;
 
   @override

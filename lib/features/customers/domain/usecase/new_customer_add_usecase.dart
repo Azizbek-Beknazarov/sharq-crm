@@ -6,7 +6,7 @@ import '../../../../core/error/failures.dart';
 import '../entity/customer_entity.dart';
 import '../repository/customer_repo.dart';
 
-class AddNewCustomerUseCase implements UseCaseCustomer<void, CustomerEntity> {
+class AddNewCustomerUseCase implements UseCaseOne<void, CustomerEntity> {
   final CustomerRepository _addNewCustomerRepo;
 
   AddNewCustomerUseCase(this._addNewCustomerRepo);

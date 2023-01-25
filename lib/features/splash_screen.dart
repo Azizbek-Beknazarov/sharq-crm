@@ -17,29 +17,31 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [
-      BlocProvider(
-          create: (_) => di.sl<AuthBloc>()..add(GetCurrentManagerEvent())),
-    ], child: Scaffold(
-      backgroundColor: Colors.white,
-      body: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          Timer(Duration(seconds: 2), () {
-            if (state is LoadedManagerState) {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (ctx) => CustomersPage()),
-                      (_) => false);
-            } else if (state is AuthInitial) {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => SignInPage()),
-                      (_) => false);
-            }
-          });
-        },
-        child: _buildSplashScreen(),
-      ),
-    ));
+    return  BlocProvider(
+      create:   (context)=>di.sl<AuthBloc>()..add(GetCurrentManagerEvent()),
+      child: Scaffold(
+            backgroundColor: Colors.white,
+            body: BlocListener<AuthBloc, AuthState>(
+              listener: (context, state) {
+                Timer(Duration(seconds: 1), () {
+                  if (state is LoadedManagerState) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (ctx) => CustomersPage()),
+                            (_) => false);
+                  } else if (state is AuthInitial) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: ( context) => SignInPage()),
+                            (_) => false);
+                  }
+                });
+              },
+              child: _buildSplashScreen(),
+            ),
+          ),
+    );
+
+
 
 
   }

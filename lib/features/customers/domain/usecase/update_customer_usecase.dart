@@ -4,7 +4,7 @@ import 'package:sharq_crm/core/usecase/usecase.dart';
 
 import 'package:sharq_crm/features/customers/domain/repository/customer_repo.dart';
 
-class UpdateCustomerUseCase extends UseCaseUpdate<void,CustomerUpdateParams >{
+class UpdateCustomerUseCase extends UseCase<void,CustomerUpdateParams >{
    CustomerRepository repository;
 
   UpdateCustomerUseCase({required this.repository});

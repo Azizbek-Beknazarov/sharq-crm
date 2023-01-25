@@ -22,8 +22,8 @@ class ChoosePage extends StatelessWidget {
             children: [
               ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => SplashScreen()));
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (_) => SplashScreen()));
                   },
                   child: Text('Log in as Manager!')),
               Divider(
