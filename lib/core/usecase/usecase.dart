@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart';
 import 'package:sharq_crm/features/orders/domain/entity/car_entity.dart';
+import 'package:sharq_crm/features/services/album/domain/entity/album_entity.dart';
 import 'package:sharq_crm/features/services/club/domain/entity/club_entity.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/entity/photostudio_entity.dart';
 
@@ -120,4 +121,36 @@ class ClubParams extends Equatable {
 
   @override
   List<Object?> get props => [newClub,customerId];
+}
+//11
+class AlbumDeleteParams extends Equatable {
+  String customerId;
+  String albumID;
+
+  AlbumDeleteParams({required this.customerId, required this.albumID});
+
+  @override
+  List<Object?> get props => [customerId, albumID];
+}
+//12
+class AlbumGetParams extends Equatable {
+  String customerId;
+
+  AlbumGetParams({required this.customerId});
+
+  @override
+  List<Object?> get props => [customerId];
+}
+//13
+class AlbumParams extends Equatable {
+  final AlbumEntity newAlbum;
+  String customerId;
+
+  AlbumParams(
+      this.newAlbum,
+      this.customerId,
+      );
+
+  @override
+  List<Object?> get props => [newAlbum,customerId];
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/customer_cubit.dart';
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_bloc.dart';
+import 'package:sharq_crm/features/services/album/presentation/bloc/album_bloc.dart';
 import 'package:sharq_crm/features/services/club/presentation/bloc/club_bloc.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
 import 'features/auth/presentation/bloc/m_auth_bloc.dart';
@@ -26,13 +27,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider<CustomerCubit>(create: (_)=>di.sl<CustomerCubit>()..getCurrentCustomerEvent(),),
-
+          BlocProvider<CustomerCubit>(
+            create: (_) => di.sl<CustomerCubit>()..getCurrentCustomerEvent(),
+          ),
           BlocProvider(
-            create: (context) => di.sl<PhotoStudioBloc>(),
+            create: (_) => di.sl<PhotoStudioBloc>(),
           ),
           BlocProvider(create: (_) => di.sl<CarBloc>()),
           BlocProvider(create: (_) => di.sl<ClubBloc>()),
+          BlocProvider(create: (_) => di.sl<AlbumBloc>()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
