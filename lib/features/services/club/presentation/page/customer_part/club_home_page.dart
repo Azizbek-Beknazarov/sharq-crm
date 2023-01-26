@@ -1,30 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sharq_crm/features/services/photo_studio/domain/entity/photostudio_entity.dart';
-import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
-import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_event.dart';
-import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_state.dart';
-import 'package:sharq_crm/features/services/photo_studio/presentation/page/customer_part/customer_photostudio_order_page.dart';
+import 'package:sharq_crm/features/services/club/domain/entity/club_entity.dart';
+import 'package:sharq_crm/features/services/club/presentation/bloc/club_bloc.dart';
+import 'package:sharq_crm/features/services/club/presentation/page/customer_part/customer_club_order_page.dart';
 
-class PhotoStudioHomePage extends StatefulWidget {
-  PhotoStudioHomePage({Key? key, required this.customerId}) : super(key: key);
+class ClubHomePage extends StatefulWidget {
+  ClubHomePage({Key? key, required this.customerId}) : super(key: key);
   String customerId;
 
   @override
-  State<PhotoStudioHomePage> createState() => _PhotoStudioHomePageState();
+  State<ClubHomePage> createState() => _ClubHomePageState();
 }
 
-class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
-  List<PhotoStudioEntity> photoStudio = [];
+class _ClubHomePageState extends State<ClubHomePage> {
+  List<ClubEntity> club = [];
 
   @override
   Widget build(BuildContext context) {
-    print("Photostudio home page dagi customer ID: ${widget.customerId}");
-    context.read<PhotoStudioBloc>().add(PhotoStudioGetEvent(photoStudio));
-    return BlocBuilder<PhotoStudioBloc, PhotoStudioStates>(
-        builder: (context, photeState) {
-      if (photeState is PhotoStudioLoadingState) {
+    print("Club home page dagi customer ID: ${widget.customerId}");
+    context.read<ClubBloc>().add(ClubGetEvent(club));
+    return BlocBuilder<ClubBloc , ClubStates>(
+        builder: (context, clubState) {
+      if (clubState is ClubLoadingState) {
         return Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -36,15 +34,15 @@ class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
             ],
           ),
         );
-      } else if (photeState is PhotoStudioLoadedState) {
-        photoStudio = photeState.loaded;
-      } else if (photeState is PhotoStudioErrorState) {
+      } else if (clubState is ClubLoadedState) {
+        club = clubState.loaded;
+      } else if (clubState is ClubErrorState) {
         return Column(
           children: [
             Center(
               child: CircularProgressIndicator(),
             ),
-            Text(photeState.message),
+            Text(clubState.message),
           ],
         );
       }
@@ -53,7 +51,7 @@ class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
       //
       return Scaffold(
         appBar: AppBar(
-          title: Text('Photo Studio Home Page'),
+          title: Text('Club Home Page'),
         ),
         body: ListView(
           shrinkWrap: true,
@@ -61,32 +59,32 @@ class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
           padding: EdgeInsets.all(12),
           children: [
             Text(
-              'Rasmxona suratlari galeriya korinishida boladi',
+              'Club suratlari galeriya korinishida boladi',
               style: TextStyle(fontSize: 22),
             ),
             SizedBox(
               height: 5,
             ),
             Column(
-              children: photoStudio.map((e) {
+              children: club.map((e) {
                 return Card(
                   child: Column(
                     children: [
                       ListTile(
                         title: Text(
-                          'Katta rasm o\'lchami: ${e.largeImage.toString()}',
+                          'Club id: ${e.club_id.toString()}',
                           style: TextStyle(fontSize: 22),
                         ),
                       ),
                       ListTile(
                         title: Text(
-                          'Kichik rasm o\'lchami: ${e.smallImage.toString()}',
+                          'Tavsif: ${e.description.toString()}',
                           style: TextStyle(fontSize: 22),
                         ),
                       ),
                       ListTile(
                         title: Text(
-                          'Rasmxona narxi: ${e.price.toString()}',
+                          'Club narxi: ${e.price.toString()}',
                           style: TextStyle(fontSize: 22),
                         ),
                       ),
@@ -100,7 +98,7 @@ class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (ctx) => CustomerPhotoStudioOrderPage(
+                          builder: (ctx) => CustomerClubOrderPage(
                                 customerId: widget.customerId,
                               )));
                 },

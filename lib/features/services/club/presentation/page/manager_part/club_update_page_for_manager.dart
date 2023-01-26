@@ -1,35 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sharq_crm/features/services/photo_studio/domain/entity/photostudio_entity.dart';
-import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
-import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_event.dart';
-import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_state.dart';
+import 'package:sharq_crm/features/services/club/domain/entity/club_entity.dart';
+
 import 'package:uuid/uuid.dart';
 
-class PhotoStudioUpdatePageForManager extends StatefulWidget {
-  const PhotoStudioUpdatePageForManager({Key? key}) : super(key: key);
+import '../../bloc/club_bloc.dart';
+
+class ClubUpdatePageForManager extends StatefulWidget {
+  const ClubUpdatePageForManager({Key? key}) : super(key: key);
 
   @override
-  State<PhotoStudioUpdatePageForManager> createState() =>
-      _PhotoStudioUpdatePageForManagerState();
+  State<ClubUpdatePageForManager> createState() =>
+      _ClubUpdatePageForManagerState();
 }
 
-class _PhotoStudioUpdatePageForManagerState
-    extends State<PhotoStudioUpdatePageForManager> {
+class _ClubUpdatePageForManagerState extends State<ClubUpdatePageForManager> {
   final uuid = Uuid();
   TextEditingController _priceController = TextEditingController();
-  TextEditingController _largeImageController = TextEditingController();
+
   TextEditingController _ordersNumberController = TextEditingController();
-  TextEditingController _smallImageController = TextEditingController();
+  TextEditingController _toHourController = TextEditingController();
+  TextEditingController _fromHourController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
-  List<PhotoStudioEntity> photoStudio = [];
+  List<ClubEntity> club = [];
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PhotoStudioBloc, PhotoStudioStates>(
-        builder: (context, photeState) {
-      if (photeState is PhotoStudioLoadingState) {
+    return BlocBuilder<ClubBloc, ClubStates>(builder: (context, clubState) {
+      if (clubState is ClubLoadingState) {
         return Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -41,22 +40,22 @@ class _PhotoStudioUpdatePageForManagerState
             ],
           ),
         );
-      } else if (photeState is PhotoStudioLoadedState) {
-        photoStudio = photeState.loaded;
-      } else if (photeState is PhotoStudioErrorState) {
+      } else if (clubState is ClubLoadedState) {
+        club = clubState.loaded;
+      } else if (clubState is ClubErrorState) {
         return Column(
           children: [
             Center(
               child: CircularProgressIndicator(),
             ),
-            Text(photeState.message),
+            Text(clubState.message),
           ],
         );
       }
 
       return Scaffold(
         appBar: AppBar(
-          title: Text('Photo Studio Update Page For Manager'),
+          title: Text('Club Update Page For Manager'),
         ),
         body: Column(
           children: [
@@ -65,19 +64,19 @@ class _PhotoStudioUpdatePageForManagerState
               decoration: InputDecoration(hintText: 'Price'),
               keyboardType: TextInputType.number,
             ),
-            TextFormField(
-              controller: _largeImageController,
-              decoration: InputDecoration(hintText: 'Large Image'),
-              keyboardType: TextInputType.number,
-            ),
+
             TextFormField(
               controller: _ordersNumberController,
               decoration: InputDecoration(hintText: 'Orders Number'),
               keyboardType: TextInputType.number,
             ),
             TextFormField(
-              controller: _smallImageController,
-              decoration: InputDecoration(hintText: 'Small Image'),
+              controller: _fromHourController,
+              decoration: InputDecoration(hintText: 'From Hour'),
+              keyboardType: TextInputType.number,
+            ), TextFormField(
+              controller: _toHourController,
+              decoration: InputDecoration(hintText: 'To Hour'),
               keyboardType: TextInputType.number,
             ),
             TextFormField(
@@ -87,32 +86,35 @@ class _PhotoStudioUpdatePageForManagerState
             ElevatedButton(
                 onPressed: () {
                   int _priceInt = int.tryParse(_priceController.text) ?? 100000;
-                  int _largeInt =
-                      int.tryParse(_largeImageController.text) ?? 30;
+                  int _fromHour =
+                      int.tryParse(_fromHourController.text) ?? 12;
+                  int _toHour =
+                      int.tryParse(_toHourController.text) ?? 13;
                   int _ordersNumber =
                       int.tryParse(_ordersNumberController.text) ?? 8;
 
                   final docId = uuid.v4();
                   String date = DateTime.now().toString();
 
-                  PhotoStudioEntity addStudio = PhotoStudioEntity(
-                      photo_studio_id: docId ?? '',
+                  ClubEntity addClub = ClubEntity(
+                      club_id: docId ?? '',
                       price: _priceInt,
                       dateTimeOfWedding: date,
-                      largeImage: "30x40",
+
                       ordersNumber: _ordersNumber,
-                      smallImage: "15x20",
+
                       description: _descriptionController.text ?? '',
-                      largePhotosNumber: 1,
-                      smallPhotoNumber: 40);
+                      fromHour: _fromHour,
+                      toHour: _toHour);
                   print('object:::${docId}');
                   print('object:::${date.toString()}');
                   print('object:::${_descriptionController.text}');
 
+                  // hozircha ishlamaydi.
                   // setState(() {
                   //   context
-                  //       .read<PhotoStudioBloc>()
-                  //       .add(PhotoStudioAddEvent(addStudio));
+                  //       .read<ClubBloc>()
+                  //       .add(ClubAddEvent(addEvent: addClub, customerId: ));
                   //   print('added photo');
                   // });
                 },

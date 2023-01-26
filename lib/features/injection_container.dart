@@ -21,6 +21,14 @@ import 'package:sharq_crm/features/orders/data/repository/car_repo_impl.dart';
 import 'package:sharq_crm/features/orders/domain/repository/car_repo.dart';
 import 'package:sharq_crm/features/orders/domain/usecase/car_usecase/add_new_car.dart';
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_bloc.dart';
+import 'package:sharq_crm/features/services/club/data/datasourse/club_remote_datasource.dart';
+import 'package:sharq_crm/features/services/club/data/repository/club_repo_impl.dart';
+import 'package:sharq_crm/features/services/club/domain/repository/club_repo.dart';
+import 'package:sharq_crm/features/services/club/domain/usecase/delete_club_usecase.dart';
+import 'package:sharq_crm/features/services/club/domain/usecase/get_club_for_customer_usecase.dart';
+import 'package:sharq_crm/features/services/club/domain/usecase/get_club_usecase.dart';
+import 'package:sharq_crm/features/services/club/domain/usecase/update_club_usecase.dart';
+import 'package:sharq_crm/features/services/club/presentation/bloc/club_bloc.dart';
 import 'package:sharq_crm/features/services/photo_studio/data/datasourse/photostudio_remote_ds.dart';
 import 'package:sharq_crm/features/services/photo_studio/data/repository/photostudio_repo_impl.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/repository/photostudio_repo.dart';
@@ -70,6 +78,9 @@ Future<void> init() async {
 
   //4
   sl.registerFactory(() => PhotoStudioBloc(sl(), sl(), sl(),sl()));
+  
+  //5
+  sl.registerFactory(() => ClubBloc(sl(), sl(), sl(), sl()));
 
   //
   // Use cases
@@ -98,6 +109,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddPhotoStudioUseCase(repo: sl()));
   sl.registerLazySingleton(() => DeletePhotoStudioUsecase(repo: sl()));
   sl.registerLazySingleton(() => GetPhotoStudioForCustomerUseCase(repo: sl()));
+  
+  //5
+  sl.registerLazySingleton(() =>GetClubUseCase(repo: sl()) );
+  sl.registerLazySingleton(() => AddClubUseCase(repo: sl()));
+  sl.registerLazySingleton(() => DeleteClubUsecase(repo: sl()));
+  sl.registerLazySingleton(() => GetClubForCustomerUseCase(repo: sl()));
 
   //
   // Repository
@@ -122,6 +139,9 @@ Future<void> init() async {
   //4
   sl.registerLazySingleton<PhotoStudioRepo>(
       () => PhotoStudioRepoImpl(remoteDS: sl(), info: sl()));
+
+  //5
+  sl.registerLazySingleton<ClubRepo>(() => ClubRepoImpl(remoteDS: sl(), info: sl()));
 
   //
   // Data sources
@@ -149,6 +169,9 @@ Future<void> init() async {
   //4
   sl.registerLazySingleton<PhotoStudioRemoteDS>(
       () => PhotoStudioRemoteDSImpl());
+
+  //5
+  sl.registerLazySingleton<ClubRemoteDataSource>(() => ClubRemoteDataSourceImpl());
 
   //
   final sharedPreferences = await SharedPreferences.getInstance();

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../../customers/presentation/page/customer_part/customer_home_page.dart';
 import '../../../domain/entity/photostudio_entity.dart';
 import '../../bloc/photostudio_bloc.dart';
 import '../../bloc/photostudio_event.dart';
@@ -102,7 +103,7 @@ _dateTimeOfWeddingController.clear();
                         .add(PhotoStudioAddEvent( addEvent:addStudio, customerId: widget.customerId ));
                     print('added photo');
                   });
-                  Navigator.pop(context);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (ctx)=>CustomerHomePage()), (route) => false);
                 },
                 child: Text('Tasdiqlash'))
           ],
