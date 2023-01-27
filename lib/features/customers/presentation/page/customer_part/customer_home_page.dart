@@ -15,7 +15,9 @@ import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photo
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_event.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_state.dart';
 import 'package:sharq_crm/features/injection_container.dart' as di;
+import 'package:sharq_crm/features/services/video/presentation/bloc/video_bloc.dart';
 
+import '../../../../services/video/domain/entity/video_entity.dart';
 import '../../../domain/entity/customer_entity.dart';
 import '../../bloc/customer_cubit.dart';
 
@@ -30,6 +32,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   List<PhotoStudioEntity> photoStudioForCustomerlist = [];
   List<ClubEntity> clubForCustomerlist = [];
   List<AlbumEntity> albumForCustomerlist = [];
+  List<VideoEntity> videoForCustomerlist = [];
 
   @override
   void setState(VoidCallback fn) {
@@ -43,9 +46,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-          di.sl<CustomerCubit>()
-            ..getCurrentCustomerEvent(),
+          create: (_) => di.sl<CustomerCubit>()..getCurrentCustomerEvent(),
         ),
         // BlocProvider(
         //   create: (context) => di.sl<PhotoStudioBloc>(),
@@ -53,187 +54,211 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
       ],
       child: BlocBuilder<CustomerCubit, CustomersState>(
           builder: (context, customerState) {
-            if (customerState is CustomerLoading) {
-              return LoadingWidget();
-            } else if (customerState is CustomerError) {
-              return Text(customerState.message);
-            } else if (customerState is CustomerGetLoadedState) {
-              CustomerEntity currentCustomer = customerState.getLoadedCustomer;
-              // current customer id getted
+        if (customerState is CustomerLoading) {
+          return LoadingWidget();
+        } else if (customerState is CustomerError) {
+          return Text(customerState.message);
+        } else if (customerState is CustomerGetLoadedState) {
+          CustomerEntity currentCustomer = customerState.getLoadedCustomer;
+          // current customer id getted
 
-              customerId = currentCustomer.customerId!;
-              print('loadCustomerFromCollection customerID: ${customerId}');
+          customerId = currentCustomer.customerId!;
+          print('loadCustomerFromCollection customerID: ${customerId}');
 
-              //
-              //
-              context.read<CustomerCubit>().loadCustomerFromCollection(
-                  customerId);
-              BlocProvider.of<ClubBloc>(context, //context
+          //
+          //
+          context.read<CustomerCubit>().loadCustomerFromCollection(customerId);
+          BlocProvider.of<ClubBloc>(context, //context
                   listen: false)
-                  .add(ClubGetForCustomerEvent(customerId));
-              BlocProvider.of<PhotoStudioBloc>(context, //context
+              .add(ClubGetForCustomerEvent(customerId));
+          BlocProvider.of<PhotoStudioBloc>(context, //context
                   listen: false)
-                  .add(PhotoStudioGetForCustomerEvent(customerId));
-              context.read<AlbumBloc>().add(
-                  AlbumGetForCustomerEvent(customerId));
-              //
-              //
-            }
-            return Scaffold(
-              appBar: _appBar(customerId),
+              .add(PhotoStudioGetForCustomerEvent(customerId));
+          context.read<AlbumBloc>().add(AlbumGetForCustomerEvent(customerId));
+          context.read<VideoBloc>().add(VideoGetForCustomerEvent(customerId));
+          //
+          //
+        }
+        return Scaffold(
+          appBar: _appBar(customerId),
 
-              //
-              body: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    //current customer info
-                    BlocBuilder<CustomerCubit, CustomersState>(
-                        builder: (context, customerStatefrom) {
-                          print(customerStatefrom.toString());
-                          if (customerStatefrom is CustomerLoading) {
-                            return LoadingWidget();
-                          } else if (customerStatefrom is CustomerError) {
-                            return Text(customerStatefrom.message);
-                          } else if (customerStatefrom
-                          is CustomerLoadedFromCollectionState) {
-                            CustomerEntity currentCustomer = customerStatefrom
-                                .entity;
+          //
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                //current customer info
+                BlocBuilder<CustomerCubit, CustomersState>(
+                    builder: (context, customerStatefrom) {
+                  print(customerStatefrom.toString());
+                  if (customerStatefrom is CustomerLoading) {
+                    return LoadingWidget();
+                  } else if (customerStatefrom is CustomerError) {
+                    return Text(customerStatefrom.message);
+                  } else if (customerStatefrom
+                      is CustomerLoadedFromCollectionState) {
+                    CustomerEntity currentCustomer = customerStatefrom.entity;
 
-                            return _currentCustomerInfo(currentCustomer);
-                          }
-                          return Text('data2');
-                        }),
-                    //PhotoStudio infos
-                    BlocBuilder<PhotoStudioBloc, PhotoStudioStates>(
-                      builder: (contextPhotostudio, photoState) {
-                        print("PhotoStudioStates: $photoState");
-                        if (photoState is PhotoStudioInitialState) {
-                          // return Text('Initial state...');
-                        } else if (photoState is PhotoStudioLoadingState) {
-                          return LoadingWidget();
-                        } else if (photoState is PhotoStudioErrorState) {
-                          return Center(
-                            child: Text(
-                                'photoState da error bor: ${photoState
-                                    .message}'),
-                          );
-                        } else if (photoState
+                    return _currentCustomerInfo(currentCustomer);
+                  }
+                  return Text('data2');
+                }),
+                //PhotoStudio infos
+                BlocBuilder<PhotoStudioBloc, PhotoStudioStates>(
+                  builder: (contextPhotostudio, photoState) {
+                    print("PhotoStudioStates: $photoState");
+                    if (photoState is PhotoStudioInitialState) {
+                      // return Text('Initial state...');
+                    } else if (photoState is PhotoStudioLoadingState) {
+                      return LoadingWidget();
+                    } else if (photoState is PhotoStudioErrorState) {
+                      return Center(
+                        child: Text(
+                            'photoState da error bor: ${photoState.message}'),
+                      );
+                    } else if (photoState
                         is PhotoStudioLoadedForCustomerState) {
-                          print("PhotoStudioStates: $photoState");
-                          photoStudioForCustomerlist = photoState.loaded;
-                          print(
-                              "photoStudioForCustomerlist: ${photoStudioForCustomerlist
-                                  .toString()}");
-                        }
+                      print("PhotoStudioStates: $photoState");
+                      photoStudioForCustomerlist = photoState.loaded;
+                      print(
+                          "photoStudioForCustomerlist: ${photoStudioForCustomerlist.toString()}");
+                    }
 
-                        return Column(
-                          children: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  BlocProvider.of<PhotoStudioBloc>(
+                    return Column(
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              BlocProvider.of<PhotoStudioBloc>(
                                       contextPhotostudio, //context
                                       listen: false)
-                                      .add(PhotoStudioGetForCustomerEvent(
+                                  .add(PhotoStudioGetForCustomerEvent(
                                       customerId));
-                                },
-                                child: Text('PhotoStudio info')),
-                            _currentPhotoStudioInfo(photoStudioForCustomerlist,
-                                contextPhotostudio, customerId),
-                          ],
-                        );
-                      },
-                    ),
-                    // Club infos
-                    BlocBuilder<ClubBloc, ClubStates>(
-                      builder: (contextClub, clubState) {
-                        print("Club States: $clubState");
-                        if (clubState is ClubInitialState) {
-                          // return Text('Initial state...');
-                        } else if (clubState is ClubLoadingState) {
-                          return LoadingWidget();
-                        } else if (clubState is ClubErrorState) {
-                          return Center(
-                            child: Text(
-                                'photoState da error bor: ${clubState
-                                    .message}'),
-                          );
-                        } else if (clubState is ClubLoadedForCustomerState) {
-                          print("Club States: $clubState");
-                          clubForCustomerlist = clubState.loaded;
-                          print(
-                              "clubForCustomerlist: ${clubForCustomerlist
-                                  .toString()}");
-                        }
-
-                        return Column(
-                          children: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  BlocProvider.of<ClubBloc>(
-                                      contextClub, //context
-                                      listen: false)
-                                      .add(ClubGetForCustomerEvent(customerId));
-                                },
-                                child: Text('Club info')),
-                            _currentClubInfo(
-                                clubForCustomerlist, contextClub, customerId),
-                          ],
-                        );
-                      },
-                    ),
-                    // Album infos
-                    BlocBuilder<AlbumBloc, AlbumStates>(
-                      builder: (contextAlbum, albumState) {
-                        print("Album States: $albumState");
-                        if (albumState is AlbumInitialState) {
-                          // return Text('Initial state...');
-                        } else if (albumState is AlbumLoadingState) {
-                          return LoadingWidget();
-                        } else if (albumState is AlbumErrorState) {
-                          return Center(
-                            child: Text(
-                                'AlbumState da error bor: ${albumState
-                                    .message}'),
-                          );
-                        } else if (albumState is AlbumLoadedForCustomerState) {
-                          print("Album States: $albumState");
-                          albumForCustomerlist = albumState.loaded;
-                          print(
-                              "AlbumForCustomerlist: ${albumForCustomerlist
-                                  .toString()}");
-                        }
-
-                        return Column(
-                          children: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  BlocProvider.of<AlbumBloc>(
-                                      contextAlbum, //context
-                                      listen: false)
-                                      .add(
-                                      AlbumGetForCustomerEvent(customerId));
-                                },
-                                child: Text('Album info')),
-                            _currentAlbumInfo(
-                                albumForCustomerlist, contextAlbum, customerId),
-                          ],
-                        );
-                      },
-                    ),
-
-                    //
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (ctx) =>
-                                  PaymentPage()));
-                        },
-                        child: Text('tulov qilish')),
-                  ],
+                            },
+                            child: Text('PhotoStudio info')),
+                        _currentPhotoStudioInfo(photoStudioForCustomerlist,
+                            contextPhotostudio, customerId),
+                      ],
+                    );
+                  },
                 ),
-              ),
-            );
-          }),
+                // Club infos
+                BlocBuilder<ClubBloc, ClubStates>(
+                  builder: (contextClub, clubState) {
+                    print("Club States: $clubState");
+                    if (clubState is ClubInitialState) {
+                      // return Text('Initial state...');
+                    } else if (clubState is ClubLoadingState) {
+                      return LoadingWidget();
+                    } else if (clubState is ClubErrorState) {
+                      return Center(
+                        child: Text(
+                            'photoState da error bor: ${clubState.message}'),
+                      );
+                    } else if (clubState is ClubLoadedForCustomerState) {
+                      print("Club States: $clubState");
+                      clubForCustomerlist = clubState.loaded;
+                      print(
+                          "clubForCustomerlist: ${clubForCustomerlist.toString()}");
+                    }
+
+                    return Column(
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              BlocProvider.of<ClubBloc>(contextClub, //context
+                                      listen: false)
+                                  .add(ClubGetForCustomerEvent(customerId));
+                            },
+                            child: Text('Club info')),
+                        _currentClubInfo(
+                            clubForCustomerlist, contextClub, customerId),
+                      ],
+                    );
+                  },
+                ),
+                // Album infos
+                BlocBuilder<AlbumBloc, AlbumStates>(
+                  builder: (contextAlbum, albumState) {
+                    print("Album States: $albumState");
+                    if (albumState is AlbumInitialState) {
+                      // return Text('Initial state...');
+                    } else if (albumState is AlbumLoadingState) {
+                      return LoadingWidget();
+                    } else if (albumState is AlbumErrorState) {
+                      return Center(
+                        child: Text(
+                            'AlbumState da error bor: ${albumState.message}'),
+                      );
+                    } else if (albumState is AlbumLoadedForCustomerState) {
+                      print("Album States: $albumState");
+                      albumForCustomerlist = albumState.loaded;
+                      print(
+                          "AlbumForCustomerlist: ${albumForCustomerlist.toString()}");
+                    }
+
+                    return Column(
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              BlocProvider.of<AlbumBloc>(contextAlbum, //context
+                                      listen: false)
+                                  .add(AlbumGetForCustomerEvent(customerId));
+                            },
+                            child: Text('Album info')),
+                        _currentAlbumInfo(
+                            albumForCustomerlist, contextAlbum, customerId),
+                      ],
+                    );
+                  },
+                ),
+
+                // Video infos
+                BlocBuilder<VideoBloc, VideoStates>(
+                  builder: (contextVideo, videoState) {
+                    print("Video States: $videoState");
+                    if (videoState is VideoInitialState) {
+                      // return Text('Initial state...');
+                    } else if (videoState is VideoLoadingState) {
+                      return LoadingWidget();
+                    } else if (videoState is VideoErrorState) {
+                      return Center(
+                        child: Text(
+                            'VideoState da error bor: ${videoState.message}'),
+                      );
+                    } else if (videoState is VideoLoadedForCustomerState) {
+                      print("Video States: $videoState");
+                      videoForCustomerlist = videoState.loaded;
+                      print(
+                          "VideoForCustomerlist: ${videoForCustomerlist.toString()}");
+                    }
+
+                    return Column(
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              BlocProvider.of<VideoBloc>(contextVideo, //context
+                                      listen: false)
+                                  .add(VideoGetForCustomerEvent(customerId));
+                            },
+                            child: Text('Video info')),
+                        _currentVideoInfo(
+                            videoForCustomerlist, contextVideo, customerId),
+                      ],
+                    );
+                  },
+                ),
+
+                //
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (ctx) => PaymentPage()));
+                    },
+                    child: Text('tulov qilish')),
+              ],
+            ),
+          ),
+        );
+      }),
     );
   }
 
@@ -246,8 +271,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (ctx) =>
-                      ServicePage(
+                  builder: (ctx) => ServicePage(
                         customerId: customerId,
                       )));
         },
@@ -297,8 +321,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
           children: [
             Text('Umumiy narx: ${price.toString()}'),
             Container(
-              width: double.infinity,
-              height: 400,
+
+
               child: ListView.builder(
                 itemBuilder: (ctx, index) {
                   if (photoStudioForCustomerlist.isEmpty) {
@@ -307,7 +331,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                     );
                   }
                   PhotoStudioEntity photoStudio =
-                  photoStudioForCustomerlist[index];
+                      photoStudioForCustomerlist[index];
                   return Padding(
                     padding: const EdgeInsets.all(7.0),
                     child: Container(
@@ -320,21 +344,18 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                         children: [
                           ListTile(
                               title: Text(
-                                  "Zakz sanasi: ${photoStudio
-                                      .dateTimeOfWedding}"),
+                                  "Zakz sanasi: ${photoStudio.dateTimeOfWedding}"),
                               subtitle: Text(
                                   "Zakzlar soni: ${photoStudio.ordersNumber}")),
                           ListTile(
                               title: Text(
-                                  "30x40 rasm soni: ${photoStudio
-                                      .largePhotosNumber} ta."),
+                                  "30x40 rasm soni: ${photoStudio.largePhotosNumber} ta."),
                               subtitle: Text(
-                                  "15x20 rasm soni: : ${photoStudio
-                                      .smallPhotoNumber} ta.")),
+                                  "15x20 rasm soni: : ${photoStudio.smallPhotoNumber} ta.")),
                           ListTile(
                               title: Text("Narxi: ${photoStudio.price}"),
                               subtitle:
-                              Text("ID: ${photoStudio.photo_studio_id}")),
+                                  Text("ID: ${photoStudio.photo_studio_id}")),
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
@@ -342,9 +363,9 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                   contextPhotostudio
                                       .read<PhotoStudioBloc>()
                                       .add(PhotoStudioDeleteEvent(
-                                      customerId: customerId,
-                                      photoStudioId:
-                                      photoStudio.photo_studio_id));
+                                          customerId: customerId,
+                                          photoStudioId:
+                                              photoStudio.photo_studio_id));
                                   setState(() {});
                                   SnackBarMessage().showSuccessSnackBar(
                                       message: 'O\'chirildi',
@@ -408,11 +429,10 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                               title: Text(
                                   "Zakz sanasi: ${club.dateTimeOfWedding}"),
                               subtitle:
-                              Text("Zakzlar soni: ${club.ordersNumber}")),
+                                  Text("Zakzlar soni: ${club.ordersNumber}")),
                           ListTile(
                             title: Text(
-                                "Soat ${club.fromHour} dan, ${club
-                                    .toHour} gacha."),
+                                "Soat ${club.fromHour} dan, ${club.toHour} gacha."),
                           ),
                           ListTile(
                               title: Text("Narxi: ${club.price}"),
@@ -451,8 +471,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
       BuildContext contextAlbum, String customerId) {
     double price = 0;
     albumForCustomerlist.forEach((element) {
-      price += element.price *
-          element.ordersNumber;
+      price += element.price * element.ordersNumber;
     });
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -485,8 +504,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                               title: Text(
                                   "Zakz sanasi: ${album.dateTimeOfWedding}"),
                               subtitle:
-                              Text("Zakzlar soni: ${album.ordersNumber}")),
-
+                                  Text("Zakzlar soni: ${album.ordersNumber}")),
                           ListTile(
                               title: Text("Narxi: ${album.price}"),
                               subtitle: Text("ID: ${album.album_id}")),
@@ -520,5 +538,74 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
     );
   }
 
-
+  Padding _currentVideoInfo(List<VideoEntity> videoForCustomerlist,
+      BuildContext contextVideo, String customerId) {
+    double price = 0;
+    videoForCustomerlist.forEach((element) {
+      price += element.price * element.ordersNumber;
+    });
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text('Umumiy narx: ${price.toString()}'),
+            Container(
+              width: double.infinity,
+              height: 400,
+              child: ListView.builder(
+                itemBuilder: (ctx, index) {
+                  if (videoForCustomerlist.isEmpty) {
+                    return Center(
+                      child: Text('Buyurtma mavjud emas'),
+                    );
+                  }
+                  VideoEntity video = videoForCustomerlist[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(7.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                          color: Colors.black12),
+                      child: Column(
+                        children: [
+                          ListTile(
+                              title: Text(
+                                  "Zakz sanasi: ${video.dateTimeOfWedding}"),
+                              subtitle:
+                                  Text("Zakzlar soni: ${video.ordersNumber}")),
+                          ListTile(
+                              title: Text("Narxi: ${video.price}"),
+                              subtitle: Text("ID: ${video.video_id}")),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  contextVideo.read<VideoBloc>().add(
+                                      VideoDeleteEvent(
+                                          customerId: customerId,
+                                          videoId: video.video_id));
+                                  SnackBarMessage().showSuccessSnackBar(
+                                      message: 'O\'chirildi',
+                                      context: contextVideo);
+                                },
+                                child: Text('O\'chirish')),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                itemCount: videoForCustomerlist.length,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

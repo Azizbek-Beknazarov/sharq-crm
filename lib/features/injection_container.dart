@@ -45,6 +45,9 @@ import 'package:sharq_crm/features/services/photo_studio/domain/usecase/get_phot
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/getphotostudio_for_customer_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/update_photostudio_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
+import 'package:sharq_crm/features/services/video/domain/usecase/delete_video_usecase.dart';
+import 'package:sharq_crm/features/services/video/domain/usecase/get_video_for_customer_usecase.dart';
+import 'package:sharq_crm/features/services/video/presentation/bloc/video_bloc.dart';
 
 import '../core/network/network_info.dart';
 import 'auth/data/repository/manager_auth_repo_impl.dart';
@@ -58,6 +61,11 @@ import 'customers/domain/usecase/new_customer_add_usecase.dart';
 import 'customers/domain/usecase/update_customer_usecase.dart';
 
 import 'orders/domain/usecase/car_usecase/get_all_cars.dart';
+import 'services/video/data/datasourse/video_remote_datasource.dart';
+import 'services/video/data/repository/video_repo_impl.dart';
+import 'services/video/domain/repository/video_repo.dart';
+import 'services/video/domain/usecase/get_video_usecase.dart';
+import 'services/video/domain/usecase/update_video_usecase.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -92,6 +100,9 @@ Future<void> init() async {
 
   //6
   sl.registerFactory(() => AlbumBloc(sl(), sl(), sl(), sl()));
+
+  //7
+  sl.registerFactory(() => VideoBloc(sl(), sl(), sl(), sl()));
 
   //
   // Use cases
@@ -133,6 +144,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetAlbumUseCase(repo: sl()));
   sl.registerLazySingleton(() => AddAlbumUseCase(repo: sl()));
 
+  //7
+  sl.registerLazySingleton(() => DeleteVideoClubUsecase(repo: sl()));
+  sl.registerLazySingleton(() => GetVideoForCustomerUseCase(repo: sl()));
+  sl.registerLazySingleton(() => GetVideoUseCase(repo: sl()));
+  sl.registerLazySingleton(() => AddVideoUseCase(repo: sl()));
+
   //
   // Repository
   //
@@ -162,7 +179,10 @@ Future<void> init() async {
       () => ClubRepoImpl(remoteDS: sl(), info: sl()));
   //6
   sl.registerLazySingleton<AlbumRepo>(
-          () => AlbumRepoImpl(remoteDS: sl(), info: sl()));
+      () => AlbumRepoImpl(remoteDS: sl(), info: sl()));
+  //7
+  sl.registerLazySingleton<VideoRepo>(
+      () => VideoRepoImpl(remoteDS: sl(), info: sl()));
 
   //
   // Data sources
@@ -197,7 +217,11 @@ Future<void> init() async {
 
   //6
   sl.registerLazySingleton<AlbumRemoteDataSource>(
-          () => AlbumRemoteDataSourceImpl());
+      () => AlbumRemoteDataSourceImpl());
+
+  //7
+  sl.registerLazySingleton<VideoRemoteDataSource>(
+          () => VideoRemoteDataSourceImpl());
 
 
   //

@@ -7,6 +7,7 @@ import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_bloc.da
 import 'package:sharq_crm/features/services/album/presentation/bloc/album_bloc.dart';
 import 'package:sharq_crm/features/services/club/presentation/bloc/club_bloc.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
+import 'package:sharq_crm/features/services/video/presentation/bloc/video_bloc.dart';
 import 'features/auth/presentation/bloc/m_auth_bloc.dart';
 import 'features/choose_page.dart';
 import 'features/injection_container.dart' as di;
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => di.sl<CarBloc>()),
           BlocProvider(create: (_) => di.sl<ClubBloc>()),
           BlocProvider(create: (_) => di.sl<AlbumBloc>()),
+          BlocProvider(create: (_) => di.sl<VideoBloc>()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

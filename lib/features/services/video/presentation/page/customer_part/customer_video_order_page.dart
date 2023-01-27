@@ -2,23 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_home_page.dart';
-import 'package:sharq_crm/features/services/club/domain/entity/club_entity.dart';
-import 'package:sharq_crm/features/services/club/presentation/bloc/club_bloc.dart';
 import 'package:uuid/uuid.dart';
+import '../../../domain/entity/video_entity.dart';
+import '../../bloc/video_bloc.dart';
 
-import '../../../domain/entity/album_entity.dart';
-import '../../bloc/album_bloc.dart';
-
-class CustomerAlbumOrderPage extends StatefulWidget {
+class CustomerVideoOrderPage extends StatefulWidget {
   String customerId;
 
-  CustomerAlbumOrderPage({Key? key, required this.customerId}) : super(key: key);
+  CustomerVideoOrderPage({Key? key, required this.customerId}) : super(key: key);
 
   @override
-  State<CustomerAlbumOrderPage> createState() => _CustomerAlbumOrderPageState();
+  State<CustomerVideoOrderPage> createState() => _CustomerVideoOrderPageState();
 }
 
-class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
+class _CustomerVideoOrderPageState extends State<CustomerVideoOrderPage> {
   final uuid = Uuid();
 
   TextEditingController _ordersNumberController = TextEditingController();
@@ -37,9 +34,9 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
   //
   @override
   Widget build(BuildContext context) {
-    print("Albumga buyurtma berish page dagi customer ID: ${widget.customerId}");
-    return BlocBuilder<AlbumBloc, AlbumStates>(builder: (context, albumState) {
-      if (albumState is AlbumLoadingState) {
+    print("Videoga buyurtma berish page dagi customer ID: ${widget.customerId}");
+    return BlocBuilder<VideoBloc, VideoStates>(builder: (context, videoState) {
+      if (videoState is VideoLoadingState) {
         return Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -51,20 +48,20 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
             ],
           ),
         );
-      } else if (albumState is AlbumErrorState) {
+      } else if (videoState is VideoErrorState) {
         return Column(
           children: [
             Center(
               child: CircularProgressIndicator(),
             ),
-            Text(albumState.message),
+            Text(videoState.message),
           ],
         );
       }
 
       return Scaffold(
         appBar: AppBar(
-          title: Text('Albumga buyurtma berish'),
+          title: Text('Videoga buyurtma berish'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -80,7 +77,7 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
                       controller: _dateTimeOfWeddingController,
                       keyboardType: TextInputType.datetime,
                       decoration: InputDecoration(
-                          hintText: 'Albumga olish sanasi'),
+                          hintText: 'Videoga  olish sanasi'),
                     ),
                     TextFormField(
                       controller: _ordersNumberController,
@@ -99,19 +96,19 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
                     final docId = uuid.v4();
                     String date = _dateTimeOfWeddingController.text;
 
-                    AlbumEntity addAlbum = AlbumEntity(
-                      album_id: docId ?? 'docid',
+                    VideoEntity addAlbum = VideoEntity(
+                      video_id: docId ?? 'docid',
                       dateTimeOfWedding: date,
                       ordersNumber: _ordersNumber,
-                      price: 1000000,
+                      price: 2000000,
                       description: '',
 
                     );
 
                     setState(() {
-                      context.read<AlbumBloc>().add(AlbumAddEvent(
+                      context.read<VideoBloc>().add(VideoAddEvent(
                           addEvent: addAlbum, customerId: widget.customerId));
-                      print('added Album');
+                      print('added Video');
                     });
                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (ctx)=>CustomerHomePage()), (route) => false);
                   },

@@ -6,6 +6,7 @@ import 'package:sharq_crm/features/services/album/domain/entity/album_entity.dar
 import 'package:sharq_crm/features/services/club/domain/entity/club_entity.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/entity/photostudio_entity.dart';
 
+import '../../features/services/video/domain/entity/video_entity.dart';
 import '../error/failures.dart';
 
 abstract class UseCase<Type, Params> {
@@ -55,7 +56,7 @@ class PhotoStudioParams extends Equatable {
   );
 
   @override
-  List<Object?> get props => [newPhotoStudio,customerId];
+  List<Object?> get props => [newPhotoStudio, customerId];
 }
 
 //5
@@ -100,6 +101,7 @@ class ClubDeleteParams extends Equatable {
   @override
   List<Object?> get props => [customerId, clubID];
 }
+
 //9
 class ClubGetParams extends Equatable {
   String customerId;
@@ -109,19 +111,21 @@ class ClubGetParams extends Equatable {
   @override
   List<Object?> get props => [customerId];
 }
+
 //10
 class ClubParams extends Equatable {
   final ClubEntity newClub;
   String customerId;
 
   ClubParams(
-      this.newClub,
-      this.customerId,
-      );
+    this.newClub,
+    this.customerId,
+  );
 
   @override
-  List<Object?> get props => [newClub,customerId];
+  List<Object?> get props => [newClub, customerId];
 }
+
 //11
 class AlbumDeleteParams extends Equatable {
   String customerId;
@@ -132,6 +136,7 @@ class AlbumDeleteParams extends Equatable {
   @override
   List<Object?> get props => [customerId, albumID];
 }
+
 //12
 class AlbumGetParams extends Equatable {
   String customerId;
@@ -141,16 +146,52 @@ class AlbumGetParams extends Equatable {
   @override
   List<Object?> get props => [customerId];
 }
+
 //13
 class AlbumParams extends Equatable {
   final AlbumEntity newAlbum;
   String customerId;
 
   AlbumParams(
-      this.newAlbum,
-      this.customerId,
-      );
+    this.newAlbum,
+    this.customerId,
+  );
 
   @override
-  List<Object?> get props => [newAlbum,customerId];
+  List<Object?> get props => [newAlbum, customerId];
+}
+
+//14
+class VideoDeleteParams extends Equatable {
+  String customerId;
+  String videoID;
+
+  VideoDeleteParams({required this.customerId, required this.videoID});
+
+  @override
+  List<Object?> get props => [customerId, videoID];
+}
+
+//15
+class VideoGetParams extends Equatable {
+  String customerId;
+
+  VideoGetParams({required this.customerId});
+
+  @override
+  List<Object?> get props => [customerId];
+}
+
+//16
+class VideoParams extends Equatable {
+  final VideoEntity newVideo;
+  String customerId;
+
+  VideoParams(
+    this.newVideo,
+    this.customerId,
+  );
+
+  @override
+  List<Object?> get props => [newVideo, customerId];
 }
