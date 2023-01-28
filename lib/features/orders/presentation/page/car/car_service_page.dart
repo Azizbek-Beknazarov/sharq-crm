@@ -5,7 +5,7 @@ import 'package:sharq_crm/features/orders/domain/entity/car_entity.dart';
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_bloc.dart';
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_state.dart';
 
-import '../../../../customers/presentation/page/car_info_page.dart';
+import '../../../../services/car/car_info_page.dart';
 import '../../bloc/car_bloc/car_event.dart';
 
 class CarServicePage extends StatelessWidget {

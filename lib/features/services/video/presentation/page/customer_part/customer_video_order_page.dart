@@ -110,7 +110,7 @@ class _CustomerVideoOrderPageState extends State<CustomerVideoOrderPage> {
                           addEvent: addAlbum, customerId: widget.customerId));
                       print('added Video');
                     });
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (ctx)=>CustomerHomePage()), (route) => false);
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (ctx)=>CustomerHomePage(customerId: widget.customerId,)), (route) => false);
                   },
                   child: Text('Tasdiqlash'))
             ],

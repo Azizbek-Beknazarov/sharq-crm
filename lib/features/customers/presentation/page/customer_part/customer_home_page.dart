@@ -22,8 +22,8 @@ import '../../../domain/entity/customer_entity.dart';
 import '../../bloc/customer_cubit.dart';
 
 class CustomerHomePage extends StatefulWidget {
-  CustomerHomePage({Key? key}) : super(key: key);
-
+  CustomerHomePage({Key? key,required this.customerId}) : super(key: key);
+  String customerId;
   @override
   State<CustomerHomePage> createState() => _CustomerHomePageState();
 }
@@ -33,16 +33,18 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   List<ClubEntity> clubForCustomerlist = [];
   List<AlbumEntity> albumForCustomerlist = [];
   List<VideoEntity> videoForCustomerlist = [];
+  bool loading = false;
+
 
   @override
   void setState(VoidCallback fn) {
+    // if(loading) return;
     super.setState(fn);
   }
 
+
   @override
   Widget build(BuildContext context) {
-    String customerId = '0';
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -54,6 +56,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
       ],
       child: BlocBuilder<CustomerCubit, CustomersState>(
           builder: (context, customerState) {
+
         if (customerState is CustomerLoading) {
           return LoadingWidget();
         } else if (customerState is CustomerError) {
@@ -61,26 +64,27 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
         } else if (customerState is CustomerGetLoadedState) {
           CustomerEntity currentCustomer = customerState.getLoadedCustomer;
           // current customer id getted
+          widget.customerId = currentCustomer.customerId!;
 
-          customerId = currentCustomer.customerId!;
-          print('loadCustomerFromCollection customerID: ${customerId}');
+          print('loadCustomerFromCollection customerID: ${widget.customerId}');
 
           //
           //
-          context.read<CustomerCubit>().loadCustomerFromCollection(customerId);
+
+          context.read<CustomerCubit>().loadCustomerFromCollection(widget.customerId);
           BlocProvider.of<ClubBloc>(context, //context
                   listen: false)
-              .add(ClubGetForCustomerEvent(customerId));
+              .add(ClubGetForCustomerEvent(widget.customerId));
           BlocProvider.of<PhotoStudioBloc>(context, //context
                   listen: false)
-              .add(PhotoStudioGetForCustomerEvent(customerId));
-          context.read<AlbumBloc>().add(AlbumGetForCustomerEvent(customerId));
-          context.read<VideoBloc>().add(VideoGetForCustomerEvent(customerId));
+              .add(PhotoStudioGetForCustomerEvent(widget.customerId));
+          context.read<AlbumBloc>().add(AlbumGetForCustomerEvent(widget.customerId));
+          context.read<VideoBloc>().add(VideoGetForCustomerEvent(widget.customerId));
           //
           //
         }
         return Scaffold(
-          appBar: _appBar(customerId),
+          appBar: _appBar(widget.customerId),
 
           //
           body: SingleChildScrollView(
@@ -131,11 +135,11 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                       contextPhotostudio, //context
                                       listen: false)
                                   .add(PhotoStudioGetForCustomerEvent(
-                                      customerId));
+                                  widget.customerId));
                             },
                             child: Text('PhotoStudio info')),
                         _currentPhotoStudioInfo(photoStudioForCustomerlist,
-                            contextPhotostudio, customerId),
+                            contextPhotostudio, widget.customerId),
                       ],
                     );
                   },
@@ -166,11 +170,11 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                             onPressed: () {
                               BlocProvider.of<ClubBloc>(contextClub, //context
                                       listen: false)
-                                  .add(ClubGetForCustomerEvent(customerId));
+                                  .add(ClubGetForCustomerEvent(widget.customerId));
                             },
                             child: Text('Club info')),
                         _currentClubInfo(
-                            clubForCustomerlist, contextClub, customerId),
+                            clubForCustomerlist, contextClub, widget.customerId),
                       ],
                     );
                   },
@@ -201,11 +205,11 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                             onPressed: () {
                               BlocProvider.of<AlbumBloc>(contextAlbum, //context
                                       listen: false)
-                                  .add(AlbumGetForCustomerEvent(customerId));
+                                  .add(AlbumGetForCustomerEvent(widget.customerId));
                             },
                             child: Text('Album info')),
                         _currentAlbumInfo(
-                            albumForCustomerlist, contextAlbum, customerId),
+                            albumForCustomerlist, contextAlbum, widget.customerId),
                       ],
                     );
                   },
@@ -237,11 +241,11 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                             onPressed: () {
                               BlocProvider.of<VideoBloc>(contextVideo, //context
                                       listen: false)
-                                  .add(VideoGetForCustomerEvent(customerId));
+                                  .add(VideoGetForCustomerEvent(widget.customerId));
                             },
                             child: Text('Video info')),
                         _currentVideoInfo(
-                            videoForCustomerlist, contextVideo, customerId),
+                            videoForCustomerlist, contextVideo, widget.customerId),
                       ],
                     );
                   },
@@ -252,6 +256,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (ctx) => PaymentPage()));
+                      setState(() { });
                     },
                     child: Text('tulov qilish')),
               ],
@@ -316,75 +321,75 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
     });
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text('Umumiy narx: ${price.toString()}'),
-            Container(
-
-
-              child: ListView.builder(
-                itemBuilder: (ctx, index) {
-                  if (photoStudioForCustomerlist.isEmpty) {
-                    return Center(
-                      child: Text('Buyurtma mavjud emas'),
-                    );
-                  }
-                  PhotoStudioEntity photoStudio =
-                      photoStudioForCustomerlist[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(7.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                          color: Colors.black12),
-                      child: Column(
-                        children: [
-                          ListTile(
-                              title: Text(
-                                  "Zakz sanasi: ${photoStudio.dateTimeOfWedding}"),
-                              subtitle: Text(
-                                  "Zakzlar soni: ${photoStudio.ordersNumber}")),
-                          ListTile(
-                              title: Text(
-                                  "30x40 rasm soni: ${photoStudio.largePhotosNumber} ta."),
-                              subtitle: Text(
-                                  "15x20 rasm soni: : ${photoStudio.smallPhotoNumber} ta.")),
-                          ListTile(
-                              title: Text("Narxi: ${photoStudio.price}"),
-                              subtitle:
-                                  Text("ID: ${photoStudio.photo_studio_id}")),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  contextPhotostudio
-                                      .read<PhotoStudioBloc>()
-                                      .add(PhotoStudioDeleteEvent(
-                                          customerId: customerId,
-                                          photoStudioId:
-                                              photoStudio.photo_studio_id));
-                                  setState(() {});
-                                  SnackBarMessage().showSuccessSnackBar(
-                                      message: 'O\'chirildi',
-                                      context: contextPhotostudio);
-                                },
-                                child: Text('O\'chirish')),
-                          )
-                        ],
-                      ),
-                    ),
+      child: Column(
+        children: [
+          Text('Umumiy narx: ${price.toString()}'),
+          Container(
+            child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (ctx, index) {
+                if (photoStudioForCustomerlist.isEmpty) {
+                  return Center(
+                    child: Text('Buyurtma mavjud emas'),
                   );
-                },
-                itemCount: photoStudioForCustomerlist.length,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-              ),
+                }
+                PhotoStudioEntity photoStudio =
+                    photoStudioForCustomerlist[index];
+                return Padding(
+                  padding: const EdgeInsets.all(7.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(12),
+                        ),
+                        color: Colors.black12),
+                    child: Column(
+                      children: [
+                        ListTile(
+                            title: Text(
+                                "Zakz sanasi: ${photoStudio.dateTimeOfWedding}"),
+                            subtitle: Text(
+                                "Zakzlar soni: ${photoStudio.ordersNumber}")),
+                        ListTile(
+                            title: Text(
+                                "30x40 rasm soni: ${photoStudio.largePhotosNumber} ta."),
+                            subtitle: Text(
+                                "15x20 rasm soni: : ${photoStudio.smallPhotoNumber} ta.")),
+                        ListTile(
+                            title: Text("Narxi: ${photoStudio.price}"),
+                            subtitle:
+                                Text("ID: ${photoStudio.photo_studio_id}")),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                contextPhotostudio.read<PhotoStudioBloc>().add(
+                                    PhotoStudioDeleteEvent(
+                                        customerId: customerId,
+                                        photoStudioId:
+                                            photoStudio.photo_studio_id));
+                                context.read<PhotoStudioBloc>().add(
+                                    PhotoStudioGetForCustomerEvent(customerId));
+                                setState(() {
+                                  loading = true;
+                                });
+                                SnackBarMessage().showSuccessSnackBar(
+                                    message: 'O\'chirildi',
+                                    context: contextPhotostudio);
+                              },
+                              child: Text('O\'chirish')),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              },
+              itemCount: photoStudioForCustomerlist.length,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -406,8 +411,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
             Text('Umumiy narx: ${price.toString()}'),
             Container(
               width: double.infinity,
-              height: 400,
               child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (ctx, index) {
                   if (clubForCustomerlist.isEmpty) {
                     return Center(
@@ -481,8 +486,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
             Text('Umumiy narx: ${price.toString()}'),
             Container(
               width: double.infinity,
-              height: 400,
               child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (ctx, index) {
                   if (albumForCustomerlist.isEmpty) {
                     return Center(
@@ -552,8 +557,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
             Text('Umumiy narx: ${price.toString()}'),
             Container(
               width: double.infinity,
-              height: 400,
               child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (ctx, index) {
                   if (videoForCustomerlist.isEmpty) {
                     return Center(

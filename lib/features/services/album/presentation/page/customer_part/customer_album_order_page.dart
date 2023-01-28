@@ -113,7 +113,7 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
                           addEvent: addAlbum, customerId: widget.customerId));
                       print('added Album');
                     });
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (ctx)=>CustomerHomePage()), (route) => false);
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (ctx)=>CustomerHomePage(customerId: widget.customerId,)), (route) => false);
                   },
                   child: Text('Tasdiqlash'))
             ],

@@ -29,8 +29,9 @@ class _SplashScreenForCustomerState extends State<SplashScreenForCustomer> {
           listener: (context, state) {
             Timer(Duration(seconds: 1), () {
               if (state is CustomerGetLoadedState) {
+
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (ctx) => CustomerHomePage(
+                    MaterialPageRoute(builder: (ctx) => CustomerHomePage(customerId: state.getLoadedCustomer.customerId!,
                     )),
                         (_) => false);
               } else if (state is CustomerEmpty) {

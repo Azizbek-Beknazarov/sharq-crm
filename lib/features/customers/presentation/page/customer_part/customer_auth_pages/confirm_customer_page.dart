@@ -85,7 +85,7 @@ class _ConfirmationPageCustomerState extends State<ConfirmationPageCustomer> {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => CustomerHomePage()),
+                                builder: (_) => CustomerHomePage(customerId: firebaseCustomer.user!.uid,)),
                             (route) => false);
                       } else
                         print('confirmation false buldi');

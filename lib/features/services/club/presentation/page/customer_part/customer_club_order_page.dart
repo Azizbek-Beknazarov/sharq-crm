@@ -136,7 +136,7 @@ class _CustomerClubOrderPageState extends State<CustomerClubOrderPage> {
                           addEvent: addClub, customerId: widget.customerId));
                       print('added club');
                     });
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (ctx)=>CustomerHomePage()), (route) => false);
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (ctx)=>CustomerHomePage(customerId: widget.customerId,)), (route) => false);
                   },
                   child: Text('Tasdiqlash'))
             ],

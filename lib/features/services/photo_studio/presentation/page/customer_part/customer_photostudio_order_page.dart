@@ -103,7 +103,7 @@ _dateTimeOfWeddingController.clear();
                         .add(PhotoStudioAddEvent( addEvent:addStudio, customerId: widget.customerId ));
                     print('added photo');
                   });
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (ctx)=>CustomerHomePage()), (route) => false);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (ctx)=>CustomerHomePage(customerId: widget.customerId,)), (route) => false);
                 },
                 child: Text('Tasdiqlash'))
           ],
