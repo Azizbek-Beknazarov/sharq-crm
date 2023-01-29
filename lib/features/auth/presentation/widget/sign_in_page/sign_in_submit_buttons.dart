@@ -25,6 +25,7 @@ class SignInSubmitButtons extends StatelessWidget {
           height: 50,
           width: double.infinity,
           child: ElevatedButton(
+
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 Map authData = {

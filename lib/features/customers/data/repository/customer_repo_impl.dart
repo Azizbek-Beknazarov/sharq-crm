@@ -7,7 +7,7 @@ import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart'
 
 import '../../../../core/network/network_info.dart';
 import '../../domain/repository/customer_repo.dart';
-import '../datasourse/add_customer_r_ds.dart';
+import '../datasourse/customer_remote_ds.dart';
 
 class CustomerRepositoryImpl implements CustomerRepository {
   final CustomerRemoteDS customerRemoteDS;
@@ -118,6 +118,19 @@ class CustomerRepositoryImpl implements CustomerRepository {
       }
     } else {
       return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> logOutCuctomer() async{
+    try {
+      await localDataSource.logOutCustomer();
+      await customerRemoteDS.logOutCustomer();
+      return Right(true);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
     }
   }
 

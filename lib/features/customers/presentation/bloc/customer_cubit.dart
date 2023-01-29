@@ -21,6 +21,7 @@ import '../../domain/usecase/delete_customer.dart';
 import '../../domain/usecase/get_all_cus_usecase.dart';
 import '../../domain/usecase/get_current_customer.dart';
 import '../../domain/usecase/get_current_customer_from_collection.dart';
+import '../../domain/usecase/logout_customer.dart';
 import '../../domain/usecase/new_customer_add_usecase.dart';
 import '../../domain/usecase/update_customer_usecase.dart';
 
@@ -32,6 +33,7 @@ class CustomerCubit extends Cubit<CustomersState> {
   final GetCurrentCustomerUsecase getCurrentCustomer;
   final GetCurrentCustomerFromCollectionUsecase
       getCurrentCustomerFromCollection;
+  final LogOutCustomerUseCase logOutCustomerUseCase;
 
   CustomerCubit(
       {required this.getAllCus,
@@ -39,7 +41,7 @@ class CustomerCubit extends Cubit<CustomersState> {
       required this.updateCus,
       required this.addNewCus,
       required this.getCurrentCustomer,
-      required this.getCurrentCustomerFromCollection})
+      required this.getCurrentCustomerFromCollection,required this.logOutCustomerUseCase})
       : super(CustomerEmpty());
 
   //1
@@ -102,6 +104,15 @@ class CustomerCubit extends Cubit<CustomersState> {
         (customer) {
       emit(CustomerLoadedFromCollectionState(customer));
     });
+  }
+  //7
+  void logOutCustomer()async{
+    if (state is CustomerLoading) return;
+    final failureOrDone = await logOutCustomerUseCase.call(NoParams());
+    emit(failureOrDone.fold(
+          (failure) => CustomerError(message: _mapFailureToMessage(failure)),
+          (isDone) =>  CustomerLogOutState(message: LOGOUT_MESSAGE),
+    ));
   }
 
   //

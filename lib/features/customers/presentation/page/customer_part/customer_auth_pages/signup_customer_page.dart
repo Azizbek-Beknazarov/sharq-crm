@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_auth_pages/confirm_customer_page.dart';
-import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_home_page.dart';
-import 'package:uuid/uuid.dart';
+import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_auth_pages/confirm_customer_page_for_signup.dart';
+import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_auth_pages/sign_in_customer_page.dart';
 
-import '../../../../domain/entity/customer_entity.dart';
+import '../../../../../../core/util/build_logo_widget.dart';
+
 import '../../../bloc/customer_cubit.dart';
 import '../../../bloc/customer_state.dart';
 
@@ -43,6 +43,7 @@ class _SignUpCustomerPageState extends State<SignUpCustomerPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   verticalDirection: VerticalDirection.down,
                   children: [
+                    BuildLogoWidget(),
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -75,6 +76,9 @@ class _SignUpCustomerPageState extends State<SignUpCustomerPage> {
                       color: Colors.black,
                     ),
                     ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                            MaterialStateProperty.all(Colors.green)),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             String name = _nameController.text.trim();
@@ -115,7 +119,14 @@ class _SignUpCustomerPageState extends State<SignUpCustomerPage> {
                                 codeAutoRetrievalTimeout: (_) {});
                           }
                         },
-                        child: Text('Kirish')),
+                        child: Text('Ro\'yxatdan o\'tish')),
+                    Row(children: [
+                      Text("Avval ro\'yxatdan o\'tgan bo\'lsangiz:", style: TextStyle(fontWeight: FontWeight.bold),),
+                      TextButton(onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (ctx)=>SignInCustomerPage()));
+                      }, child: Text('Kirish'))
+                    ],),
+
                   ],
                 ),
               ),

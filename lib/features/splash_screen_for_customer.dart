@@ -15,39 +15,40 @@ import 'package:sharq_crm/features/injection_container.dart' as di;
 
 class SplashScreenForCustomer extends StatefulWidget {
   @override
-  _SplashScreenForCustomerState createState() => _SplashScreenForCustomerState();
+  _SplashScreenForCustomerState createState() =>
+      _SplashScreenForCustomerState();
 }
 
 class _SplashScreenForCustomerState extends State<SplashScreenForCustomer> {
   @override
   Widget build(BuildContext context) {
-    return    BlocProvider<CustomerCubit>(
-         create: (_) => di.sl<CustomerCubit>()..getCurrentCustomerEvent(),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: BlocListener<CustomerCubit, CustomersState>(
-          listener: (context, state) {
-            Timer(Duration(seconds: 1), () {
-              if (state is CustomerGetLoadedState) {
-
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (ctx) => CustomerHomePage(customerId: state.getLoadedCustomer.customerId!,
-                    )),
-                        (_) => false);
-              } else if (state is CustomerEmpty) {
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => SignUpCustomerPage()),
-                        (_) => false);
-              }
-            });
-          },
-          child: _buildSplashScreen(),
-        ),
+    BlocProvider.of<CustomerCubit>(context).getCurrentCustomerEvent();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: BlocListener<CustomerCubit, CustomersState>(
+        listener: (context, state) {
+          print("splash screen for customer state : ${state.toString()}");
+          Timer(Duration(seconds: 1), () {
+            if (state is CustomerGetLoadedState) {
+              print('customer load buldi');
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (_) => CustomerHomePage(
+                            customerId: state.getLoadedCustomer.customerId!,
+                          )),
+                  (_) => false);
+            } else if (state is CustomerEmpty) {
+              print('customer load bulmadi');
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (BuildContext _) => SignUpCustomerPage()),
+                  (_) => false);
+            }
+          });
+        },
+        child: _buildSplashScreen(),
       ),
-       );
-
-
+    );
   }
 
   Column _buildSplashScreen() {
@@ -56,10 +57,10 @@ class _SplashScreenForCustomerState extends State<SplashScreenForCustomer> {
       children: [
         Center(
             child: Image.asset(
-              'assets/images/logo.png',
-              width: 400,
-              height: 400,
-            )),
+          'assets/images/logo.png',
+          width: 400,
+          height: 400,
+        )),
         LoadingWidget(
           color: primaryColor,
         )

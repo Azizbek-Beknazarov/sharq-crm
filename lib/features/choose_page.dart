@@ -4,9 +4,6 @@ import 'package:sharq_crm/features/customers/presentation/page/customer_part/cus
 import 'package:sharq_crm/features/splash_screen.dart';
 import 'package:sharq_crm/features/splash_screen_for_customer.dart';
 
-
-
-
 class ChoosePage extends StatelessWidget {
   const ChoosePage({Key? key}) : super(key: key);
 
@@ -20,20 +17,67 @@ class ChoosePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                  onPressed: () {
-                    // Navigator.push(context,
-                    //     MaterialPageRoute(builder: (_) => SplashScreen()));
-                  },
-                  child: Text('Log in as Manager!')),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Manager sifatida tizimga kirish: ",
+                    style: TextStyle(
+                        decoration: TextDecoration.overline,
+                        color: Colors.green,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.green)),
+                    onPressed: () {
+                      // Navigator.push(context,
+                      //     MaterialPageRoute(builder: (_) => SplashScreen()));
+                    },
+                    child: Icon(
+                      Icons.arrow_forward,
+                      color: Colors.black,
+                    ),
+                  )
+                ],
+              ),
               Divider(
                 height: 10,
                 thickness: 2,
                 color: Colors.black,
               ),
-              ElevatedButton(
-                  onPressed: () { Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => SplashScreenForCustomer()));}, child: Text('Log in as Customer!')),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Mijoz sifatida tizimga kirish: ",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.green,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.green)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => SplashScreenForCustomer()));
+                    },
+                    child: Icon(
+                      Icons.arrow_forward,
+                      color: Colors.black,
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
         ),

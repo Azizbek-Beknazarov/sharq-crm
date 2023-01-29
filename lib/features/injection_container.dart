@@ -52,10 +52,11 @@ import 'package:sharq_crm/features/services/video/presentation/bloc/video_bloc.d
 import '../core/network/network_info.dart';
 import 'auth/data/repository/manager_auth_repo_impl.dart';
 import 'auth/domain/repository/manager_repo.dart';
-import 'customers/data/datasourse/add_customer_r_ds.dart';
+import 'customers/data/datasourse/customer_remote_ds.dart';
 import 'customers/domain/repository/customer_repo.dart';
 import 'customers/domain/usecase/get_all_cus_usecase.dart';
 import 'customers/domain/usecase/get_current_customer.dart';
+import 'customers/domain/usecase/logout_customer.dart';
 import 'customers/domain/usecase/new_customer_add_usecase.dart';
 
 import 'customers/domain/usecase/update_customer_usecase.dart';
@@ -87,7 +88,7 @@ Future<void> init() async {
       updateCus: sl(),
       addNewCus: sl(),
       getCurrentCustomer: sl(),
-      getCurrentCustomerFromCollection: sl()));
+      getCurrentCustomerFromCollection: sl(), logOutCustomerUseCase: sl()));
 
   //3
   sl.registerFactory(() => CarBloc(sl(), sl()));
@@ -121,6 +122,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UpdateCustomerUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetCurrentCustomerUsecase(sl()));
   sl.registerLazySingleton(() => GetCurrentCustomerFromCollectionUsecase(sl()));
+  sl.registerLazySingleton(() => LogOutCustomerUseCase(sl()));
 
   //3
   sl.registerLazySingleton(() => AddNewCarUseCase(carRepo: sl()));

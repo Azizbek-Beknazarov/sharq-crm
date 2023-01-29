@@ -10,6 +10,7 @@ abstract class CustomerRepository {
   Future<Either<Failure, List<CustomerEntity>>> getAllCuctomers();
 
   Future<Either<Failure, void>> deleteCuctomers(String id);
+  Future<Either<Failure, bool>> logOutCuctomer();
 
   Future<Either<Failure, void>> updateCuctomers(
       CustomerEntity customerEntity, String customerId);

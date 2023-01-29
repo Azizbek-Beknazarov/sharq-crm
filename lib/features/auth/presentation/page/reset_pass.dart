@@ -60,6 +60,9 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                     keyboardType: TextInputType.emailAddress,
                   ),
                   ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all(Colors.green)),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           await auth.sendPasswordResetEmail(

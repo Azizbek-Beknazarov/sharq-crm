@@ -7,23 +7,23 @@ import 'package:sharq_crm/features/customers/presentation/page/customer_part/cus
 import '../../../../domain/entity/customer_entity.dart';
 import '../../../bloc/customer_cubit.dart';
 
-class ConfirmationPageCustomer extends StatefulWidget {
-  ConfirmationPageCustomer(
+class ConfirmationPageCustomerForSignIn extends StatefulWidget {
+  ConfirmationPageCustomerForSignIn(
       {Key? key,
-      required this.verificationId,
-      required this.name,
-      required this.loading})
+        required this.verificationId,
+        required this.name,
+        required this.loading})
       : super(key: key);
   final String verificationId;
   final String name;
   bool loading;
 
   @override
-  State<ConfirmationPageCustomer> createState() =>
-      _ConfirmationPageCustomerState();
+  State<ConfirmationPageCustomerForSignIn> createState() =>
+      _ConfirmationPageCustomerForSignInState();
 }
 
-class _ConfirmationPageCustomerState extends State<ConfirmationPageCustomer> {
+class _ConfirmationPageCustomerForSignInState extends State<ConfirmationPageCustomerForSignIn> {
   TextEditingController _confirmController = TextEditingController();
   final auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
@@ -56,6 +56,9 @@ class _ConfirmationPageCustomerState extends State<ConfirmationPageCustomer> {
                 color: Colors.black,
               ),
               ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                      MaterialStateProperty.all(Colors.green)),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       final credential = PhoneAuthProvider.credential(
@@ -65,28 +68,28 @@ class _ConfirmationPageCustomerState extends State<ConfirmationPageCustomer> {
                       final int dt = DateTime.now().millisecondsSinceEpoch;
 
                       final firebaseCustomer =
-                          await auth.signInWithCredential(credential);
+                      await auth.signInWithCredential(credential);
                       setState(() {
                         widget.loading = true;
                       });
                       if (widget.loading) {
-                        CustomerEntity customerEntity = CustomerEntity(
-                          name: widget.name,
-                          phone: firebaseCustomer.user!.phoneNumber ?? "",
-                          customerId: firebaseCustomer.user!.uid ?? "",
-                          dateOfSignUp: dt,
-                          managerAdded: false,
-                        );
-
-                        context
-                            .read<CustomerCubit>()
-                            .addNewCustomer(customerEntity);
+                        // CustomerEntity customerEntity = CustomerEntity(
+                        //   name: widget.name,
+                        //   phone: firebaseCustomer.user!.phoneNumber ?? "",
+                        //   customerId: firebaseCustomer.user!.uid ?? "",
+                        //   dateOfSignUp: dt,
+                        //   managerAdded: false,
+                        // );
+                        //
+                        // context
+                        //     .read<CustomerCubit>()
+                        //     .addNewCustomer(customerEntity);
 
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
                                 builder: (_) => CustomerHomePage(customerId: firebaseCustomer.user!.uid,)),
-                            (route) => false);
+                                (route) => false);
                       } else
                         print('confirmation false buldi');
                     }

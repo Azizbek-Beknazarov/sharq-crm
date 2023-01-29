@@ -66,3 +66,9 @@ class CustomerLoadedFromCollectionState extends CustomersState{
   @override
   List<Object> get props => [entity];
 }
+class CustomerLogOutState extends CustomersState{
+  String message;
+  CustomerLogOutState({required this.message});
+  @override
+  List<Object> get props => [message];
+}

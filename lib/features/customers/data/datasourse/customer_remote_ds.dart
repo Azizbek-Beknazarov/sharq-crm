@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 import 'package:sharq_crm/features/customers/data/model/customer_model.dart';
+
+import '../../../../core/error/exception.dart';
 
 abstract class CustomerRemoteDS {
   Future<List<CustomerModel>> getAllCustomer();
@@ -12,6 +15,9 @@ abstract class CustomerRemoteDS {
 
   Future<void> addNewCustomer(CustomerModel customerModel);
   Future<CustomerModel> getCurrentCustomerFromCollection(String customerID);
+  Future<bool> logOutCustomer();
+
+  // Future<bool> isAlreadyAuthenticated();
 
 
 // Future<List<CustomerModel>> searchCustomer(String query);
@@ -20,6 +26,8 @@ abstract class CustomerRemoteDS {
 class CustomerRemoteDSImpl implements CustomerRemoteDS {
   CollectionReference reference =
       FirebaseFirestore.instance.collection('customers');
+  FirebaseAuth _auth=FirebaseAuth.instance;
+
 
   @override
   Future<List<CustomerModel>> getAllCustomer() async {
@@ -73,4 +81,18 @@ class CustomerRemoteDSImpl implements CustomerRemoteDS {
     print("getCurrentCustomerFromCollection ichidagi model: ${model.toString()}");
     return Future.value(model);
   }
+
+  @override
+  Future<bool> logOutCustomer() async{
+    try {
+      await _auth.signOut();
+      print("log out buldi customer remote ds ichida");
+
+      return true;
+    } catch (e) {
+      throw (OfflineException);
+    }
+  }
+
+
 }
