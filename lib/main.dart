@@ -11,7 +11,7 @@ import 'package:sharq_crm/features/services/video/presentation/bloc/video_bloc.d
 import 'features/auth/presentation/bloc/m_auth_bloc.dart';
 import 'features/choose_page.dart';
 import 'features/injection_container.dart' as di;
-import 'features/orders/service_page.dart';
+import 'features/services/service_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

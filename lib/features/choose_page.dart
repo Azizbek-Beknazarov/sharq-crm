@@ -21,18 +21,15 @@ class ChoosePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    "Manager sifatida tizimga kirish: ",
-                    style: TextStyle(
-                        decoration: TextDecoration.overline,
-                        color: Colors.green,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
+
                   ElevatedButton(
-                    style: ButtonStyle(
+                    style: ElevatedButton.styleFrom(
+
+                        shape: CircleBorder(),
+                        padding: EdgeInsets.all(24),
                         backgroundColor:
-                            MaterialStateProperty.all(Colors.green)),
+                        Colors.green
+                    ),
                     onPressed: () {
                       // Navigator.push(context,
                       //     MaterialPageRoute(builder: (_) => SplashScreen()));
@@ -41,7 +38,15 @@ class ChoosePage extends StatelessWidget {
                       Icons.arrow_forward,
                       color: Colors.black,
                     ),
-                  )
+                  ),
+                  Text(
+                    "Manager sifatida tizimga kirish: ",
+                    style: TextStyle(
+                        decoration: TextDecoration.overline,
+                        color: Colors.green,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
               Divider(
@@ -62,9 +67,13 @@ class ChoosePage extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   ElevatedButton(
-                    style: ButtonStyle(
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(24),
                         backgroundColor:
-                            MaterialStateProperty.all(Colors.green)),
+                    Colors.green
+                    ),
+
                     onPressed: () {
                       Navigator.push(
                           context,

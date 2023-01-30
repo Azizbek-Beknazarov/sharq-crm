@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/customer_state.dart';
-import 'package:sharq_crm/features/orders/service_page.dart';
+import 'package:sharq_crm/features/services/service_page.dart';
 import 'package:uuid/uuid.dart';
 import '../../../domain/entity/customer_entity.dart';
 import '../../bloc/customer_cubit.dart';

@@ -80,6 +80,7 @@ class CustomerRepositoryImpl implements CustomerRepository {
         CustomerModel model = _convert(entity);
         final result = await customerRemoteDS.addNewCustomer(model);
         await localDataSource.saveCustomer(model);
+        print("localga saqlandi ${customerEntity.name}");
         return Right(result);
       } catch (e) {
         return Left(ServerFailure());
@@ -101,6 +102,7 @@ class CustomerRepositoryImpl implements CustomerRepository {
   Future<Either<Failure, CustomerEntity>> getCurrentCustomer() async{
     try {
       final current = await localDataSource.getCurrentCustomer();
+      print("current customer olindi repo ichida");
       return Right(current);
     } on CacheException {
       return Left(CacheFailure());

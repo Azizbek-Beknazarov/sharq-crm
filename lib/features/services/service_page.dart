@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:sharq_crm/features/orders/presentation/page/car/car_service_page.dart';
 import 'package:sharq_crm/features/services/club/presentation/page/customer_part/club_home_page.dart';
 
-import '../services/album/presentation/page/customer_part/album_home_page.dart';
-import '../services/photo_studio/presentation/page/customer_part/photostudio_home_page.dart';
-import '../services/video/presentation/page/customer_part/video_home_page.dart';
+import 'album/presentation/page/customer_part/album_home_page.dart';
+import 'photo_studio/presentation/page/customer_part/photostudio_home_page.dart';
+import 'video/presentation/page/customer_part/video_home_page.dart';
 
 class ServicePage extends StatefulWidget {
   ServicePage({Key? key, required this.customerId}) : super(key: key);
