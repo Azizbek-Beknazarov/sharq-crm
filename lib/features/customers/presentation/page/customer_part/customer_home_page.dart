@@ -40,7 +40,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   List<VideoEntity> videoForCustomerlist = [];
   bool loading = false;
 
-  String info = 'To\'lov qilish';
+  String info = 'To\'lov\n qilish';
 
   @override
   Widget build(BuildContext context) {
@@ -235,10 +235,15 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.red),
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.black)),
+                    style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.all(40),
+                        foregroundColor: Colors.white,
+                        shape: CircleBorder(),
+                        backgroundColor: Colors.green),
+                    // style: ButtonStyle(
+                    //     backgroundColor: MaterialStateProperty.all(Colors.green),
+                    //     foregroundColor:
+                    //         MaterialStateProperty.all(Colors.black)),
                     onPressed: () {
                       double price1 = 0;
                       double price2 = 0;
@@ -260,7 +265,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                       });
 
                       double totalPrice = price2 + price1 + price4 + price3;
-                      info = "${(totalPrice).toString()}";
+
                       setState(() {});
                       Navigator.push(
                           context,
@@ -477,21 +482,51 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                   backgroundColor:
                                       MaterialStateProperty.all(Colors.red)),
                               onPressed: () {
-
-                                contextPhotostudio.read<PhotoStudioBloc>().add(
-                                    PhotoStudioDeleteEvent(
-                                        customerId: customerId,
-                                        photoStudioId:
-                                            photoStudio.photo_studio_id));
-                                context.read<PhotoStudioBloc>().add(
-                                    PhotoStudioGetForCustomerEvent(customerId));
-                                setState(() {
-                                  loading = true;
-                                });
-                                SnackBarMessage().showSuccessSnackBar(
-                                    message: 'O\'chirildi',
-                                    context: contextPhotostudio);
-
+                                showDialog(
+                                    context: contextPhotostudio,
+                                    builder: (contextPhotostudio) {
+                                      return AlertDialog(
+                                        title:
+                                            Text("Photo studioni o\'chirish"),
+                                        content: Text(
+                                            'Siz rostdan ham Photo studioni olib tashlamoqchimisiz?'),
+                                        icon: Icon(
+                                          Icons.warning,
+                                          color: Colors.yellow,
+                                        ),
+                                        actions: [
+                                          OutlinedButton(
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                    contextPhotostudio);
+                                              },
+                                              child: Text('Yo\'q')),
+                                          OutlinedButton(
+                                              onPressed: () {
+                                                contextPhotostudio
+                                                    .read<PhotoStudioBloc>()
+                                                    .add(PhotoStudioDeleteEvent(
+                                                        customerId: customerId,
+                                                        photoStudioId: photoStudio
+                                                            .photo_studio_id));
+                                                context.read<PhotoStudioBloc>().add(
+                                                    PhotoStudioGetForCustomerEvent(
+                                                        customerId));
+                                                setState(() {
+                                                  loading = true;
+                                                });
+                                                Navigator.pop(
+                                                    contextPhotostudio);
+                                                SnackBarMessage()
+                                                    .showSuccessSnackBar(
+                                                        message: 'O\'chirildi',
+                                                        context:
+                                                            contextPhotostudio);
+                                              },
+                                              child: Text("Ha")),
+                                        ],
+                                      );
+                                    });
                               },
                               child: Text('Olib tashlash')),
                         )
@@ -630,19 +665,46 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                     backgroundColor:
                                         MaterialStateProperty.all(Colors.red)),
                                 onPressed: () {
-
-
-                                  contextClub.read<ClubBloc>().add(
-                                      ClubDeleteEvent(
-                                          customerId: customerId,
-                                          clubId: club.club_id));
-                                  context.read<ClubBloc>().add(ClubGetForCustomerEvent(customerId));
-                                  setState(() {
-                                    loading = true;
-                                  });
-                                  SnackBarMessage().showSuccessSnackBar(
-                                      message: 'O\'chirildi',
-                                      context: contextClub);
+                                  showDialog(
+                                      context: contextClub,
+                                      builder: (contextClub) {
+                                        return AlertDialog(
+                                          title: Text("Clubni o\'chirish"),
+                                          content: Text(
+                                              'Siz rostdan ham Clubni olib tashlamoqchimisiz?'),
+                                          icon: Icon(Icons.warning),
+                                          actions: [
+                                            OutlinedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(contextClub);
+                                                },
+                                                child: Text("Yo\'q")),
+                                            OutlinedButton(
+                                                onPressed: () {
+                                                  contextClub
+                                                      .read<ClubBloc>()
+                                                      .add(ClubDeleteEvent(
+                                                          customerId:
+                                                              customerId,
+                                                          clubId:
+                                                              club.club_id));
+                                                  context.read<ClubBloc>().add(
+                                                      ClubGetForCustomerEvent(
+                                                          customerId));
+                                                  setState(() {
+                                                    loading = true;
+                                                  });
+                                                  Navigator.pop(contextClub);
+                                                  SnackBarMessage()
+                                                      .showSuccessSnackBar(
+                                                          message:
+                                                              'O\'chirildi',
+                                                          context: contextClub);
+                                                },
+                                                child: Text("Ha")),
+                                          ],
+                                        );
+                                      });
                                 },
                                 child: Text('Olib tashlash')),
                           )
@@ -761,13 +823,48 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                     backgroundColor:
                                         MaterialStateProperty.all(Colors.red)),
                                 onPressed: () {
-                                  contextAlbum.read<AlbumBloc>().add(
-                                      AlbumDeleteEvent(
-                                          customerId: customerId,
-                                          albumId: album.album_id));
-                                  SnackBarMessage().showSuccessSnackBar(
-                                      message: 'O\'chirildi',
-                                      context: contextAlbum);
+                                  showDialog(
+                                      context: contextAlbum,
+                                      builder: (contextAlbum) {
+                                        return AlertDialog(
+                                          title: Text("Albumni o\'chirish"),
+                                          content: Text(
+                                              'Siz rostdan ham albumni olib tashlamoqchimisiz?'),
+                                          icon: Icon(Icons.warning),
+                                          actions: [
+                                            OutlinedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(contextAlbum);
+                                                },
+                                                child: Text("Yo\'q")),
+                                            OutlinedButton(
+                                                onPressed: () {
+                                                  contextAlbum
+                                                      .read<AlbumBloc>()
+                                                      .add(AlbumDeleteEvent(
+                                                          customerId:
+                                                              customerId,
+                                                          albumId:
+                                                              album.album_id));
+
+                                                  context.read<AlbumBloc>().add(
+                                                      AlbumGetForCustomerEvent(
+                                                          customerId));
+                                                  setState(() {
+                                                    loading = true;
+                                                  });
+                                                  Navigator.pop(contextAlbum);
+                                                  SnackBarMessage()
+                                                      .showSuccessSnackBar(
+                                                          message:
+                                                              'O\'chirildi',
+                                                          context:
+                                                              contextAlbum);
+                                                },
+                                                child: Text("Ha")),
+                                          ],
+                                        );
+                                      });
                                 },
                                 child: Text('Olib tashlash')),
                           )
@@ -886,13 +983,49 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                     backgroundColor:
                                         MaterialStateProperty.all(Colors.red)),
                                 onPressed: () {
-                                  contextVideo.read<VideoBloc>().add(
-                                      VideoDeleteEvent(
-                                          customerId: customerId,
-                                          videoId: video.video_id));
-                                  SnackBarMessage().showSuccessSnackBar(
-                                      message: 'O\'chirildi',
-                                      context: contextVideo);
+                                  showDialog(
+                                      context: contextVideo,
+                                      builder: (contextVideo) {
+                                        return AlertDialog(
+                                          title: Text("Videoni o\'chirish"),
+                                          content: Text(
+                                              'Siz rostdan ham Videoni olib tashlamoqchimisiz?'),
+                                          icon: Icon(Icons.warning),
+                                          actions: [
+                                            OutlinedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(contextVideo);
+                                                },
+                                                child: Text("Yo\'q")),
+                                            OutlinedButton(
+                                                onPressed: () {
+                                                  contextVideo
+                                                      .read<VideoBloc>()
+                                                      .add(VideoDeleteEvent(
+                                                          customerId:
+                                                              customerId,
+                                                          videoId:
+                                                              video.video_id));
+
+                                                  context.read<VideoBloc>().add(
+                                                      VideoGetForCustomerEvent(
+                                                          customerId));
+                                                  setState(() {
+                                                    loading = true;
+                                                  });
+                                                  Navigator.pop(contextVideo);
+
+                                                  SnackBarMessage()
+                                                      .showSuccessSnackBar(
+                                                          message:
+                                                              'O\'chirildi',
+                                                          context:
+                                                              contextVideo);
+                                                },
+                                                child: Text("Ha")),
+                                          ],
+                                        );
+                                      });
                                 },
                                 child: Text('Olib tashlash')),
                           )
