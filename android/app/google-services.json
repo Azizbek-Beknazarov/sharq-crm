@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "12111627920",
+    "project_id": "crm-sharq-5d482",
+    "storage_bucket": "crm-sharq-5d482.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12111627920:android:f40deb13305884aff83a15",
+        "android_client_info": {
+          "package_name": "com.example.sharq_crm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "12111627920-1a1ostru0krj6uokss7jmp8hj6omju1m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sharq_crm",
+            "certificate_hash": "6386d498657f0c21ff7b1d7a8383be9274a52120"
+          }
+        },
+        {
+          "client_id": "12111627920-7qcfiqn3k05ps4ufcufso3m886cphksd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sharq_crm",
+            "certificate_hash": "59d3d986a8ce34f8a2b1996486c7e7ee56df54a8"
+          }
+        },
+        {
+          "client_id": "12111627920-ofdg2q5t4m779aujq624377qbc66ndaa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXFuDdA1Nh7wBNztaBlc0H5bfWP9Cu3tQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "12111627920-ofdg2q5t4m779aujq624377qbc66ndaa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

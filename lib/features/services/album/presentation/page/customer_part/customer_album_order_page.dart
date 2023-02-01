@@ -1,3 +1,4 @@
+import 'package:date_field/date_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,13 +23,15 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
   final uuid = Uuid();
 
   TextEditingController _ordersNumberController = TextEditingController();
-  TextEditingController _dateTimeOfWeddingController = TextEditingController();
-
+  TextEditingController _addressController = TextEditingController();
+  // TextEditingController _dateTimeOfWeddingController = TextEditingController();
+  DateTime? selectedDate;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     _ordersNumberController.clear();
-    _dateTimeOfWeddingController.clear();
+    // _dateTimeOfWeddingController.clear();
 
 
     super.dispose();
@@ -62,61 +65,131 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
         );
       }
 
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Albumga buyurtma berish'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
+      return Form(
+        key: _formKey,
+        child: SafeArea(
+          child: Scaffold(
+
+            body: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    TextFormField(
-                      controller: _dateTimeOfWeddingController,
-                      keyboardType: TextInputType.datetime,
-                      decoration: InputDecoration(
-                          hintText: 'Albumga olish sanasi'),
+                    Container(
+                      child: Column(
+                        children: [
+                          Image.asset('assets/images/album.png'),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          DateTimeFormField(
+                            decoration: const InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black45),
+                              errorStyle: TextStyle(color: Colors.redAccent),
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.date_range),
+                              labelText: 'Albumga olish sanasi',
+                            ),
+                            mode: DateTimeFieldPickerMode.dateAndTime,
+                            autovalidateMode: AutovalidateMode.always,
+                            validator: (value) {
+                              if (value == null || value == '') {
+                                return 'Iltimos, sanani kiriting!';
+                              }
+                              return null;
+                            },
+                            onDateSelected: (DateTime value) {
+                              selectedDate = value;
+                              print(value);
+                            },
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Iltimos, sonni kiriting!';
+                              }
+                              return null;
+                            },
+                            controller: _ordersNumberController,
+                            decoration: const InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black45),
+                              errorStyle: TextStyle(color: Colors.redAccent),
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.add),
+                              labelText: 'Zakzlar soni',
+                            ),
+                            keyboardType: TextInputType.number,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Iltimos, manzilni kiriting!';
+                              }
+                              return null;
+                            },
+                            controller: _addressController,
+                            decoration: const InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black45),
+                              errorStyle: TextStyle(color: Colors.redAccent),
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.add_circle),
+                              labelText: 'Manzil',
+                            ),
+                            keyboardType: TextInputType.text,
+                          ),
+                        ],
+                      ),),
+                    SizedBox(
+                      height: 15,
                     ),
-                    TextFormField(
-                      controller: _ordersNumberController,
-                      decoration: InputDecoration(hintText: 'Zakzlar soni'),
-                      keyboardType: TextInputType.number,
-                    ),
+
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                        onPressed: () {
+
+                          if (_formKey.currentState!.validate()){
+                            int _ordersNumber =
+                                int.tryParse(_ordersNumberController.text) ?? 1;
+
+                            final docId = uuid.v4();
+                            String date = selectedDate.toString();
+
+                            AlbumEntity addAlbum = AlbumEntity(
+                                album_id: docId ?? 'docid',
+                                dateTimeOfWedding: date,
+                                ordersNumber: _ordersNumber,
+                                price: 1000000,
+                                description: '',
+                                address: _addressController.text
+
+                            );
+
+                            setState(() {
+                              context.read<AlbumBloc>().add(AlbumAddEvent(
+                                  addEvent: addAlbum, customerId: widget.customerId));
+                              print('added Album');
+                            });
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (ctx)=>CustomerHomePage(customerId: widget.customerId,)), (route) => false);
+
+                          }
+
+
+                            },
+                        child: Text('Tasdiqlash'))
                   ],
                 ),
               ),
-
-              ElevatedButton(
-                  onPressed: () {
-                    int _ordersNumber =
-                        int.tryParse(_ordersNumberController.text) ?? 1;
-
-                    final docId = uuid.v4();
-                    String date = _dateTimeOfWeddingController.text;
-
-                    AlbumEntity addAlbum = AlbumEntity(
-                      album_id: docId ?? 'docid',
-                      dateTimeOfWedding: date,
-                      ordersNumber: _ordersNumber,
-                      price: 1000000,
-                      description: '',
-
-                    );
-
-                    setState(() {
-                      context.read<AlbumBloc>().add(AlbumAddEvent(
-                          addEvent: addAlbum, customerId: widget.customerId));
-                      print('added Album');
-                    });
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (ctx)=>CustomerHomePage(customerId: widget.customerId,)), (route) => false);
-                  },
-                  child: Text('Tasdiqlash'))
-            ],
+            ),
           ),
         ),
       );

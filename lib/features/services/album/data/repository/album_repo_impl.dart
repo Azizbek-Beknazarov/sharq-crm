@@ -20,6 +20,7 @@ class AlbumRepoImpl implements AlbumRepo {
         dateTimeOfWedding: e.dateTimeOfWedding,
         ordersNumber: e.ordersNumber,
         description: e.description,
+        address: e.address
         //
       );
 
@@ -31,6 +32,7 @@ class AlbumRepoImpl implements AlbumRepo {
       dateTimeOfWedding: newAlbum.dateTimeOfWedding,
       ordersNumber: newAlbum.ordersNumber,
       description: newAlbum.description,
+      address: newAlbum.address
     );
     AlbumModel model = _convert(entity);
     return await remoteDS.addAlbum(model, customerId);

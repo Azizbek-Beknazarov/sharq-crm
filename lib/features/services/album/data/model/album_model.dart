@@ -7,12 +7,14 @@ class AlbumModel extends AlbumEntity {
     required String dateTimeOfWedding,
     required int ordersNumber,
     required String description,
+    required String address
   }) : super(
           album_id: album_id,
           price: price,
           dateTimeOfWedding: dateTimeOfWedding,
           ordersNumber: ordersNumber,
           description: description,
+    address: address
         );
 
   factory AlbumModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class AlbumModel extends AlbumEntity {
       dateTimeOfWedding: json['dateTimeOfWedding'],
       ordersNumber: json['ordersNumber'],
       description: json['description'] ?? '',
+      address: json['address'] ?? '',
     );
   }
 
@@ -32,6 +35,7 @@ class AlbumModel extends AlbumEntity {
       'dateTimeOfWedding': dateTimeOfWedding,
       'ordersNumber': ordersNumber,
       'description': description,
+      'address': address,
     };
   }
 }

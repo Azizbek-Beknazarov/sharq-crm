@@ -9,7 +9,9 @@ class VideoModel extends VideoEntity {
     required String dateTimeOfWedding,
     required int ordersNumber,
     required String description,
+    required String address
   }) : super(
+    address: address,
           video_id: video_id,
           price: price,
           dateTimeOfWedding: dateTimeOfWedding,
@@ -24,6 +26,7 @@ class VideoModel extends VideoEntity {
       dateTimeOfWedding: json['dateTimeOfWedding'],
       ordersNumber: json['ordersNumber'],
       description: json['description'] ?? '',
+      address: json['address'] ?? '',
     );
   }
 
@@ -34,6 +37,7 @@ class VideoModel extends VideoEntity {
       'dateTimeOfWedding': dateTimeOfWedding,
       'ordersNumber': ordersNumber,
       'description': description,
+      'address': address,
     };
   }
 }

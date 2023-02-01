@@ -382,6 +382,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                 }
                 PhotoStudioEntity photoStudio =
                     photoStudioForCustomerlist[index];
+                // DateTime? date=DateTime.tryParse(photoStudio.dateTimeOfWedding);
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -760,6 +761,19 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                           color: Colors.green.shade100),
                       child: Column(
                         children: [
+                        ListTile(
+                          title: Row(
+                            children: [
+                              Text("Manzil: "),
+                              Text(
+                                "${album.address}",
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
                           ListTile(
                               title: Row(
                                 children: [
@@ -920,6 +934,19 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                           color: Colors.green.shade100),
                       child: Column(
                         children: [
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Text("Manzil: "),
+                                Text(
+                                  "${video.address}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
                           ListTile(
                               title: Row(
                                 children: [

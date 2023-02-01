@@ -6,6 +6,7 @@ class AlbumEntity extends Equatable {
   String dateTimeOfWedding;
   int ordersNumber;
   String description;
+  String address;
 
   AlbumEntity({
     required this.album_id,
@@ -13,6 +14,7 @@ class AlbumEntity extends Equatable {
     required this.dateTimeOfWedding,
     required this.ordersNumber,
     required this.description,
+    required this.address
   });
 
   @override
@@ -22,5 +24,6 @@ class AlbumEntity extends Equatable {
         dateTimeOfWedding,
         ordersNumber,
         description,
+    address
       ];
 }

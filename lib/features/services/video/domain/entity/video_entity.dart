@@ -6,6 +6,7 @@ class VideoEntity extends Equatable {
   String dateTimeOfWedding;
   int ordersNumber;
   String description;
+  String address;
 
   VideoEntity({
     required this.video_id,
@@ -13,11 +14,13 @@ class VideoEntity extends Equatable {
     required this.dateTimeOfWedding,
     required this.ordersNumber,
       required this.description,
+    required this.address
   });
 
   @override
   List<Object?>   get props => [
         video_id,
+    address,
         price,
         dateTimeOfWedding,
         ordersNumber,

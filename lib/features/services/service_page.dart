@@ -29,7 +29,7 @@ class _ServicePageState extends State<ServicePage> {
               _headerPart(),
 
               // Car order
-              _carOrder(),
+              // _carOrder(),
 
               //photoStudio order
               _photoStudioOrder(),
@@ -51,71 +51,74 @@ class _ServicePageState extends State<ServicePage> {
 
   Container _headerPart() {
     return Container(
-      margin: const EdgeInsets.all(4),
+      margin: const EdgeInsets.all(14),
       padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-          color: Colors.blue.shade600,
-          borderRadius: const BorderRadius.all(Radius.circular(20))),
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.blueAccent),
+          borderRadius: BorderRadius.all(Radius.circular(14))
+        ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            '"Sharq Club" services',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold),
+          Center(
+            child: const Text(
+              'Sharq Club',
+              style: TextStyle(
+                  color: Colors.cyanAccent,
+                  fontSize: 40.0,
+
+                  fontWeight: FontWeight.bold),
+            ),
           ),
-          SizedBox(
-            height: 29,
-          )
+
         ],
       ),
     );
   }
 
-  Container _carOrder() {
-    return Container(
-      margin: EdgeInsets.all(4),
-      padding: EdgeInsets.all(4),
-      decoration: BoxDecoration(
-          color: Colors.blue.shade600,
-          borderRadius: BorderRadius.all(Radius.circular(20))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Cars',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold),
-          ),
-          Card(
-            child: ListTile(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => CarServicePage()));
-              },
-              style: ListTileStyle.list,
-              leading: Icon(Icons.car_crash_outlined),
-              trailing: Icon(Icons.arrow_forward_ios_rounded),
-              title: Text('New Cars For Your Wedding Days'),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+  // Container _carOrder() {
+  //   return Container(
+  //     margin: EdgeInsets.all(4),
+  //     padding: EdgeInsets.all(4),
+  //     decoration: BoxDecoration(
+  //         color: Colors.blue.shade600,
+  //         borderRadius: BorderRadius.all(Radius.circular(20))),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.center,
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: [
+  //         Text(
+  //           'Cars',
+  //           style: TextStyle(
+  //               color: Colors.white,
+  //               fontSize: 30.0,
+  //               fontWeight: FontWeight.bold),
+  //         ),
+  //         Card(
+  //           child: ListTile(
+  //             onTap: () {
+  //               Navigator.push(context,
+  //                   MaterialPageRoute(builder: (_) => CarServicePage()));
+  //             },
+  //             style: ListTileStyle.list,
+  //             leading: Icon(Icons.car_crash_outlined),
+  //             trailing: Icon(Icons.arrow_forward_ios_rounded),
+  //             title: Text('New Cars For Your Wedding Days'),
+  //           ),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Container _photoStudioOrder() {
     return Container(
       margin: EdgeInsets.all(4),
       padding: EdgeInsets.all(4),
       decoration: BoxDecoration(
-          color: Colors.blue.shade600,
+          color: Colors.green,
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -195,7 +198,7 @@ class _ServicePageState extends State<ServicePage> {
       margin: EdgeInsets.all(4),
       padding: EdgeInsets.all(4),
       decoration: BoxDecoration(
-          color: Colors.blue.shade600,
+          color: Colors.green,
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -241,7 +244,7 @@ class _ServicePageState extends State<ServicePage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Video',
+            'Video Studio',
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 30.0,

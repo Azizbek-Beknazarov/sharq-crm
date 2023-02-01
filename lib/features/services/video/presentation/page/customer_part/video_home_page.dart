@@ -50,64 +50,137 @@ class _VideoHomePageState extends State<VideoHomePage> {
 
       //
       //
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Video Home Page'),
-        ),
-        body: ListView(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          padding: EdgeInsets.all(12),
-          children: [
-            Text(
-              'Video suratlari galeriya korinishida boladi',
-              style: TextStyle(fontSize: 22),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Column(
-              children: video.map((e) {
-                return Card(
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: Text(
-                          'Video id: ${e.video_id.toString()}',
-                          style: TextStyle(fontSize: 22),
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(
-                          'Tavsif: ${e.description.toString()}',
-                          style: TextStyle(fontSize: 22),
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(
-                          'Video narxi: ${e.price.toString()}',
-                          style: TextStyle(fontSize: 22),
-                        ),
-                      ),
-                    ],
+      return Form(
+        child: SafeArea(
+          child: Scaffold(
+
+            body: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                padding: EdgeInsets.all(12),
+                children: [
+                  Image.asset(
+                    "assets/images/video.gif",
+                    // height: 325.0,
+                    // width: 125.0,
                   ),
-                );
-              }).toList(),
+                  Text(
+                    'Video .gif korinishida boladi',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+
+                  Column(
+                    children: video.map((e) {
+                      return Card(
+                        child: Column(
+                          children: [
+
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+
+                                  border: Border.all(color: Colors.red),
+
+
+                                  borderRadius: BorderRadius.all(Radius.circular(14))
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: ListTile(
+                                      title: Text(
+                                        'Tavsif: ',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: ListTile(
+                                      title: Text(
+                                        ' ${e.description.toString()}',
+                                        style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.red),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 5,),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.black12,
+
+                                  border: Border.all(color: Colors.red),
+
+
+                                  borderRadius: BorderRadius.all(Radius.circular(14))
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: ListTile(
+                                      title: Text(
+                                        'Video Studio narxi: ',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: ListTile(
+                                      title: Column(
+                                        children: [
+
+                                          Text(
+                                            ' ${e.price.toString()}',
+                                            style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.red),
+                                          ),
+                                          Text(" so\'m"),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 5,),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+
+
+
+
+
+
+
+
+
+
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (ctx) => CustomerVideoOrderPage(
+                                      customerId: widget.customerId,
+                                    )));
+                      },
+                      child: Text(
+                        'Zakaz qilish',
+                        style: TextStyle(fontSize: 22),
+                      ))
+                ],
+              ),
             ),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (ctx) => CustomerVideoOrderPage(
-                                customerId: widget.customerId,
-                              )));
-                },
-                child: Text(
-                  'Zakaz qilish',
-                  style: TextStyle(fontSize: 22),
-                ))
-          ],
+          ),
         ),
       );
     });

@@ -19,6 +19,7 @@ class _VideoUpdatePageForManagerState extends State<VideoUpdatePageForManager> {
 
   TextEditingController _ordersNumberController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
 
   List<VideoEntity> video = [];
 
@@ -86,6 +87,7 @@ class _VideoUpdatePageForManagerState extends State<VideoUpdatePageForManager> {
                     dateTimeOfWedding: date,
                     ordersNumber: _ordersNumber,
                     description: _descriptionController.text ?? '',
+                    address: _addressController.text??""
                   );
                   print('object:::${docId}');
                   print('object:::${_descriptionController.text}');
