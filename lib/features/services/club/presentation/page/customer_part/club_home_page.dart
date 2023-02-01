@@ -49,64 +49,117 @@ class _ClubHomePageState extends State<ClubHomePage> {
 
       //
       //
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Club Home Page'),
-        ),
-        body: ListView(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          padding: EdgeInsets.all(12),
-          children: [
-            Text(
-              'Club suratlari galeriya korinishida boladi',
-              style: TextStyle(fontSize: 22),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Column(
-              children: club.map((e) {
-                return Card(
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: Text(
-                          'Club id: ${e.club_id.toString()}',
-                          style: TextStyle(fontSize: 22),
+      return SafeArea(
+        child: Scaffold(
+          
+          body: ListView(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            padding: EdgeInsets.all(12),
+            children: [
+              Image.asset('assets/images/club.png'),
+              Text(
+                'Club suratlari galeriya korinishida boladi',
+                style: TextStyle(fontSize: 12),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Column(
+                children: club.map((e) {
+                  return Card(
+                    child: Column(
+                      children: [
+
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+
+                              border: Border.all(color: Colors.red),
+
+
+                              borderRadius: BorderRadius.all(Radius.circular(14))
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ListTile(
+                                  title: Text(
+                                    'Tavsif: ',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: ListTile(
+                                  title: Text(
+                                    ' ${e.description.toString()}',
+                                    style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.red),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      ListTile(
-                        title: Text(
-                          'Tavsif: ${e.description.toString()}',
-                          style: TextStyle(fontSize: 22),
+                        SizedBox(height: 5,),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.black12,
+
+                              border: Border.all(color: Colors.red),
+
+
+                              borderRadius: BorderRadius.all(Radius.circular(14))
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ListTile(
+                                  title: Text(
+                                    'Club narxi: ',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: ListTile(
+                                  title: Column(
+                                    children: [
+
+                                      Text(
+                                        ' ${e.price.toString()}',
+                                        style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.red),
+                                      ),
+                                      Text(" so\'m"),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      ListTile(
-                        title: Text(
-                          'Club narxi: ${e.price.toString()}',
-                          style: TextStyle(fontSize: 22),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (ctx) => CustomerClubOrderPage(
-                                customerId: widget.customerId,
-                              )));
-                },
-                child: Text(
-                  'Zakaz qilish',
-                  style: TextStyle(fontSize: 22),
-                ))
-          ],
+                        SizedBox(height: 5,),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (ctx) => CustomerClubOrderPage(
+                                  customerId: widget.customerId,
+                                )));
+                  },
+                  child: Text(
+                    'Zakaz qilish',
+                    style: TextStyle(fontSize: 22),
+                  ))
+            ],
+          ),
         ),
       );
     });

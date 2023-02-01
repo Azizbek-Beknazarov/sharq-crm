@@ -52,63 +52,253 @@ class _PhotoStudioHomePageState extends State<PhotoStudioHomePage> {
       //
       //
       return Scaffold(
-        appBar: AppBar(
-          title: Text('Photo Studio Home Page'),
-        ),
-        body: ListView(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          padding: EdgeInsets.all(12),
-          children: [
-            Text(
-              'Rasmxona suratlari galeriya korinishida boladi',
-              style: TextStyle(fontSize: 22),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Column(
-              children: photoStudio.map((e) {
-                return Card(
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: Text(
-                          'Katta rasm o\'lchami: ${e.largeImage.toString()}',
-                          style: TextStyle(fontSize: 22),
+       
+        body: SafeArea(
+          child: ListView(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            padding: EdgeInsets.all(12),
+            children: [
+              Image.asset('assets/images/photo.png'),
+              Text(
+                'Rasmxona suratlari galeriya korinishida boladi',
+                style: TextStyle(fontSize: 12),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Column(
+                children: photoStudio.map((e) {
+                  return Card(
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blueAccent),
+                              borderRadius: BorderRadius.all(Radius.circular(14))
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: ListTile(
+                                      title: Text(
+                                        'Katta rasm o\'lchami: ',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: ListTile(
+                                      title: Column(
+                                        children: [
+                                          SizedBox(
+                                              height: 90,
+                                              width: 80,
+                                              child: Image.asset("assets/images/portret.png")),
+                                          Text(
+                                            ' ${e.largeImage.toString()}',
+                                            style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.red),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: ListTile(
+                                      title: Text(
+                                        'Rasm soni: ',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: ListTile(
+                                      title: Column(
+                                        children: [
+
+                                          Text(
+                                            ' ${e.largePhotosNumber.toString()}',
+                                            style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.red),
+                                          ),
+                                          Text("dona"),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      ListTile(
-                        title: Text(
-                          'Kichik rasm o\'lchami: ${e.smallImage.toString()}',
-                          style: TextStyle(fontSize: 22),
+                        SizedBox(height: 5,),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blueAccent),
+                              borderRadius: BorderRadius.all(Radius.circular(14))
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: ListTile(
+                                      title: Text(
+                                        'Kichik rasm o\'lchami: ',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: ListTile(
+                                      title: Column(
+                                        children: [
+                                          SizedBox(
+                                              height: 80,
+                                              width: 90,
+                                              child: Image.asset("assets/images/land.png")),
+                                          Text(
+                                            ' ${e.smallImage.toString()}',
+                                            style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.red),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: ListTile(
+                                      title: Text(
+                                        'Rasm soni: ',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: ListTile(
+                                      title: Column(
+                                        children: [
+
+                                          Text(
+                                            ' ${e.smallPhotoNumber.toString()}',
+                                            style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.red),
+                                          ),
+                                          Text("dona"),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      ListTile(
-                        title: Text(
-                          'Rasmxona narxi: ${e.price.toString()}',
-                          style: TextStyle(fontSize: 22),
+                        SizedBox(height: 5,),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blueAccent),
+                              borderRadius: BorderRadius.all(Radius.circular(14))
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ListTile(
+                                  title: Text(
+                                    'Rasmlar tayyor bo\'lish muddati: ',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: ListTile(
+                                  title: Column(
+                                    children: [
+
+                                      Text("10",
+                                        // ' ${e.largePhotosNumber.toString()}',
+                                        style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.red),
+                                      ),
+                                      Text(" kun"),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (ctx) => CustomerPhotoStudioOrderPage(
-                                customerId: widget.customerId,
-                              )));
-                },
-                child: Text(
-                  'Zakaz qilish',
-                  style: TextStyle(fontSize: 22),
-                ))
-          ],
+                        SizedBox(height: 5,),
+
+
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+
+                              border: Border.all(color: Colors.red),
+
+
+                              borderRadius: BorderRadius.all(Radius.circular(14))
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ListTile(
+                                  title: Text(
+                                    'Rasmxona narxi: ',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: ListTile(
+                                  title: Column(
+                                    children: [
+
+                                      Text(
+                                        ' ${e.price.toString()}',
+                                        style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.red),
+                                      ),
+                                      Text(" so\'m"),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 5,),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.all(80),
+                      foregroundColor: Colors.white,
+                      shape: CircleBorder(),
+                      backgroundColor: Colors.green),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (ctx) => CustomerPhotoStudioOrderPage(
+                                  customerId: widget.customerId,
+                                )));
+                  },
+                  child: Text(
+                    'Buyurtma berish',
+                    style: TextStyle(fontSize: 22),
+                  ))
+            ],
+          ),
         ),
       );
     });

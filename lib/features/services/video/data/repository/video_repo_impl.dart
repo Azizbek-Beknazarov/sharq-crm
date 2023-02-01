@@ -22,6 +22,7 @@ class VideoRepoImpl implements VideoRepo {
         dateTimeOfWedding: e.dateTimeOfWedding,
         ordersNumber: e.ordersNumber,
         description: e.description,
+        address: e.address
         //
       );
 
@@ -33,6 +34,7 @@ class VideoRepoImpl implements VideoRepo {
       dateTimeOfWedding: newVideo.dateTimeOfWedding,
       ordersNumber: newVideo.ordersNumber,
       description: newVideo.description,
+      address: newVideo.address
     );
     VideoModel model = _convert(entity);
     return await remoteDS.addVideo(model, customerId);

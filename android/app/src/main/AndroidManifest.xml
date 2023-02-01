@@ -1,8 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sharq_crm">
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-<!--    &lt;!&ndash; Provide required visibility configuration for API level 30 and above &ndash;&gt;-->
+
+    <!--    &lt;!&ndash; Provide required visibility configuration for API level 30 and above &ndash;&gt;-->
 <!--    <queries>-->
 <!--        &lt;!&ndash; If your app opens https URLs &ndash;&gt;-->
 <!--        <intent>-->
