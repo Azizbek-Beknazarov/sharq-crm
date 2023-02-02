@@ -6,7 +6,7 @@ import 'package:sharq_crm/features/services/album/domain/entity/album_entity.dar
 import '../../domain/usecase/delete_album_usecase.dart';
 import '../../domain/usecase/get_album_for_customer_usecase.dart';
 import '../../domain/usecase/get_album_usecase.dart';
-import '../../domain/usecase/update_album_usecase.dart';
+import '../../domain/usecase/add_album_usecase.dart';
 
 part 'album_event.dart';
 

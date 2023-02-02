@@ -1,20 +1,14 @@
-
 import 'package:sharq_crm/core/usecase/usecase.dart';
-import 'package:sharq_crm/features/services/album/domain/repository/album_repo.dart';
+import 'package:sharq_crm/features/services/video/domain/repository/video_repo.dart';
 
-import '../repository/video_repo.dart';
-
-class AddVideoUseCase extends UseCaseOne<void, VideoParams> {
+class UpdateVideoUseCase extends UseCaseOne<void, VideoUpdateParams> {
   final VideoRepo repo;
 
-  AddVideoUseCase({required this.repo});
+  UpdateVideoUseCase({required this.repo});
 
   @override
-  Future<void> call({required VideoParams params}) async{
-   return await repo.addVideo(params.newVideo,params.customerId);
+  Future<void> call({required VideoUpdateParams params}) async {
+    return await repo.updateVideo(
+        params.videoId, params.customerId,);
   }
-
-
-
-
 }

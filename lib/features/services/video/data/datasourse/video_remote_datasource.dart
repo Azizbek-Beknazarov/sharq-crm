@@ -10,6 +10,10 @@ abstract class VideoRemoteDataSource {
 
   Future<void> deleteVideo(
       {required String customerId, required String videoID});
+
+  Future<void> updateVideo(String videoId, String customerId);
+
+
 }
 
 class VideoRemoteDataSourceImpl implements VideoRemoteDataSource {
@@ -60,5 +64,50 @@ class VideoRemoteDataSourceImpl implements VideoRemoteDataSource {
         .map((e) => VideoModel.fromJson(e.data() as Map<String, dynamic>))
         .toList();
     return Future.value(videoModel);
+  }
+
+  @override
+  Future<void> updateVideo(String videoId, String customerId)async {
+    return await videoReferenceForCustomer
+        .doc(customerId)
+        .collection('video_order')
+        .doc(videoId)
+        .update({"isPaid":true}).then((value) => print('ALL OK'));
+    
+   // final collection=videoReferenceForCustomer
+   //      .doc(customerId)
+   //      .collection('video_order');
+   // var newDocumentBody = {"isPaid": true};
+   // var response=await collection.where("video_id", isEqualTo: videoId).get();
+   // print("responselar: ::::::::::::::::${response.docs.toString()}");
+   // var batch=FirebaseFirestore.instance.batch();
+   // response.docs.forEach((element) {
+   //   var docRef=collection.doc(videoId);
+   //   batch.update(docRef, newDocumentBody);
+   // });
+   // batch.commit().then((value) {
+   //   print("Collection ichidagi hamma docs yangilandi.");
+   // });
+
+    //
+    // CollectionReference collection = FirebaseFirestore.instance.collection('something');
+// This collection can be a subcollection.
+
+    // _updateAllFromCollection(CollectionReference collection) async {
+    //   var newDocumentBody = {"username": ''};
+    //   User firebaseUser = FirebaseAuth.instance.currentUser;
+    //   DocumentReference docRef;
+    //
+    //   var response = await collection.where('uid', isEqualTo: firebaseUser.uid).get();
+    //   var batch = FirebaseFirestore.instance.batch();
+    //   response.docs.forEach((doc) {
+    //     docRef = collection.doc(doc.id);
+    //     batch.update(docRef, newDocumentBody);
+    //   });
+    //   batch.commit().then((a) {
+    //     print('updated all documents inside Collection');
+    //   });
+    // }
+    //
   }
 }

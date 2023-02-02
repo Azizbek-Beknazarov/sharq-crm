@@ -6,7 +6,7 @@ import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photo
 import '../../domain/usecase/delete_photo_studio_usecase.dart';
 import '../../domain/usecase/get_photostudio_usecase.dart';
 import '../../domain/usecase/getphotostudio_for_customer_usecase.dart';
-import '../../domain/usecase/update_photostudio_usecase.dart';
+import '../../domain/usecase/add_photostudio_usecase.dart';
 
 class PhotoStudioBloc extends Bloc<PhotoStudioEvents, PhotoStudioStates> {
   final GetPhotoStudioUseCase getPhotoStudioUseCase;

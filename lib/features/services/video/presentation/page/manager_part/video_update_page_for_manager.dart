@@ -87,7 +87,8 @@ class _VideoUpdatePageForManagerState extends State<VideoUpdatePageForManager> {
                     dateTimeOfWedding: date,
                     ordersNumber: _ordersNumber,
                     description: _descriptionController.text ?? '',
-                    address: _addressController.text??""
+                    address: _addressController.text??"",
+                      isPaid: false,
                   );
                   print('object:::${docId}');
                   print('object:::${_descriptionController.text}');

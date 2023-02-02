@@ -6,7 +6,7 @@ import 'package:sharq_crm/features/services/club/domain/entity/club_entity.dart'
 import '../../domain/usecase/delete_club_usecase.dart';
 import '../../domain/usecase/get_club_for_customer_usecase.dart';
 import '../../domain/usecase/get_club_usecase.dart';
-import '../../domain/usecase/update_club_usecase.dart';
+import '../../domain/usecase/add_club_usecase.dart';
 part  'club_event.dart';
 part  'club_state.dart';
 

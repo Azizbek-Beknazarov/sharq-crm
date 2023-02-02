@@ -8,6 +8,7 @@ abstract class VideoRepo {
   Future<Either<Failure, List<VideoEntity>>> getVideoForCustomer(String customerId);
 
   Future<void> addVideo(VideoEntity newVideo, String customerId);
+  Future<void> updateVideo(String videoId, String customerId );
   Future<void> deleteVideo( String customerId,String videoID);
 
 }

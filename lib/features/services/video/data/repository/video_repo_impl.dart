@@ -22,7 +22,8 @@ class VideoRepoImpl implements VideoRepo {
         dateTimeOfWedding: e.dateTimeOfWedding,
         ordersNumber: e.ordersNumber,
         description: e.description,
-        address: e.address
+        address: e.address,
+      isPaid: e.isPaid,
         //
       );
 
@@ -34,7 +35,8 @@ class VideoRepoImpl implements VideoRepo {
       dateTimeOfWedding: newVideo.dateTimeOfWedding,
       ordersNumber: newVideo.ordersNumber,
       description: newVideo.description,
-      address: newVideo.address
+      address: newVideo.address,
+        isPaid: newVideo.isPaid,
     );
     VideoModel model = _convert(entity);
     return await remoteDS.addVideo(model, customerId);
@@ -72,5 +74,12 @@ class VideoRepoImpl implements VideoRepo {
     } else {
       return Left(ServerFailure());
     }
+  }
+
+  @override
+  Future<void> updateVideo(String videoId, String customerId)async {
+
+
+    return await remoteDS.updateVideo(videoId, customerId);
   }
 }

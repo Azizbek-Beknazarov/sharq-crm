@@ -43,6 +43,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   bool loading = false;
 
   String info = 'To\'lov\n qilish';
+   List<String> videoIds=[];
 
   @override
   Widget build(BuildContext context) {
@@ -209,6 +210,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                   } else if (videoState is VideoLoadedForCustomerState) {
                     print("Video States: $videoState");
                     videoForCustomerlist = videoState.loaded;
+
                     //
 
                     //
@@ -247,6 +249,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                     //     foregroundColor:
                     //         MaterialStateProperty.all(Colors.black)),
                     onPressed: () {
+
                       double price1 = 0;
                       double price2 = 0;
                       double price3 = 0;
@@ -267,15 +270,24 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                       });
 
                       double totalPrice = price2 + price1 + price4 + price3;
+                      videoForCustomerlist.forEach((element) {
 
-                      setState(() {});
+
+                        String videoId=element.video_id;
+                        videoIds.add(videoId);
+                        print("videoIds.length customer home pagedagi========${videoIds.length.toString()}");
+                        print("Video ID: $videoId");
+                      }
+                      );
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => PaymentPage(
-                                    totalPrice: totalPrice,
-                                    customerId: widget.customerId,
-                                  )));
+                                totalPrice: totalPrice,
+                                customerId: widget.customerId, videoIds: videoIds,
+                              )));
+                      setState(() {});
+
                     },
                     child: Text(info)),
               ),
@@ -1092,6 +1104,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                 ],
                               ),
                               subtitle: Text("ID: ${video.video_id}")),
+                          Text("isPaid: ${video.isPaid.toString()}"),
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(

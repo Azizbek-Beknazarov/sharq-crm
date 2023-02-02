@@ -27,7 +27,7 @@ import 'package:sharq_crm/features/services/album/domain/repository/album_repo.d
 import 'package:sharq_crm/features/services/album/domain/usecase/delete_album_usecase.dart';
 import 'package:sharq_crm/features/services/album/domain/usecase/get_album_for_customer_usecase.dart';
 import 'package:sharq_crm/features/services/album/domain/usecase/get_album_usecase.dart';
-import 'package:sharq_crm/features/services/album/domain/usecase/update_album_usecase.dart';
+import 'package:sharq_crm/features/services/album/domain/usecase/add_album_usecase.dart';
 import 'package:sharq_crm/features/services/album/presentation/bloc/album_bloc.dart';
 import 'package:sharq_crm/features/services/club/data/datasourse/club_remote_datasource.dart';
 import 'package:sharq_crm/features/services/club/data/repository/club_repo_impl.dart';
@@ -35,7 +35,7 @@ import 'package:sharq_crm/features/services/club/domain/repository/club_repo.dar
 import 'package:sharq_crm/features/services/club/domain/usecase/delete_club_usecase.dart';
 import 'package:sharq_crm/features/services/club/domain/usecase/get_club_for_customer_usecase.dart';
 import 'package:sharq_crm/features/services/club/domain/usecase/get_club_usecase.dart';
-import 'package:sharq_crm/features/services/club/domain/usecase/update_club_usecase.dart';
+import 'package:sharq_crm/features/services/club/domain/usecase/add_club_usecase.dart';
 import 'package:sharq_crm/features/services/club/presentation/bloc/club_bloc.dart';
 import 'package:sharq_crm/features/services/photo_studio/data/datasourse/photostudio_remote_ds.dart';
 import 'package:sharq_crm/features/services/photo_studio/data/repository/photostudio_repo_impl.dart';
@@ -43,10 +43,11 @@ import 'package:sharq_crm/features/services/photo_studio/domain/repository/photo
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/delete_photo_studio_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/get_photostudio_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/getphotostudio_for_customer_usecase.dart';
-import 'package:sharq_crm/features/services/photo_studio/domain/usecase/update_photostudio_usecase.dart';
+import 'package:sharq_crm/features/services/photo_studio/domain/usecase/add_photostudio_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
 import 'package:sharq_crm/features/services/video/domain/usecase/delete_video_usecase.dart';
 import 'package:sharq_crm/features/services/video/domain/usecase/get_video_for_customer_usecase.dart';
+import 'package:sharq_crm/features/services/video/domain/usecase/update_video_usecase.dart';
 import 'package:sharq_crm/features/services/video/presentation/bloc/video_bloc.dart';
 
 import '../core/network/network_info.dart';
@@ -66,7 +67,7 @@ import 'services/video/data/datasourse/video_remote_datasource.dart';
 import 'services/video/data/repository/video_repo_impl.dart';
 import 'services/video/domain/repository/video_repo.dart';
 import 'services/video/domain/usecase/get_video_usecase.dart';
-import 'services/video/domain/usecase/update_video_usecase.dart';
+import 'services/video/domain/usecase/add_video_usecase.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -103,7 +104,7 @@ Future<void> init() async {
   sl.registerFactory(() => AlbumBloc(sl(), sl(), sl(), sl()));
 
   //7
-  sl.registerFactory(() => VideoBloc(sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => VideoBloc(sl(), sl(), sl(), sl(),sl()));
 
   //
   // Use cases
@@ -151,6 +152,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetVideoForCustomerUseCase(repo: sl()));
   sl.registerLazySingleton(() => GetVideoUseCase(repo: sl()));
   sl.registerLazySingleton(() => AddVideoUseCase(repo: sl()));
+  sl.registerLazySingleton(() => UpdateVideoUseCase(repo: sl()));
 
   //
   // Repository

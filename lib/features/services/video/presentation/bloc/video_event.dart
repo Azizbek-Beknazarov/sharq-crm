@@ -38,3 +38,12 @@ class VideoDeleteEvent extends VideoEvents {
   VideoDeleteEvent({required this.customerId, required this.videoId})
       : super([customerId, videoId]);
 }
+//5
+class VideoUpdateEvent extends VideoEvents {
+
+  final String customerId;
+  final String videoId;
+
+  VideoUpdateEvent({required this.videoId, required this.customerId})
+      : super([videoId, customerId]);
+}

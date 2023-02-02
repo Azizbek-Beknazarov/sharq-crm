@@ -162,7 +162,8 @@ class _CustomerVideoOrderPageState extends State<CustomerVideoOrderPage> {
                                 ordersNumber: _ordersNumber,
                                 price: 2000000,
                                 description: '',
-                                address: _addressController.text);
+                                address: _addressController.text
+                            , isPaid: false);
 
                             setState(() {
                               context.read<VideoBloc>().add(VideoAddEvent(

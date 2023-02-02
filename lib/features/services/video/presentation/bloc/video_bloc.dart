@@ -6,6 +6,7 @@ import '../../domain/entity/video_entity.dart';
 import '../../domain/usecase/delete_video_usecase.dart';
 import '../../domain/usecase/get_video_for_customer_usecase.dart';
 import '../../domain/usecase/get_video_usecase.dart';
+import '../../domain/usecase/add_video_usecase.dart';
 import '../../domain/usecase/update_video_usecase.dart';
 
 part 'video_event.dart';
@@ -17,9 +18,10 @@ class VideoBloc extends Bloc<VideoEvents, VideoStates> {
   final GetVideoForCustomerUseCase _getVideoForCustomerUseCase;
   final GetVideoUseCase _getVideoUseCase;
   final AddVideoUseCase _addVideoUseCase;
+  final UpdateVideoUseCase _updateVideoUseCase;
 
   VideoBloc(this._addVideoUseCase, this._deleteVideoClubUsecase,
-      this._getVideoUseCase, this._getVideoForCustomerUseCase)
+      this._getVideoUseCase, this._getVideoForCustomerUseCase,this._updateVideoUseCase)
       : super(VideoInitialState()) {
     //1
     on<VideoGetEvent>((event, emit) async {
@@ -61,6 +63,18 @@ class VideoBloc extends Bloc<VideoEvents, VideoStates> {
                 params: VideoDeleteParams(
                     customerId: event.customerId, videoID: event.videoId))
             .then((value) => emit(VideoDeletedState()))
+            .catchError((error) => emit(VideoErrorState(message: error)));
+      }
+    });
+
+    //5
+    on<VideoUpdateEvent>((event, emit) async {
+      if (event is VideoUpdateEvent) {
+        emit(VideoLoadingState());
+
+        await _updateVideoUseCase
+            .call(params: VideoUpdateParams(event.videoId, event.customerId))
+            .then((value) => emit(VideoUpdateState()))
             .catchError((error) => emit(VideoErrorState(message: error)));
       }
     });

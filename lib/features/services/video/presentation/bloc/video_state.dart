@@ -12,6 +12,7 @@ class VideoInitialState extends VideoStates {}
 class VideoLoadingState extends VideoStates {}
 
 class VideoAddedState extends VideoStates {}
+class VideoUpdateState extends VideoStates {}
 
 class VideoLoadedState extends VideoStates {
   final List<VideoEntity> loaded;
