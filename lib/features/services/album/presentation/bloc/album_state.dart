@@ -12,6 +12,7 @@ class AlbumInitialState extends AlbumStates {}
 class AlbumLoadingState extends AlbumStates {}
 
 class AlbumAddedState extends AlbumStates {}
+class AlbumUpdatedState extends AlbumStates {}
 
 class AlbumLoadedState extends AlbumStates {
   final List<AlbumEntity> loaded;

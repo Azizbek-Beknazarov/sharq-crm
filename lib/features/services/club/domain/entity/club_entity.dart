@@ -8,6 +8,7 @@ class ClubEntity extends Equatable {
   int fromHour;
   int toHour;
   String description;
+  bool isPaid;
 
   ClubEntity({
     required this.club_id,
@@ -17,6 +18,7 @@ class ClubEntity extends Equatable {
     required this.ordersNumber,
     required this.toHour,
     required this.description,
+    required this.isPaid,
   });
 
   @override
@@ -28,5 +30,6 @@ class ClubEntity extends Equatable {
         fromHour,
         toHour,
         description,
+    isPaid,
       ];
 }

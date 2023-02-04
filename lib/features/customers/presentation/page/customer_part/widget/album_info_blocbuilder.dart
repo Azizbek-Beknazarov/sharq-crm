@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_home_page.dart';
 
 import '../../../../../../core/util/loading_widget.dart';
 import '../../../../../../core/util/snackbar_message.dart';
@@ -8,13 +9,12 @@ import '../../../../../services/album/domain/entity/album_entity.dart';
 import '../../../../../services/album/presentation/bloc/album_bloc.dart';
 
 class AlbumInfoBlocBuilder extends StatefulWidget {
-  AlbumInfoBlocBuilder({Key? key, required
-  this.albumForCustomerlist,
-    required this.loading,
-    required this.customerId}) : super(key: key);
+  AlbumInfoBlocBuilder(
+      {Key? key, required this.albumForCustomerlist, required this.customerId})
+      : super(key: key);
   List<AlbumEntity> albumForCustomerlist;
 
-  bool loading = false;
+  // bool loading = false;
   String customerId;
 
   @override
@@ -24,43 +24,10 @@ class AlbumInfoBlocBuilder extends StatefulWidget {
 class _AlbumInfoBlocBuilderState extends State<AlbumInfoBlocBuilder> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AlbumBloc, AlbumStates>(
-      builder: (contextAlbum, albumState) {
-        // print("Album States: $albumState");
-        if (albumState is AlbumInitialState) {
-          // return Text('Initial state...');
-        } else if (albumState is AlbumLoadingState) {
-          return LoadingWidget();
-        } else if (albumState is AlbumErrorState) {
-          return Center(
-            child: Text(
-                'AlbumState da error bor: ${albumState.message}'),
-          );
-        } else if (albumState is AlbumLoadedForCustomerState) {
-          // print("Album States: $albumState");
-          widget.albumForCustomerlist = albumState.loaded;
-
-          // print(
-          //     "AlbumForCustomerlist: ${albumForCustomerlist.toString()}");
-        }
-
-        return Column(
-          children: [
-            widget.albumForCustomerlist.length == 0
-                ? Text(
-              'Album hali buyurtma qilinmadi.',
-              style: TextStyle(
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold),
-            )
-                : _currentAlbumInfo(widget.albumForCustomerlist,
-                contextAlbum, widget.customerId),
-          ],
-        );
-      },
-    )
-    ;
+    return _currentAlbumInfo(
+        widget.albumForCustomerlist, context, widget.customerId);
   }
+
   //
   Padding _currentAlbumInfo(List<AlbumEntity> albumForCustomerlist,
       BuildContext contextAlbum, String customerId) {
@@ -159,19 +126,20 @@ class _AlbumInfoBlocBuilderState extends State<AlbumInfoBlocBuilder> {
                                 ],
                               ),
                               subtitle: Text("ID: ${album.album_id}")),
+                          Text("isPaid: ${album.isPaid.toString()}"),
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
                                 style: ButtonStyle(
                                     shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
+                                            RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(18.0),
+                                                BorderRadius.circular(18.0),
                                             side:
-                                            BorderSide(color: Colors.red))),
+                                                BorderSide(color: Colors.red))),
                                     backgroundColor:
-                                    MaterialStateProperty.all(Colors.red)),
+                                        MaterialStateProperty.all(Colors.red)),
                                 onPressed: () {
                                   showDialog(
                                       context: contextAlbum,
@@ -192,24 +160,27 @@ class _AlbumInfoBlocBuilderState extends State<AlbumInfoBlocBuilder> {
                                                   contextAlbum
                                                       .read<AlbumBloc>()
                                                       .add(AlbumDeleteEvent(
-                                                      customerId:
-                                                      customerId,
-                                                      albumId:
-                                                      album.album_id));
+                                                          customerId:
+                                                              customerId,
+                                                          albumId:
+                                                              album.album_id));
 
-                                                  context.read<AlbumBloc>().add(
-                                                      AlbumGetForCustomerEvent(
-                                                          customerId));
                                                   setState(() {
-                                                    widget.loading = true;
+                                                    // widget.loading = true;
                                                   });
-                                                  Navigator.pop(contextAlbum);
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (_) =>
+                                                              CustomerHomePage(
+                                                                  customerId: widget
+                                                                      .customerId)));
                                                   SnackBarMessage()
                                                       .showSuccessSnackBar(
-                                                      message:
-                                                      'O\'chirildi',
-                                                      context:
-                                                      contextAlbum);
+                                                          message:
+                                                              'O\'chirildi',
+                                                          context:
+                                                              contextAlbum);
                                                 },
                                                 child: Text("Ha")),
                                           ],

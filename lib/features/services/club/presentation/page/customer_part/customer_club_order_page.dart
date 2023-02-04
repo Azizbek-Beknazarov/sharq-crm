@@ -195,6 +195,7 @@ class _CustomerClubOrderPageState extends State<CustomerClubOrderPage> {
                               description: '',
                               fromHour: _from,
                               toHour: _to,
+                                isPaid:false
                             );
 
                             setState(() {

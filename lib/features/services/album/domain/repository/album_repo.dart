@@ -9,5 +9,5 @@ abstract class AlbumRepo {
 
   Future<void> addAlbum(AlbumEntity newAlbum, String customerId);
   Future<void> deleteAlbum( String customerId,String albumID);
-
+  Future<void> updateAlbum(String albumId, String customerId );
 }

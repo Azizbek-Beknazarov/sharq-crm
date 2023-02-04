@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sharq_crm/core/util/loading_widget.dart';
+
 import 'package:sharq_crm/features/customers/presentation/page/customer_part/arxiv_page.dart';
+import 'package:sharq_crm/features/services/album/domain/entity/album_entity.dart';
+import 'package:sharq_crm/features/services/club/domain/entity/club_entity.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/entity/photostudio_entity.dart';
 
 import '../../../../../core/util/snackbar_message.dart';
 import '../../../../services/video/domain/entity/video_entity.dart';
-import '../../../../services/video/presentation/bloc/video_bloc.dart';
+
 import '../../bloc/customer_cubit.dart';
 import 'customer_auth_pages/sign_in_customer_page.dart';
 import 'customer_home_page.dart';
@@ -17,11 +19,15 @@ class PaidCustomerPage extends StatefulWidget {
       {Key? key,
       required this.customerId,
       required this.videoForCustomerPaidlist,
-      required this.photoStudioForCustomerPaidlist})
+      required this.photoStudioForCustomerPaidlist,
+      required this.albumForCustomerPaidlist,
+      required this.clubForCustomerPaidlist})
       : super(key: key);
   final String customerId;
   List<VideoEntity> videoForCustomerPaidlist;
   List<PhotoStudioEntity> photoStudioForCustomerPaidlist;
+  List<ClubEntity> clubForCustomerPaidlist;
+  List<AlbumEntity> albumForCustomerPaidlist;
 
   @override
   State<PaidCustomerPage> createState() => _PaidCustomerPageState();
@@ -52,6 +58,38 @@ class _PaidCustomerPageState extends State<PaidCustomerPage> {
                   : _currentPhotoStudioInfo(
                       widget.photoStudioForCustomerPaidlist,
                       context,
+                      widget.customerId),
+              SizedBox(
+                height: 10,
+              ),
+              widget.clubForCustomerPaidlist.length == 0
+                  ? Padding(
+                      padding: const EdgeInsets.all(28.0),
+                      child: Center(
+                        child: Text(
+                          'Tasdiqlangan Club buyurtma mavjud emas.',
+                          style: TextStyle(
+                              color: Colors.green, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    )
+                  : _currentClubInfo(widget.clubForCustomerPaidlist, context,
+                      widget.customerId),
+              SizedBox(
+                height: 10,
+              ),
+              widget.albumForCustomerPaidlist.length == 0
+                  ? Padding(
+                      padding: const EdgeInsets.all(28.0),
+                      child: Center(
+                        child: Text(
+                          'Tasdiqlangan Album buyurtma mavjud emas.',
+                          style: TextStyle(
+                              color: Colors.green, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    )
+                  : _currentAlbumInfo(widget.albumForCustomerPaidlist, context,
                       widget.customerId),
               SizedBox(
                 height: 10,
@@ -210,6 +248,242 @@ class _PaidCustomerPageState extends State<PaidCustomerPage> {
   }
 
   //
+  Padding _currentClubInfo(List<ClubEntity> clubForCustomerlist,
+      BuildContext contextClub, String customerId) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text(
+              "Club",
+              style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
+            ),
+            Container(
+              width: double.infinity,
+              child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (ctx, index) {
+                  if (clubForCustomerlist.isEmpty) {
+                    return Center(
+                      child: Text('Buyurtma mavjud emas'),
+                    );
+                  }
+                  ClubEntity club = clubForCustomerlist[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(7.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(22),
+                          ),
+                          color: Colors.green.shade100),
+                      child: Column(
+                        children: [
+                          ListTile(
+                              title: Row(
+                                children: [
+                                  Text("Zakz sanasi: "),
+                                  Text(
+                                    "${club.dateTimeOfWedding}",
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              subtitle: Row(
+                                children: [
+                                  Text(
+                                    "Zakzlar soni: ",
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.black),
+                                  ),
+                                  Text(
+                                    "${club.ordersNumber}",
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )),
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Text("Soati: "),
+                                Text(
+                                  "${club.fromHour.toString()}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(" dan "),
+                                Text(
+                                  "${club.toHour.toString()}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(" gacha."),
+                              ],
+                            ),
+                          ),
+                          ListTile(
+                              title: Row(
+                                children: [
+                                  Text(
+                                    "Narxi: ",
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.black),
+                                  ),
+                                  Text(
+                                    "${club.price * club.ordersNumber * (club.toHour - club.fromHour)}",
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    " so\'m",
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                              subtitle: Text("ID: ${club.club_id}")),
+                          Text("isPaid: ${club.isPaid.toString()}"),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                itemCount: clubForCustomerlist.length,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  //
+  Padding _currentAlbumInfo(List<AlbumEntity> albumForCustomerlist,
+      BuildContext contextAlbum, String customerId) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text(
+              "Album",
+              style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
+            ),
+            Container(
+              width: double.infinity,
+              child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (ctx, index) {
+                  if (albumForCustomerlist.isEmpty) {
+                    return Center(
+                      child: Text('Buyurtma mavjud emas'),
+                    );
+                  }
+                  AlbumEntity album = albumForCustomerlist[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(7.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(22),
+                          ),
+                          color: Colors.green.shade100),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Text("Manzil: "),
+                                Text(
+                                  "${album.address}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ListTile(
+                              title: Row(
+                                children: [
+                                  Text("Zakz sanasi: "),
+                                  Text(
+                                    "${album.dateTimeOfWedding}",
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              subtitle: Row(
+                                children: [
+                                  Text(
+                                    "Zakzlar soni: ",
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.black),
+                                  ),
+                                  Text(
+                                    "${album.ordersNumber}",
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )),
+                          ListTile(
+                              title: Row(
+                                children: [
+                                  Text(
+                                    "Narxi: ",
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.black),
+                                  ),
+                                  Text(
+                                    "${album.price * album.ordersNumber}",
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    " so\'m",
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                              subtitle: Text("ID: ${album.album_id}")),
+                          Text("isPaid: ${album.isPaid.toString()}"),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                itemCount: albumForCustomerlist.length,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   //
   Padding _currentVideoInfoPaid(List<VideoEntity> videoForCustomerPaidList,

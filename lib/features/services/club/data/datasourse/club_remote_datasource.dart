@@ -9,6 +9,7 @@ abstract class ClubRemoteDataSource {
   Future<void> addClub(ClubModel newClub, String customerId);
 
   Future<void> deleteClub({required String customerId, required String clubID});
+  Future<void> updateClub(String clubId, String customerId);
 }
 
 class ClubRemoteDataSourceImpl implements ClubRemoteDataSource {
@@ -61,5 +62,14 @@ class ClubRemoteDataSourceImpl implements ClubRemoteDataSource {
         .collection('club_order')
         .doc(clubID)
         .delete();
+  }
+
+  @override
+  Future<void> updateClub(String clubId, String customerId) async{
+    return await clubReferenceForCustomer
+        .doc(customerId)
+        .collection('club_order')
+        .doc(clubId)
+        .update({"isPaid": true}).then((value) => print('ALL OK'));
   }
 }

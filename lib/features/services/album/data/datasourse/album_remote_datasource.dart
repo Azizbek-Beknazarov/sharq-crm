@@ -10,6 +10,7 @@ abstract class AlbumRemoteDataSource {
 
   Future<void> deleteAlbum(
       {required String customerId, required String albumID});
+  Future<void> updateAlbum(String albumId, String customerId);
 }
 
 class AlbumRemoteDataSourceImpl implements AlbumRemoteDataSource {
@@ -60,5 +61,14 @@ class AlbumRemoteDataSourceImpl implements AlbumRemoteDataSource {
         .map((e) => AlbumModel.fromJson(e.data() as Map<String, dynamic>))
         .toList();
     return Future.value(albumModel);
+  }
+
+  @override
+  Future<void> updateAlbum(String albumId, String customerId) async{
+    return await albumReferenceForCustomer
+        .doc(customerId)
+        .collection('album_order')
+        .doc(albumId)
+        .update({"isPaid": true}).then((value) => print('ALL OK'));
   }
 }

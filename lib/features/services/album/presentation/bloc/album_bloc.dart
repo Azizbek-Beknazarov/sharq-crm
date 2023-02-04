@@ -7,6 +7,7 @@ import '../../domain/usecase/delete_album_usecase.dart';
 import '../../domain/usecase/get_album_for_customer_usecase.dart';
 import '../../domain/usecase/get_album_usecase.dart';
 import '../../domain/usecase/add_album_usecase.dart';
+import '../../domain/usecase/update_album_usecase.dart';
 
 part 'album_event.dart';
 
@@ -17,9 +18,10 @@ class AlbumBloc extends Bloc<AlbumEvents, AlbumStates> {
   final GetAlbumForCustomerUseCase _getAlbumForCustomerUseCase;
   final GetAlbumUseCase _getAlbumUseCase;
   final AddAlbumUseCase _addAlbumUseCase;
+  final UpdateAlbumUseCase _updateAlbumUseCase;
 
   AlbumBloc(this._addAlbumUseCase, this._deleteAlbumClubUsecase,
-      this._getAlbumUseCase, this._getAlbumForCustomerUseCase)
+      this._getAlbumUseCase, this._getAlbumForCustomerUseCase,this._updateAlbumUseCase)
       : super(AlbumInitialState()) {
     //1
     on<AlbumGetEvent>((event, emit) async {
@@ -62,6 +64,20 @@ class AlbumBloc extends Bloc<AlbumEvents, AlbumStates> {
                     customerId: event.customerId, albumID: event.albumId))
             .then((value) => emit(AlbumDeletedState()))
             .catchError((error) => emit(AlbumErrorState(message: error)));
+      }
+    });
+    //5
+    on<AlbumUpdateEvent>((event, emit) async {
+      if (event is AlbumUpdateEvent) {
+        emit(AlbumLoadingState());
+
+        await _updateAlbumUseCase
+            .call(
+            params: AlbumUpdateParams(
+                event.albumId, event.customerId))
+            .then((value) => emit(AlbumUpdatedState()))
+            .catchError((error) =>
+            emit(AlbumErrorState(message: error.toString())));
       }
     });
 

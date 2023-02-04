@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_home_page.dart';
+import 'package:sharq_crm/features/services/album/presentation/bloc/album_bloc.dart';
+import 'package:sharq_crm/features/services/club/presentation/bloc/club_bloc.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_event.dart';
 import 'package:sharq_crm/features/services/video/domain/entity/video_entity.dart';
@@ -12,12 +14,14 @@ class PaymentPage extends StatelessWidget {
       {Key? key,
       required this.totalPrice,
       required this.customerId,
-      required this.videoIds,required this.photoIds})
+      required this.videoIds,required this.photoIds,required this.clubIds,required this.albumIds})
       : super(key: key);
   final double totalPrice;
   final String customerId;
   final List<String> videoIds;
   final List<String> photoIds;
+  final List<String> clubIds;
+  final List<String> albumIds;
 
   TextEditingController _cardController = TextEditingController();
 
@@ -75,6 +79,10 @@ class PaymentPage extends StatelessWidget {
                             "videoIds.length========${videoIds.length.toString()}");
                         print(
                             "photoIds.length========${photoIds.length.toString()}");
+                        print(
+                            "clubIds.length========${clubIds.length.toString()}");
+                        print(
+                            "albumIds.length========${albumIds.length.toString()}");
                         //
                         for (int i = 0; i <= photoIds.length - 1; i++) {
                           String photoId = photoIds[i];
@@ -82,6 +90,22 @@ class PaymentPage extends StatelessWidget {
                               PhotoStudioUpdateEvent(
                                   photostudioId: photoId, customerId: customerId));
                           print("YANGILANDI: PHOTOSTUDIOID: ${photoId}");
+                        }
+                        //
+                        for (int i = 0; i <= clubIds.length - 1; i++) {
+                          String clubId = clubIds[i];
+                          BlocProvider.of<ClubBloc>(context).add(
+                              ClubUpdateEvent(
+                                  clubId: clubId, customerId: customerId));
+                          print("YANGILANDI: CLUB: ${clubId}");
+                        }
+                        //
+                        for (int i = 0; i <= albumIds.length - 1; i++) {
+                          String albumId = albumIds[i];
+                          BlocProvider.of<AlbumBloc>(context).add(
+                              AlbumUpdateEvent(
+                                  albumId: albumId, customerId: customerId));
+                          print("YANGILANDI: ALBUM: ${albumId}");
                         }
 
 

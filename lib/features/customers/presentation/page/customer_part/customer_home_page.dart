@@ -9,6 +9,7 @@ import 'package:sharq_crm/features/customers/presentation/bloc/customer_state.da
 import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_auth_pages/sign_in_customer_page.dart';
 import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_auth_pages/signup_customer_page.dart';
 import 'package:sharq_crm/features/customers/presentation/page/customer_part/payment_page.dart';
+import 'package:sharq_crm/features/customers/presentation/page/customer_part/widget/album_info_blocbuilder.dart';
 import 'package:sharq_crm/features/customers/presentation/page/customer_part/widget/club_info_blocbuilder.dart';
 import 'package:sharq_crm/features/customers/presentation/page/customer_part/widget/customer_info_blocbuilder.dart';
 import 'package:sharq_crm/features/customers/presentation/page/customer_part/widget/photostudio_info_blocbuilder.dart';
@@ -48,11 +49,15 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
 
   //
   List<ClubEntity> clubForCustomerlist = [];
+  List<ClubEntity> clubForCustomerUnPaidlist = [];
+  List<ClubEntity> clubForCustomerPaidlist = [];
+  List<String> clubIds = [];
 
   //
   List<AlbumEntity> albumForCustomerlist = [];
   List<AlbumEntity> albumForCustomerUnPaidlist = [];
   List<AlbumEntity> albumForCustomerPaidlist = [];
+  List<String> albumIds = [];
 
   //
   List<VideoEntity> videoForCustomerlist = [];
@@ -169,14 +174,130 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
               ),
 
               // Club infos
-              ClubInfoBlocBuilder(
-                clubForCustomerlist: clubForCustomerlist,
-                loading: loading,
-                customerId: widget.customerId,
+              BlocBuilder<ClubBloc, ClubStates>(
+                builder: (contextClub, clubState) {
+                  if (clubState is ClubInitialState) {
+                  } else if (clubState is ClubLoadingState) {
+                    return LoadingWidget();
+                  } else if (clubState is ClubErrorState) {
+                    return Center(
+                      child:
+                          Text('clubState da error bor: ${clubState.message}'),
+                    );
+                  } else if (clubState is ClubLoadedForCustomerState) {
+                    clubForCustomerlist = clubState.loaded;
+                    if (clubForCustomerlist.length == 0) {
+                      return Text(
+                        'Club hali buyurtma qilinmadi.',
+                        style: TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold),
+                      );
+                    }
+                    clubForCustomerlist.forEach((element) {
+                      //1
+                      var containUnPaid = clubForCustomerUnPaidlist.where(
+                          (element2) => element2.club_id == element.club_id);
+                      if (containUnPaid.isEmpty) {
+                        if (!element.isPaid) {
+                          clubForCustomerUnPaidlist.add(element);
+                          print(
+                              "::::clubForCustomerUnPaidlist  docslar: ${clubForCustomerUnPaidlist}");
+                        } else {
+                          //2
+                          var containPaid = clubForCustomerPaidlist.where(
+                              (element2) =>
+                                  element2.club_id == element.club_id);
+                          if (containPaid.isEmpty) {
+                            if (element.isPaid) {
+                              clubForCustomerPaidlist.add(element);
+                              print(
+                                  "::::clubForCustomerPaidlist  docslar: ${clubForCustomerPaidlist}");
+                            }
+                          }
+                        }
+                      }
+                    });
+                  }
+
+                  return Column(
+                    children: [
+                      clubForCustomerUnPaidlist.length == 0
+                          ? Text(
+                              "Club hali buyurtma qilinmadi.",
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          : ClubInfoBlocBuilder(
+                              clubForCustomerlist: clubForCustomerUnPaidlist,
+                              customerId: widget.customerId),
+                    ],
+                  );
+                },
               ),
 
               // Album infos
+              BlocBuilder<AlbumBloc, AlbumStates>(
+                builder: (contextAlbum, albumState) {
+                  if (albumState is AlbumInitialState) {
+                  } else if (albumState is AlbumLoadingState) {
+                    return LoadingWidget();
+                  } else if (albumState is AlbumErrorState) {
+                    return Center(
+                      child: Text(
+                          'AlbumState da error bor: ${albumState.message}'),
+                    );
+                  } else if (albumState is AlbumLoadedForCustomerState) {
+                    albumForCustomerlist = albumState.loaded;
+                    if (albumForCustomerlist.length == 0) {
+                      return Text(
+                        'Album hali buyurtma qilinmadi.',
+                        style: TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold),
+                      );
+                    }
+                    albumForCustomerlist.forEach((element) {
+                      //1
+                      var containUnPaid = albumForCustomerUnPaidlist.where(
+                          (element2) => element2.album_id == element.album_id);
+                      if (containUnPaid.isEmpty) {
+                        if (!element.isPaid) {
+                          albumForCustomerUnPaidlist.add(element);
+                          print(
+                              "::::albumForCustomerUnPaidlist  docslar: ${albumForCustomerUnPaidlist}");
+                        } else {
+                          //2
+                          var containPaid = albumForCustomerPaidlist.where(
+                              (element2) =>
+                                  element2.album_id == element.album_id);
+                          if (containPaid.isEmpty) {
+                            if (element.isPaid) {
+                              albumForCustomerPaidlist.add(element);
+                              print(
+                                  "::::albumForCustomerPaidlist  docslar: ${albumForCustomerPaidlist}");
+                            }
+                          }
+                        }
+                      }
+                    });
+                  }
 
+                  return Column(
+                    children: [
+                      albumForCustomerUnPaidlist.length == 0
+                          ? Text(
+                              'Album hali buyurtma qilinmadi.',
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          : AlbumInfoBlocBuilder(
+                              albumForCustomerlist: albumForCustomerUnPaidlist,
+                              customerId: widget.customerId),
+                    ],
+                  );
+                },
+              ),
               //
               // Video infos
               BlocBuilder<VideoBloc, VideoStates>(
@@ -271,13 +392,19 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                         print("::::PhotoStudio ID: $photoId");
                         photoStudioIds.add(photoId);
                       });
-                      clubForCustomerlist.forEach((element) {
+                      clubForCustomerUnPaidlist.forEach((element) {
                         price2 += element.price *
                             element.ordersNumber *
                             (element.toHour - element.fromHour);
+                        String clubId = element.club_id;
+                        print("::::Club ID: $clubId");
+                        clubIds.add(clubId);
                       });
-                      albumForCustomerlist.forEach((element) {
+                      albumForCustomerUnPaidlist.forEach((element) {
                         price3 += element.price * element.ordersNumber;
+                        String albumId = element.album_id;
+                        print("::::Album ID: $albumId");
+                        albumIds.add(albumId);
                       });
                       videoForCustomerUnPaidlist.forEach((element) {
                         price4 += element.price * element.ordersNumber;
@@ -293,6 +420,10 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                       print(
                           "::::photoStudioIds.length customer home pagedagi========${photoStudioIds.length.toString()}");
                       print(
+                          "::::clubIds.length customer home pagedagi========${clubIds.length.toString()}");
+                      print(
+                          "::::albumIds.length customer home pagedagi========${albumIds.length.toString()}");
+                      print(
                           "::::videoIds.length customer home pagedagi========${videoIds.length.toString()}");
                       print("::::total price: ${totalPrice.toString()}");
                       Navigator.push(
@@ -303,6 +434,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                     customerId: widget.customerId,
                                     videoIds: videoIds,
                                     photoIds: photoStudioIds,
+                                    clubIds: clubIds,
+                                    albumIds: albumIds,
                                   )));
                       // setState(() {});
                     },
@@ -320,181 +453,6 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
       floatingActionButton: _floatingButton(widget.customerId),
     );
   }
-
-//
-  Padding _currentAlbumInfo(List<AlbumEntity> albumForCustomerlist,
-      BuildContext contextAlbum, String customerId) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text(
-              "Album",
-              style: TextStyle(
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
-            ),
-            Container(
-              width: double.infinity,
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (ctx, index) {
-                  if (albumForCustomerlist.isEmpty) {
-                    return Center(
-                      child: Text('Buyurtma mavjud emas'),
-                    );
-                  }
-                  AlbumEntity album = albumForCustomerlist[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(7.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(22),
-                          ),
-                          color: Colors.green.shade100),
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Row(
-                              children: [
-                                Text("Manzil: "),
-                                Text(
-                                  "${album.address}",
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ),
-                          ListTile(
-                              title: Row(
-                                children: [
-                                  Text("Zakz sanasi: "),
-                                  Text(
-                                    "${album.dateTimeOfWedding}",
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              subtitle: Row(
-                                children: [
-                                  Text(
-                                    "Zakzlar soni: ",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                  Text(
-                                    "${album.ordersNumber}",
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              )),
-                          ListTile(
-                              title: Row(
-                                children: [
-                                  Text(
-                                    "Narxi: ",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                  Text(
-                                    "${album.price * album.ordersNumber}",
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    " so\'m",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                ],
-                              ),
-                              subtitle: Text("ID: ${album.album_id}")),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                                style: ButtonStyle(
-                                    shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(18.0),
-                                            side:
-                                                BorderSide(color: Colors.red))),
-                                    backgroundColor:
-                                        MaterialStateProperty.all(Colors.red)),
-                                onPressed: () {
-                                  showDialog(
-                                      context: contextAlbum,
-                                      builder: (contextAlbum) {
-                                        return AlertDialog(
-                                          title: Text("Albumni o\'chirish"),
-                                          content: Text(
-                                              'Siz rostdan ham albumni olib tashlamoqchimisiz?'),
-                                          icon: Icon(Icons.warning),
-                                          actions: [
-                                            OutlinedButton(
-                                                onPressed: () {
-                                                  Navigator.pop(contextAlbum);
-                                                },
-                                                child: Text("Yo\'q")),
-                                            OutlinedButton(
-                                                onPressed: () {
-                                                  contextAlbum
-                                                      .read<AlbumBloc>()
-                                                      .add(AlbumDeleteEvent(
-                                                          customerId:
-                                                              customerId,
-                                                          albumId:
-                                                              album.album_id));
-
-                                                  context.read<AlbumBloc>().add(
-                                                      AlbumGetForCustomerEvent(
-                                                          customerId));
-                                                  setState(() {
-                                                    loading = true;
-                                                  });
-                                                  Navigator.pop(contextAlbum);
-                                                  SnackBarMessage()
-                                                      .showSuccessSnackBar(
-                                                          message:
-                                                              'O\'chirildi',
-                                                          context:
-                                                              contextAlbum);
-                                                },
-                                                child: Text("Ha")),
-                                          ],
-                                        );
-                                      });
-                                },
-                                child: Text('Olib tashlash')),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
-                itemCount: albumForCustomerlist.length,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-//
 
   //
   Widget _drawerCHP() {
@@ -546,6 +504,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                             videoForCustomerPaidlist: videoForCustomerPaidlist,
                             photoStudioForCustomerPaidlist:
                                 photoStudioForCustomerPaidlist,
+                            albumForCustomerPaidlist: albumForCustomerPaidlist,
+                            clubForCustomerPaidlist: clubForCustomerPaidlist,
                           )),
                   (route) => false);
             },
@@ -635,179 +595,4 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                       )));
         });
   }
-
-//
-// Padding _currentVideoInfo(List<VideoEntity> videoForCustomerlist,
-//     BuildContext contextVideo, String customerId) {
-//   return Padding(
-//     padding: const EdgeInsets.all(8.0),
-//     child: SingleChildScrollView(
-//       child: Column(
-//         children: [
-//           Text(
-//             "Video Studio",
-//             style: TextStyle(
-//                 color: Colors.green,
-//                 fontWeight: FontWeight.bold,
-//                 fontSize: 20),
-//           ),
-//           Container(
-//             width: double.infinity,
-//             child: ListView.builder(
-//               physics: NeverScrollableScrollPhysics(),
-//               itemBuilder: (ctx, index) {
-//                 if (videoForCustomerlist.isEmpty) {
-//                   return Center(
-//                     child: Text('Buyurtma mavjud emas'),
-//                   );
-//                 }
-//                 VideoEntity video = videoForCustomerlist[index];
-//                 return Padding(
-//                   padding: const EdgeInsets.all(7.0),
-//                   child: Container(
-//                     decoration: BoxDecoration(
-//                         borderRadius: BorderRadius.all(
-//                           Radius.circular(22),
-//                         ),
-//                         color: Colors.green.shade100),
-//                     child: Column(
-//                       children: [
-//                         ListTile(
-//                           title: Row(
-//                             children: [
-//                               Text("Manzil: "),
-//                               Text(
-//                                 "${video.address}",
-//                                 style: TextStyle(
-//                                     color: Colors.red,
-//                                     fontWeight: FontWeight.bold),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                         ListTile(
-//                             title: Row(
-//                               children: [
-//                                 Text("Zakz sanasi: "),
-//                                 Text(
-//                                   "${video.dateTimeOfWedding}",
-//                                   style: TextStyle(
-//                                       color: Colors.red,
-//                                       fontWeight: FontWeight.bold),
-//                                 ),
-//                               ],
-//                             ),
-//                             subtitle: Row(
-//                               children: [
-//                                 Text(
-//                                   "Zakzlar soni: ",
-//                                   style: TextStyle(
-//                                       fontSize: 15, color: Colors.black),
-//                                 ),
-//                                 Text(
-//                                   "${video.ordersNumber}",
-//                                   style: TextStyle(
-//                                       color: Colors.red,
-//                                       fontWeight: FontWeight.bold),
-//                                 ),
-//                               ],
-//                             )),
-//                         ListTile(
-//                             title: Row(
-//                               children: [
-//                                 Text(
-//                                   "Narxi: ",
-//                                   style: TextStyle(
-//                                       fontSize: 15, color: Colors.black),
-//                                 ),
-//                                 Text(
-//                                   "${video.price * video.ordersNumber}",
-//                                   style: TextStyle(
-//                                       color: Colors.red,
-//                                       fontWeight: FontWeight.bold),
-//                                 ),
-//                                 Text(
-//                                   " so\'m",
-//                                   style: TextStyle(
-//                                       fontSize: 15, color: Colors.black),
-//                                 ),
-//                               ],
-//                             ),
-//                             subtitle: Text("ID: ${video.video_id}")),
-//                         Text("isPaid: ${video.isPaid.toString()}"),
-//                         SizedBox(
-//                           width: double.infinity,
-//                           child: ElevatedButton(
-//                               style: ButtonStyle(
-//                                   shape: MaterialStateProperty.all<
-//                                       RoundedRectangleBorder>(
-//                                       RoundedRectangleBorder(
-//                                           borderRadius:
-//                                           BorderRadius.circular(18.0),
-//                                           side:
-//                                           BorderSide(color: Colors.red))),
-//                                   backgroundColor:
-//                                   MaterialStateProperty.all(Colors.red)),
-//                               onPressed: () {
-//                                 showDialog(
-//                                     context: contextVideo,
-//                                     builder: (contextVideo) {
-//                                       return AlertDialog(
-//                                         title: Text("Videoni o\'chirish"),
-//                                         content: Text(
-//                                             'Siz rostdan ham Videoni olib tashlamoqchimisiz?'),
-//                                         icon: Icon(Icons.warning),
-//                                         actions: [
-//                                           OutlinedButton(
-//                                               onPressed: () {
-//                                                 Navigator.pop(contextVideo);
-//                                               },
-//                                               child: Text("Yo\'q")),
-//                                           OutlinedButton(
-//                                               onPressed: () {
-//                                                 contextVideo
-//                                                     .read<VideoBloc>()
-//                                                     .add(VideoDeleteEvent(
-//                                                     customerId:
-//                                                     customerId,
-//                                                     videoId:
-//                                                     video.video_id));
-//
-//                                                 context.read<VideoBloc>().add(
-//                                                     VideoGetForCustomerEvent(
-//                                                         customerId));
-//                                                 setState(() {
-//                                                   loading = true;
-//                                                 });
-//                                                 Navigator.pop(contextVideo);
-//
-//                                                 SnackBarMessage()
-//                                                     .showSuccessSnackBar(
-//                                                     message:
-//                                                     'O\'chirildi',
-//                                                     context:
-//                                                     contextVideo);
-//                                               },
-//                                               child: Text("Ha")),
-//                                         ],
-//                                       );
-//                                     });
-//                               },
-//                               child: Text('Olib tashlash')),
-//                         )
-//                       ],
-//                     ),
-//                   ),
-//                 );
-//               },
-//               itemCount: videoForCustomerlist.length,
-//               scrollDirection: Axis.vertical,
-//               shrinkWrap: true,
-//             ),
-//           ),
-//         ],
-//       ),
-//     ),
-//   );
-// }
 }

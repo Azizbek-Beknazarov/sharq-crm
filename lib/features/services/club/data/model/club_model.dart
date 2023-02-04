@@ -9,6 +9,7 @@ class ClubModel extends ClubEntity {
     required String description,
     required int fromHour,
     required int toHour,
+    required bool isPaid,
   }) : super(
           club_id: club_id,
           price: price,
@@ -17,6 +18,7 @@ class ClubModel extends ClubEntity {
           toHour: toHour,
           ordersNumber: ordersNumber,
           description: description,
+    isPaid: isPaid,
         );
 
   factory ClubModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,7 @@ class ClubModel extends ClubEntity {
       description: json['description'] ?? '',
       fromHour: json['fromHour'],
       toHour: json['toHour'],
+      isPaid: json['isPaid'],
     );
   }
 
@@ -40,6 +43,7 @@ class ClubModel extends ClubEntity {
       'ordersNumber': ordersNumber,
       'fromHour': fromHour,
       'description': description,
+      'isPaid': isPaid,
     };
   }
 }

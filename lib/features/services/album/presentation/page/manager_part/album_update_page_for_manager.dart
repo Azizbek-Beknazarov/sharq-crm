@@ -89,7 +89,8 @@ class _AlbumUpdatePageForManagerState extends State<AlbumUpdatePageForManager> {
                     dateTimeOfWedding: date,
                     ordersNumber: _ordersNumber,
                     description: _descriptionController.text ?? '',
-                    address: ""
+                    address: "",
+                    isPaid: false,
                   );
                   print('object:::${docId}');
                   print('object:::${_descriptionController.text}');

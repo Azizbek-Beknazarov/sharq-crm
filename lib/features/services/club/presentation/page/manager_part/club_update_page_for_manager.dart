@@ -100,7 +100,7 @@ class _ClubUpdatePageForManagerState extends State<ClubUpdatePageForManager> {
                       club_id: docId ?? '',
                       price: _priceInt,
                       dateTimeOfWedding: date,
-
+                      isPaid:false,
                       ordersNumber: _ordersNumber,
 
                       description: _descriptionController.text ?? '',

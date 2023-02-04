@@ -12,6 +12,7 @@ class ClubInitialState extends ClubStates {}
 class ClubLoadingState extends ClubStates {}
 
 class ClubAddedState extends ClubStates {}
+class ClubUpdatedState extends ClubStates {}
 
 class ClubLoadedState extends ClubStates {
   final List<ClubEntity> loaded;

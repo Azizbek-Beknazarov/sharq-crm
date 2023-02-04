@@ -224,4 +224,32 @@ class PhotoStudioUpdateParams extends Equatable {
   @override
   List<Object?> get props => [photoStudioId, customerId];
 }
+//19
+class ClubUpdateParams extends Equatable {
+
+  String customerId;
+  String clubId;
+
+  ClubUpdateParams(
+      this.clubId,
+      this.customerId,
+      );
+
+  @override
+  List<Object?> get props => [clubId, customerId];
+}
+//20
+class AlbumUpdateParams extends Equatable {
+
+  String customerId;
+  String albumId;
+
+  AlbumUpdateParams(
+      this.albumId,
+      this.customerId,
+      );
+
+  @override
+  List<Object?> get props => [albumId, customerId];
+}
 

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_home_page.dart';
 
 import '../../../../../../core/util/loading_widget.dart';
 import '../../../../../../core/util/snackbar_message.dart';
@@ -9,14 +10,12 @@ import '../../../../../services/club/presentation/bloc/club_bloc.dart';
 
 class ClubInfoBlocBuilder extends StatefulWidget {
   ClubInfoBlocBuilder(
-      {Key? key,
-      required this.clubForCustomerlist,
-      required this.loading,
-      required this.customerId})
+      {Key? key, required this.clubForCustomerlist, required this.customerId})
       : super(key: key);
   List<ClubEntity> clubForCustomerlist;
 
-  bool loading = false;
+  //
+  // bool loading = false;
   String customerId;
 
   @override
@@ -26,38 +25,8 @@ class ClubInfoBlocBuilder extends StatefulWidget {
 class _ClubInfoBlocBuilderState extends State<ClubInfoBlocBuilder> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ClubBloc, ClubStates>(
-      builder: (contextClub, clubState) {
-        // print("Club States: $clubState");
-        if (clubState is ClubInitialState) {
-          // return Text('Initial state...');
-        } else if (clubState is ClubLoadingState) {
-          return LoadingWidget();
-        } else if (clubState is ClubErrorState) {
-          return Center(
-            child: Text('clubState da error bor: ${clubState.message}'),
-          );
-        } else if (clubState is ClubLoadedForCustomerState) {
-          // print("Club States: $clubState");
-          widget.clubForCustomerlist = clubState.loaded;
-          // print(
-          //     "clubForCustomerlist: ${clubForCustomerlist.toString()}");
-        }
-
-        return Column(
-          children: [
-            widget.clubForCustomerlist.length == 0
-                ? Text(
-                    "Club hali buyurtma qilinmadi.",
-                    style: TextStyle(
-                        color: Colors.green, fontWeight: FontWeight.bold),
-                  )
-                : _currentClubInfo(
-                    widget.clubForCustomerlist, contextClub, widget.customerId),
-          ],
-        );
-      },
-    );
+    return _currentClubInfo(
+        widget.clubForCustomerlist, context, widget.customerId);
   }
 
   Padding _currentClubInfo(List<ClubEntity> clubForCustomerlist,
@@ -165,6 +134,7 @@ class _ClubInfoBlocBuilderState extends State<ClubInfoBlocBuilder> {
                                 ],
                               ),
                               subtitle: Text("ID: ${club.club_id}")),
+                          Text("isPaid: ${club.isPaid.toString()}"),
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
@@ -202,13 +172,17 @@ class _ClubInfoBlocBuilderState extends State<ClubInfoBlocBuilder> {
                                                               customerId,
                                                           clubId:
                                                               club.club_id));
-                                                  context.read<ClubBloc>().add(
-                                                      ClubGetForCustomerEvent(
-                                                          customerId));
+
                                                   setState(() {
-                                                    widget.loading = true;
+                                                    // widget.loading = true;
                                                   });
-                                                  Navigator.pop(contextClub);
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (_) =>
+                                                              CustomerHomePage(
+                                                                  customerId: widget
+                                                                      .customerId)));
                                                   SnackBarMessage()
                                                       .showSuccessSnackBar(
                                                           message:

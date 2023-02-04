@@ -38,3 +38,12 @@ class AlbumDeleteEvent extends AlbumEvents {
   AlbumDeleteEvent({required this.customerId, required this.albumId})
       : super([customerId, albumId]);
 }
+//5
+class AlbumUpdateEvent extends AlbumEvents {
+
+  final String customerId;
+  final String albumId;
+
+  AlbumUpdateEvent({required this.albumId, required this.customerId})
+      : super([albumId, customerId]);
+}

@@ -27,6 +27,7 @@ class ClubRepoImpl implements ClubRepo {
         description: e.description,
         fromHour: e.fromHour,
         toHour: e.toHour,
+    isPaid: e.isPaid,
         //
       );
 
@@ -41,6 +42,7 @@ class ClubRepoImpl implements ClubRepo {
       description: newClub.description,
       fromHour: newClub.fromHour,
       toHour: newClub.toHour,
+      isPaid: newClub.isPaid,
     );
     ClubModel model = _convert(entity);
     return await remoteDS.addClub(model, customerId);
@@ -78,5 +80,10 @@ class ClubRepoImpl implements ClubRepo {
     } else {
       return Left(ServerFailure());
     }
+  }
+
+  @override
+  Future<void> updateClub(String clubId, String customerId) async{
+    return await remoteDS.updateClub(clubId, customerId);
   }
 }

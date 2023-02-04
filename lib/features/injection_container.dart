@@ -28,6 +28,7 @@ import 'package:sharq_crm/features/services/album/domain/usecase/delete_album_us
 import 'package:sharq_crm/features/services/album/domain/usecase/get_album_for_customer_usecase.dart';
 import 'package:sharq_crm/features/services/album/domain/usecase/get_album_usecase.dart';
 import 'package:sharq_crm/features/services/album/domain/usecase/add_album_usecase.dart';
+import 'package:sharq_crm/features/services/album/domain/usecase/update_album_usecase.dart';
 import 'package:sharq_crm/features/services/album/presentation/bloc/album_bloc.dart';
 import 'package:sharq_crm/features/services/club/data/datasourse/club_remote_datasource.dart';
 import 'package:sharq_crm/features/services/club/data/repository/club_repo_impl.dart';
@@ -36,6 +37,7 @@ import 'package:sharq_crm/features/services/club/domain/usecase/delete_club_usec
 import 'package:sharq_crm/features/services/club/domain/usecase/get_club_for_customer_usecase.dart';
 import 'package:sharq_crm/features/services/club/domain/usecase/get_club_usecase.dart';
 import 'package:sharq_crm/features/services/club/domain/usecase/add_club_usecase.dart';
+import 'package:sharq_crm/features/services/club/domain/usecase/update_club_usecase.dart';
 import 'package:sharq_crm/features/services/club/presentation/bloc/club_bloc.dart';
 import 'package:sharq_crm/features/services/photo_studio/data/datasourse/photostudio_remote_ds.dart';
 import 'package:sharq_crm/features/services/photo_studio/data/repository/photostudio_repo_impl.dart';
@@ -99,10 +101,10 @@ Future<void> init() async {
   sl.registerFactory(() => PhotoStudioBloc(sl(), sl(), sl(), sl(),sl()));
 
   //5
-  sl.registerFactory(() => ClubBloc(sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => ClubBloc(sl(), sl(), sl(), sl(),sl()));
 
   //6
-  sl.registerFactory(() => AlbumBloc(sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => AlbumBloc(sl(), sl(), sl(), sl(),sl()));
 
   //7
   sl.registerFactory(() => VideoBloc(sl(), sl(), sl(), sl(),sl()));
@@ -142,12 +144,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddClubUseCase(repo: sl()));
   sl.registerLazySingleton(() => DeleteClubUsecase(repo: sl()));
   sl.registerLazySingleton(() => GetClubForCustomerUseCase(repo: sl()));
+  sl.registerLazySingleton(() => UpdateClubUseCase(repo: sl()));
 
   //6
   sl.registerLazySingleton(() => DeleteAlbumClubUsecase(repo: sl()));
   sl.registerLazySingleton(() => GetAlbumForCustomerUseCase(repo: sl()));
   sl.registerLazySingleton(() => GetAlbumUseCase(repo: sl()));
   sl.registerLazySingleton(() => AddAlbumUseCase(repo: sl()));
+  sl.registerLazySingleton(() => UpdateAlbumUseCase(repo: sl()));
 
   //7
   sl.registerLazySingleton(() => DeleteVideoClubUsecase(repo: sl()));

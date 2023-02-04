@@ -39,3 +39,12 @@ class ClubDeleteEvent extends ClubEvents {
       {required this.customerId, required this.clubId})
       : super([customerId, clubId]);
 }
+//5
+class ClubUpdateEvent extends ClubEvents {
+
+  final String customerId;
+  final String clubId;
+
+  ClubUpdateEvent({required this.clubId, required this.customerId})
+      : super([clubId, customerId]);
+}

@@ -170,7 +170,8 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
                                 ordersNumber: _ordersNumber,
                                 price: 1000000,
                                 description: '',
-                                address: _addressController.text
+                                address: _addressController.text,
+                              isPaid: false,
 
                             );
 
