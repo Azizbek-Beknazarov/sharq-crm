@@ -21,8 +21,8 @@ class ClubRemoteDataSourceImpl implements ClubRemoteDataSource {
   @override
   Future<List<ClubModel>> getClub() async {
     QuerySnapshot snapshot = await clubReference.get();
-    print(
-        "object in club remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
+    // print(
+    //     "object in club remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
     List<ClubModel> clubModel = snapshot.docs
         .map((e) => ClubModel.fromJson(e.data() as Map<String, dynamic>))
         .toList();
@@ -45,8 +45,8 @@ class ClubRemoteDataSourceImpl implements ClubRemoteDataSource {
         .doc(customerId)
         .collection('club_order')
         .get();
-    print(
-        "object in club remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
+    // print(
+    //     "object in club remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
     List<ClubModel> clubModel = await snapshot.docs
         .map((e) => ClubModel.fromJson(e.data() as Map<String, dynamic>))
         .toList();

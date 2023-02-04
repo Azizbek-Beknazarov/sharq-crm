@@ -25,6 +25,7 @@ class _SignUpCustomerPageState extends State<SignInCustomerPage> {
   final _formKey = GlobalKey<FormState>();
   final auth = FirebaseAuth.instance; //I need make this clean code :)
   bool loading = false;
+   String _inOrIndicator="Kirish";
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,10 @@ class _SignUpCustomerPageState extends State<SignInCustomerPage> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
 
-
+                                _inOrIndicator="Iltimos, kuting!";
+setState(() {
+  
+});
                                 await auth.verifyPhoneNumber(
                                   //
                                     phoneNumber: _phoneController.text.trim(),
@@ -107,7 +111,7 @@ class _SignUpCustomerPageState extends State<SignInCustomerPage> {
                                     codeAutoRetrievalTimeout: (_) {});
                               }
                             },
-                            child: Text('Kirish')),
+                            child: Text(_inOrIndicator)),
                       ],
                     ),
                   ),

@@ -78,7 +78,7 @@ class CustomerRemoteDSImpl implements CustomerRemoteDS {
     DocumentSnapshot snapshot = await reference.doc(customerID).get();
 
     CustomerModel model=CustomerModel.fromJson(snapshot.data() as Map<String,dynamic>);
-    print("getCurrentCustomerFromCollection ichidagi model: ${model.toString()}");
+    // print("getCurrentCustomerFromCollection ichidagi model: ${model.toString()}");
     return Future.value(model);
   }
 

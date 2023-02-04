@@ -165,12 +165,12 @@ class _CustomerVideoOrderPageState extends State<CustomerVideoOrderPage> {
                                 address: _addressController.text
                             , isPaid: false);
 
-                            setState(() {
+
                               context.read<VideoBloc>().add(VideoAddEvent(
                                   addEvent: addAlbum,
                                   customerId: widget.customerId));
                               print('added Video');
-                            });
+
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(

@@ -104,7 +104,8 @@ class _PhotoStudioUpdatePageForManagerState
                       smallImage: "15x20",
                       description: _descriptionController.text ?? '',
                       largePhotosNumber: 1,
-                      smallPhotoNumber: 40);
+                      smallPhotoNumber: 40,
+                      isPaid:false);
                   print('object:::${docId}');
                   print('object:::${date.toString()}');
                   print('object:::${_descriptionController.text}');

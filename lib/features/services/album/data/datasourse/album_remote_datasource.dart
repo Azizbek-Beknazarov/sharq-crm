@@ -40,8 +40,8 @@ class AlbumRemoteDataSourceImpl implements AlbumRemoteDataSource {
   @override
   Future<List<AlbumModel>> getAlbum() async {
     QuerySnapshot snapshot = await albumReference.get();
-    print(
-        "object in album remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
+    // print(
+    //     "object in album remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
     List<AlbumModel> albumModel = snapshot.docs
         .map((e) => AlbumModel.fromJson(e.data() as Map<String, dynamic>))
         .toList();
@@ -54,8 +54,8 @@ class AlbumRemoteDataSourceImpl implements AlbumRemoteDataSource {
         .doc(customerId)
         .collection('album_order')
         .get();
-    print(
-        "object in album remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
+    // print(
+    //     "object in album remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
     List<AlbumModel> albumModel = await snapshot.docs
         .map((e) => AlbumModel.fromJson(e.data() as Map<String, dynamic>))
         .toList();

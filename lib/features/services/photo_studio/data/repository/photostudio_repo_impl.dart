@@ -40,6 +40,7 @@ class PhotoStudioRepoImpl implements PhotoStudioRepo {
         description: e.description,
         smallPhotoNumber: e.smallPhotoNumber,
         largePhotosNumber: e.largePhotosNumber,
+    isPaid: e.isPaid,
         //
       );
 
@@ -55,6 +56,7 @@ class PhotoStudioRepoImpl implements PhotoStudioRepo {
       description: newPhotoStudio.description,
       smallPhotoNumber: newPhotoStudio.smallPhotoNumber,
       largePhotosNumber: newPhotoStudio.largePhotosNumber,
+      isPaid: newPhotoStudio.isPaid,
     );
     PhotoStudioModel model = _convert(entity);
     return await remoteDS.addPhotoStudio(model,customerId);
@@ -78,5 +80,10 @@ class PhotoStudioRepoImpl implements PhotoStudioRepo {
   Future<void> deletePhotoStudio(String customerId, String photoStudioID)async {
 
     return await remoteDS.deletePhotoStudio(customerId: customerId, photostudioID: photoStudioID);
+  }
+
+  @override
+  Future<void> updatePhotoStudio(String photoStudioId, String customerId) async{
+   return await remoteDS.updatePhotoStudio(photoStudioId, customerId);
   }
 }

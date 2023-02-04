@@ -41,3 +41,12 @@ class PhotoStudioDeleteEvent extends PhotoStudioEvents {
       {required this.customerId, required this.photoStudioId})
       : super([customerId, photoStudioId]);
 }
+//5
+class PhotoStudioUpdateEvent extends PhotoStudioEvents {
+
+  final String customerId;
+  final String photostudioId;
+
+  PhotoStudioUpdateEvent({required this.photostudioId, required this.customerId})
+      : super([photostudioId, customerId]);
+}

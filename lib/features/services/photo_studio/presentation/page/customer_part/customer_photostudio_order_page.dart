@@ -167,6 +167,7 @@ _ordersNumberController.clear();
                             description: "",
                             largePhotosNumber: 1,
                             smallPhotoNumber: 40,
+                              isPaid:false
                           );
 
                           setState(() {

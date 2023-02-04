@@ -64,13 +64,13 @@ class _ArxivCustomerPageState extends State<ArxivCustomerPage> {
               leading: Icon(Icons.monetization_on_outlined),
               title: Text("To\'lov qilinganlar"),
               onTap: () {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => PaidCustomerPage(
-                              customerId: widget.customerId,
-                            )),
-                    (route) => false);
+                // Navigator.pushAndRemoveUntil(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (_) => PaidCustomerPage(
+                //               customerId: widget.customerId,
+                //             )),
+                //     (route) => false);
               },
             ),
             ListTile(

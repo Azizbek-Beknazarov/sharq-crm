@@ -44,6 +44,7 @@ import 'package:sharq_crm/features/services/photo_studio/domain/usecase/delete_p
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/get_photostudio_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/getphotostudio_for_customer_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/add_photostudio_usecase.dart';
+import 'package:sharq_crm/features/services/photo_studio/domain/usecase/update_photostudio_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
 import 'package:sharq_crm/features/services/video/domain/usecase/delete_video_usecase.dart';
 import 'package:sharq_crm/features/services/video/domain/usecase/get_video_for_customer_usecase.dart';
@@ -95,7 +96,7 @@ Future<void> init() async {
   sl.registerFactory(() => CarBloc(sl(), sl()));
 
   //4
-  sl.registerFactory(() => PhotoStudioBloc(sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => PhotoStudioBloc(sl(), sl(), sl(), sl(),sl()));
 
   //5
   sl.registerFactory(() => ClubBloc(sl(), sl(), sl(), sl()));
@@ -134,6 +135,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddPhotoStudioUseCase(repo: sl()));
   sl.registerLazySingleton(() => DeletePhotoStudioUsecase(repo: sl()));
   sl.registerLazySingleton(() => GetPhotoStudioForCustomerUseCase(repo: sl()));
+  sl.registerLazySingleton(() => UpdatePhotoStudioUseCase(repo: sl()));
 
   //5
   sl.registerLazySingleton(() => GetClubUseCase(repo: sl()));

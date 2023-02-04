@@ -59,7 +59,7 @@ class _AlbumHomePageState extends State<AlbumHomePage> {
               scrollDirection: Axis.vertical,
               padding: EdgeInsets.all(12),
               children: [
-                Image.asset('assets/images/album.png'),
+                Image.asset('assets/images/albumm.png'),
                 Text(
                   'Album suratlari galeriya korinishida boladi',
                   style: TextStyle(fontSize: 12),

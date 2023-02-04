@@ -44,8 +44,8 @@ class VideoRemoteDataSourceImpl implements VideoRemoteDataSource {
   @override
   Future<List<VideoModel>> getVideo() async {
     QuerySnapshot snapshot = await videoReference.get();
-    print(
-        "object in Video remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
+    // print(
+    //     "object in Video remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
     List<VideoModel> videoModel = snapshot.docs
         .map((e) => VideoModel.fromJson(e.data() as Map<String, dynamic>))
         .toList();
@@ -58,8 +58,8 @@ class VideoRemoteDataSourceImpl implements VideoRemoteDataSource {
         .doc(customerId)
         .collection('video_order')
         .get();
-    print(
-        "object in Video remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
+    // print(
+    //     "object in Video remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
     List<VideoModel> videoModel = await snapshot.docs
         .map((e) => VideoModel.fromJson(e.data() as Map<String, dynamic>))
         .toList();

@@ -82,7 +82,7 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
                     Container(
                       child: Column(
                         children: [
-                          Image.asset('assets/images/album.png'),
+                          Image.asset('assets/images/albumm.png'),
                           SizedBox(
                             height: 15,
                           ),

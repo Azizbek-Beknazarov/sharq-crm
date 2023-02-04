@@ -13,6 +13,7 @@ class PhotoStudioInitialState extends PhotoStudioStates {}
 class PhotoStudioLoadingState extends PhotoStudioStates {}
 
 class PhotoStudioAddedState extends PhotoStudioStates {}
+class PhotoStudioUpdatedState extends PhotoStudioStates {}
 
 class PhotoStudioLoadedState extends PhotoStudioStates {
   final List<PhotoStudioEntity> loaded;

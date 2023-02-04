@@ -11,6 +11,8 @@ abstract class PhotoStudioRemoteDS {
 
   Future<void> deletePhotoStudio(
       {required String customerId, required String photostudioID});
+
+  Future<void> updatePhotoStudio(String photostudioId, String customerId);
 }
 
 class PhotoStudioRemoteDSImpl implements PhotoStudioRemoteDS {
@@ -23,8 +25,8 @@ class PhotoStudioRemoteDSImpl implements PhotoStudioRemoteDS {
   @override
   Future<List<PhotoStudioModel>> getPhotoStudio() async {
     QuerySnapshot snapshot = await photoReference.get();
-    print(
-        "object in photo studio remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
+    // print(
+    //     "object in photo studio remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
     List<PhotoStudioModel> photoStudioModel = snapshot.docs
         .map((e) => PhotoStudioModel.fromJson(e.data() as Map<String, dynamic>))
         .toList();
@@ -49,8 +51,8 @@ class PhotoStudioRemoteDSImpl implements PhotoStudioRemoteDS {
         .doc(customerId)
         .collection('photo_studio_order')
         .get();
-    print(
-        "object in photo studio remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
+    // print(
+    //     "object in photo studio remote ds: ${snapshot.docs.map((e) => e.data()).toList()}");
     List<PhotoStudioModel> photoStudioModel = await snapshot.docs
         .map((e) => PhotoStudioModel.fromJson(e.data() as Map<String, dynamic>))
         .toList();
@@ -65,5 +67,14 @@ class PhotoStudioRemoteDSImpl implements PhotoStudioRemoteDS {
         .collection('photo_studio_order')
         .doc(photostudioID)
         .delete();
+  }
+
+  @override
+  Future<void> updatePhotoStudio(String photostudioId, String customerId) async{
+    return await photoReferenceForCustomer
+        .doc(customerId)
+        .collection('video_order')
+        .doc(photostudioId)
+        .update({"isPaid":true}).then((value) => print('ALL OK'));
   }
 }

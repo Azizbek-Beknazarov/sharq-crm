@@ -210,4 +210,18 @@ class VideoUpdateParams extends Equatable {
   @override
   List<Object?> get props => [videoId, customerId];
 }
+//18
+class PhotoStudioUpdateParams extends Equatable {
+
+  String customerId;
+  String photoStudioId;
+
+  PhotoStudioUpdateParams(
+      this.photoStudioId,
+      this.customerId,
+      );
+
+  @override
+  List<Object?> get props => [photoStudioId, customerId];
+}
 
