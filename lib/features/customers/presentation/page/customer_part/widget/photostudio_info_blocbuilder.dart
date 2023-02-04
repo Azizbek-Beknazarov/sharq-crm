@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_home_page.dart';
 
 import '../../../../../../core/util/loading_widget.dart';
 import '../../../../../../core/util/snackbar_message.dart';
@@ -30,7 +31,8 @@ class _PhotoStudioInfoBlocBuilderState
     extends State<PhotoStudioInfoBlocBuilder> {
   @override
   Widget build(BuildContext context) {
-    return _currentPhotoStudioInfo( widget.photoStudioForCustomerlist, context, widget.customerId);
+    return _currentPhotoStudioInfo(
+        widget.photoStudioForCustomerlist, context, widget.customerId);
   }
 
   //
@@ -146,6 +148,7 @@ class _PhotoStudioInfoBlocBuilderState
                             ),
                             subtitle:
                                 Text("ID: ${photoStudio.photo_studio_id}")),
+                        Text("isPaid: ${photoStudio.isPaid.toString()}"),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -186,14 +189,15 @@ class _PhotoStudioInfoBlocBuilderState
                                                         customerId: customerId,
                                                         photoStudioId: photoStudio
                                                             .photo_studio_id));
-                                                context.read<PhotoStudioBloc>().add(
-                                                    PhotoStudioGetForCustomerEvent(
-                                                        customerId));
-                                                setState(() {
-                                                  widget.loading = true;
-                                                });
-                                                Navigator.pop(
-                                                    contextPhotostudio);
+
+                                                setState(() {});
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            CustomerHomePage(
+                                                                customerId:
+                                                                    customerId)));
                                                 SnackBarMessage()
                                                     .showSuccessSnackBar(
                                                         message: 'O\'chirildi',

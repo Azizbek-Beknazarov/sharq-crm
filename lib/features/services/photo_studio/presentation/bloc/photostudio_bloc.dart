@@ -16,8 +16,12 @@ class PhotoStudioBloc extends Bloc<PhotoStudioEvents, PhotoStudioStates> {
   final DeletePhotoStudioUsecase deletePhotoStudioUsecase;
   final UpdatePhotoStudioUseCase updatePhotoStudioUseCase;
 
-  PhotoStudioBloc(this.getPhotoStudioUseCase, this.addPhotoStudioUseCase,
-      this.getPhotoStudioForCustomerUseCase, this.deletePhotoStudioUsecase,this.updatePhotoStudioUseCase)
+  PhotoStudioBloc(
+      this.getPhotoStudioUseCase,
+      this.addPhotoStudioUseCase,
+      this.getPhotoStudioForCustomerUseCase,
+      this.deletePhotoStudioUsecase,
+      this.updatePhotoStudioUseCase)
       : super(PhotoStudioInitialState()) {
     //1
     on<PhotoStudioGetEvent>((event, emit) async {
@@ -71,9 +75,12 @@ class PhotoStudioBloc extends Bloc<PhotoStudioEvents, PhotoStudioStates> {
         emit(PhotoStudioLoadingState());
 
         await updatePhotoStudioUseCase
-            .call(params: PhotoStudioUpdateParams(event.photostudioId, event.customerId))
+            .call(
+                params: PhotoStudioUpdateParams(
+                    event.photostudioId, event.customerId))
             .then((value) => emit(PhotoStudioUpdatedState()))
-            .catchError((error) => emit(PhotoStudioErrorState(message: error)));
+            .catchError((error) =>
+                emit(PhotoStudioErrorState(message: error.toString())));
       }
     });
 

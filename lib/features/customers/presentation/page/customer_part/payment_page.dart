@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_home_page.dart';
+import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
+import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_event.dart';
 import 'package:sharq_crm/features/services/video/domain/entity/video_entity.dart';
 import 'package:sharq_crm/features/services/video/presentation/bloc/video_bloc.dart';
 
@@ -10,11 +12,12 @@ class PaymentPage extends StatelessWidget {
       {Key? key,
       required this.totalPrice,
       required this.customerId,
-      required this.videoIds})
+      required this.videoIds,required this.photoIds})
       : super(key: key);
   final double totalPrice;
   final String customerId;
   final List<String> videoIds;
+  final List<String> photoIds;
 
   TextEditingController _cardController = TextEditingController();
 
@@ -47,7 +50,7 @@ class PaymentPage extends StatelessWidget {
                     if (value == null || value.isEmpty) {
                       return 'Iltimos, karta raqamini kiriting!';
                     }
-                    if (value.length < 15) {
+                    if (value.length < 2) {
                       return 'Noto\'g\'ri kiritildi';
                     }
                     return null;
@@ -66,9 +69,23 @@ class PaymentPage extends StatelessWidget {
                         backgroundColor:
                             MaterialStateProperty.all(Colors.green.shade100)),
                     onPressed: () async {
+                      //
                       if (_formKey.currentState!.validate()) {
                         print(
                             "videoIds.length========${videoIds.length.toString()}");
+                        print(
+                            "photoIds.length========${photoIds.length.toString()}");
+                        //
+                        for (int i = 0; i <= photoIds.length - 1; i++) {
+                          String photoId = photoIds[i];
+                          BlocProvider.of<PhotoStudioBloc>(context).add(
+                              PhotoStudioUpdateEvent(
+                                  photostudioId: photoId, customerId: customerId));
+                          print("YANGILANDI: PHOTOSTUDIOID: ${photoId}");
+                        }
+
+
+                        //
                         for (int i = 0; i <= videoIds.length - 1; i++) {
                           String videoId = videoIds[i];
                           BlocProvider.of<VideoBloc>(context).add(

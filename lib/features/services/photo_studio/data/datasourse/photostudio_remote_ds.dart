@@ -70,11 +70,12 @@ class PhotoStudioRemoteDSImpl implements PhotoStudioRemoteDS {
   }
 
   @override
-  Future<void> updatePhotoStudio(String photostudioId, String customerId) async{
+  Future<void> updatePhotoStudio(
+      String photostudioId, String customerId) async {
     return await photoReferenceForCustomer
         .doc(customerId)
-        .collection('video_order')
+        .collection('photo_studio_order')
         .doc(photostudioId)
-        .update({"isPaid":true}).then((value) => print('ALL OK'));
+        .update({"isPaid": true}).then((value) => print('ALL OK'));
   }
 }
