@@ -75,10 +75,10 @@ class ChoosePage extends StatelessWidget {
                     ),
 
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => SplashScreenForCustomer()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (_) => SplashScreenForCustomer()));
                     },
                     child: Icon(
                       Icons.arrow_forward,

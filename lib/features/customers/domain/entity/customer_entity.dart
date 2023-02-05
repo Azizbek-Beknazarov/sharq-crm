@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class CustomerEntity extends Equatable {
-  String? customerId;
+  String customerId;
   String name;
   String phone;
   int dateOfSignUp;
@@ -10,7 +10,7 @@ class CustomerEntity extends Equatable {
   CustomerEntity({
     required this.name,
     required this.phone,
-    this.customerId,
+    required this.customerId,
     required this.dateOfSignUp,
     required this.managerAdded
   });

@@ -4,7 +4,7 @@ class CustomerModel extends CustomerEntity {
   CustomerModel({
     required String name,
     required String phone,
-     String? customerId,
+     required String customerId,
     required int dateOfSignUp,
     required bool managerAdded,
   }) : super(

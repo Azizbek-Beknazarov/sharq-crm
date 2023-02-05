@@ -28,8 +28,6 @@ class _CustomerListState extends State<CustomerList> {
 
   @override
   void setState(VoidCallback fn) {
-    // context.read<CustomerCubit>().loadCustomer();
-    // print('list ichida loadCustomer() chaqirildi.}');
     super.setState(fn);
   }
 
@@ -47,12 +45,10 @@ class _CustomerListState extends State<CustomerList> {
         CustomerEntity customerList = customersList[index];
         print("object::customerId: ${customerList.customerId.toString()}");
         return GestureDetector(
-          onDoubleTap: () {},
-          onLongPress: () {},
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return CustomerDetailPage(
-                customer: customerList,
+                customerId: customerList.customerId,
               );
             }));
           },

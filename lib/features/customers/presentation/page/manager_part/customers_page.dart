@@ -109,36 +109,36 @@ class _CustomersPageState extends State<CustomersPage> {
                   MaterialPageRoute(builder: (ctx) => CustomersPage()));
             },
           ),
-          ListTile(
-            leading: Icon(Icons.monetization_on_outlined),
-            title: Text("To\'lov qilinganlar"),
-            onTap: () {
-              // Navigator.pushAndRemoveUntil(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (_) => PaidCustomerPage(
-              //           customerId: widget.customerId,
-              //           videoForCustomerPaidlist: videoForCustomerPaidlist,
-              //           photoStudioForCustomerPaidlist:
-              //           photoStudioForCustomerPaidlist,
-              //           albumForCustomerPaidlist: albumForCustomerPaidlist,
-              //           clubForCustomerPaidlist: clubForCustomerPaidlist,
-              //         )),
-              //         (route) => false);
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.grid_3x3_outlined),
-            title: Text("Arxivlar"),
-            onTap: () {
-              // Navigator.pushAndRemoveUntil(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (_) =>
-              //             ArxivCustomerPage(customerId: widget.customerId)),
-              //         (route) => false);
-            },
-          ),
+          // ListTile(
+          //   leading: Icon(Icons.monetization_on_outlined),
+          //   title: Text("To\'lov qilinganlar"),
+          //   onTap: () {
+          //     // Navigator.pushAndRemoveUntil(
+          //     //     context,
+          //     //     MaterialPageRoute(
+          //     //         builder: (_) => PaidCustomerPage(
+          //     //           customerId: widget.customerId,
+          //     //           videoForCustomerPaidlist: videoForCustomerPaidlist,
+          //     //           photoStudioForCustomerPaidlist:
+          //     //           photoStudioForCustomerPaidlist,
+          //     //           albumForCustomerPaidlist: albumForCustomerPaidlist,
+          //     //           clubForCustomerPaidlist: clubForCustomerPaidlist,
+          //     //         )),
+          //     //         (route) => false);
+          //   },
+          // ),
+          // ListTile(
+          //   leading: Icon(Icons.grid_3x3_outlined),
+          //   title: Text("Arxivlar"),
+          //   onTap: () {
+          //     // Navigator.pushAndRemoveUntil(
+          //     //     context,
+          //     //     MaterialPageRoute(
+          //     //         builder: (_) =>
+          //     //             ArxivCustomerPage(customerId: widget.customerId)),
+          //     //         (route) => false);
+          //   },
+          // ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text("Sozlamalar"),

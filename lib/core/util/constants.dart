@@ -24,6 +24,17 @@ final primaryColor = Color(0xff082659);
 final secondaryColor = Color(0xff51eec2);
 
 
+// int ts = widget.customer.dateOfSignUp;
+// DateTime tsdate = DateTime.fromMillisecondsSinceEpoch(ts);
+// String datetime = tsdate.year.toString() +
+//     "/" +
+//     tsdate.month.toString() +
+//     "/" +
+//     tsdate.day.toString() +
+//     " | " +
+//     tsdate.hour.toString() +
+//     ":" +
+//     tsdate.minute.toString();
 //
 //
 // class UserDTO {
