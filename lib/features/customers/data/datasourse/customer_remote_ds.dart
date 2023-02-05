@@ -17,7 +17,7 @@ abstract class CustomerRemoteDS {
   Future<CustomerModel> getCurrentCustomerFromCollection(String customerID);
   Future<bool> logOutCustomer();
 
-  // Future<bool> isAlreadyAuthenticated();
+
 
 
 // Future<List<CustomerModel>> searchCustomer(String query);
@@ -34,19 +34,9 @@ class CustomerRemoteDSImpl implements CustomerRemoteDS {
     QuerySnapshot snapshot = await reference.get();
 
     print("object::  ${snapshot.docs.map((e) => e.data()).toList()}");
-    // var customers= snapshot.docs.map((e) => CustomerModel.fromJson(e) ).toList();
     List<CustomerModel> customers = snapshot.docs
         .map((e) => CustomerModel.fromJson(e.data() as Map<String, dynamic>))
         .toList();
-    //     .map((e) => CustomerModel
-    //
-    //   (
-    //         name: e['name'],
-    //         phone: e['phone'],
-    //         id: e['id'],
-    //         dateOfSignUp: e['dateOfSignUp']),
-    // )
-    //     .toList();
 
     return Future.value(customers);
   }
@@ -78,7 +68,7 @@ class CustomerRemoteDSImpl implements CustomerRemoteDS {
     DocumentSnapshot snapshot = await reference.doc(customerID).get();
 
     CustomerModel model=CustomerModel.fromJson(snapshot.data() as Map<String,dynamic>);
-    // print("getCurrentCustomerFromCollection ichidagi model: ${model.toString()}");
+
     return Future.value(model);
   }
 

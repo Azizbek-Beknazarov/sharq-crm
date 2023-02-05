@@ -17,8 +17,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-      return Scaffold(
+    return Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
@@ -34,7 +33,7 @@ class _SignInPageState extends State<SignInPage> {
           ),
         ),
       );
-    });
+
   }
 
   Row _resetPassword(BuildContext context) {

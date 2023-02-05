@@ -8,10 +8,11 @@ import 'package:sharq_crm/features/services/album/presentation/bloc/album_bloc.d
 import 'package:sharq_crm/features/services/club/presentation/bloc/club_bloc.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
 import 'package:sharq_crm/features/services/video/presentation/bloc/video_bloc.dart';
+
 import 'features/auth/presentation/bloc/m_auth_bloc.dart';
 import 'features/choose_page.dart';
 import 'features/injection_container.dart' as di;
-import 'features/services/service_page.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
+          BlocProvider(create: (_)=>di.sl<AuthBloc>()..add(GetCurrentManagerEvent())),
+
+
+
           BlocProvider<CustomerCubit>(
             create: (_) => di.sl<CustomerCubit>()..getCurrentCustomerEvent(),
           ),
@@ -38,6 +43,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => di.sl<ClubBloc>()),
           BlocProvider(create: (_) => di.sl<AlbumBloc>()),
           BlocProvider(create: (_) => di.sl<VideoBloc>()),
+
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

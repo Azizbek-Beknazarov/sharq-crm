@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sharq_crm/features/customers/presentation/page/manager_part/customers_page.dart';
 
 import '../../bloc/m_auth_bloc.dart';
 
@@ -34,6 +35,8 @@ class SignInSubmitButtons extends StatelessWidget {
                 };
                 BlocProvider.of<AuthBloc>(context)
                     .add(LoginManagerEvent(authData));
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>CustomersPage()), (route) => false);
+                print(":::: login boldi manager sign in submit buttonda");
               }
             },
             style: ElevatedButton.styleFrom(

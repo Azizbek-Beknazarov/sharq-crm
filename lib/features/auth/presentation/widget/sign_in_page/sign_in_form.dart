@@ -95,29 +95,8 @@ class _SignInFormState extends State<SignInForm> {
           const SizedBox(
             height: 40,
           ),
-          BlocConsumer<AuthBloc, AuthState>(
-            listener: (context, state) {
-              if (state is AuthErrorState) {
-                SnackBarMessage().showErrorSnackBar(
-                    message: state.message, context: context);
-              } else if (state is AuthErrorState) {
-                SnackBarMessage().showSuccessSnackBar(
-                    message: state.message, context: context);
-              } else if (state is LoadedManagerState) {
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (ctx) => CustomersPage()),
-                    (_) => false);
-                // Navigator.pushAndRemoveUntil(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (ctx) => BlocProvider<GetCarBloc>(
-                //           create: (context) =>
-                //           sl<GetCarBloc>()..add(GetAllCarEvent()),
-                //           child: CarListPage(),
-                //         )),
-                //         (_) => false);
-              }
-            },
+          BlocBuilder<AuthBloc, AuthState>(
+
             builder: (context, state) {
               if (state is AuthLoadingState) {
                 return LoadingWidget();

@@ -31,8 +31,8 @@ class ChoosePage extends StatelessWidget {
                         Colors.green
                     ),
                     onPressed: () {
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (_) => SplashScreen()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => SplashScreen()));
                     },
                     child: Icon(
                       Icons.arrow_forward,

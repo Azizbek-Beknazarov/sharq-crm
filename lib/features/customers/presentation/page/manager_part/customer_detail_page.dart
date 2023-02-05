@@ -7,7 +7,6 @@ import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_bloc.da
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_event.dart';
 import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_state.dart';
 
-
 import 'package:uuid/uuid.dart';
 
 import '../../../../orders/domain/entity/car_entity.dart';
@@ -16,12 +15,9 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import '../../../../services/photo_studio/presentation/page/customer_part/photostudio_home_page.dart';
 import 'widget/customer_phone_call_widget.dart';
 
-
-
 class CustomerDetailPage extends StatefulWidget {
   const CustomerDetailPage({Key? key, required this.customer})
       : super(key: key);
-
 
   final CustomerEntity customer;
 
@@ -55,7 +51,15 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
     context.read<CarBloc>().add(CarGetAllEvent());
     int ts = widget.customer.dateOfSignUp;
     DateTime tsdate = DateTime.fromMillisecondsSinceEpoch(ts);
-    String datetime = tsdate.year.toString() + "/" + tsdate.month.toString() + "/" + tsdate.day.toString()+" | "+tsdate.hour.toString()+":"+tsdate.minute.toString();
+    String datetime = tsdate.year.toString() +
+        "/" +
+        tsdate.month.toString() +
+        "/" +
+        tsdate.day.toString() +
+        " | " +
+        tsdate.hour.toString() +
+        ":" +
+        tsdate.minute.toString();
 
     return BlocBuilder<CarBloc, CarStates>(builder: (context, state) {
       if (state is CarLoadedState) {
@@ -71,83 +75,94 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-
             children: [
-              TextButton(onPressed: (){
-                print("object::customerId: ${widget.customer.customerId.toString()}");
-                Navigator.push(context, MaterialPageRoute(builder: (ctx)=>PhotoStudioHomePage(customerId: widget.customer.customerId.toString(),)));
-              }, child: Text('unknown')),
+              TextButton(
+                  onPressed: () {
+                    print(
+                        "object::customerId: ${widget.customer.customerId.toString()}");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (ctx) => PhotoStudioHomePage(
+                                  customerId:
+                                      widget.customer.customerId.toString(),
+                                )));
+                  },
+                  child: Text('unknown')),
               // call to customer phone
-              CustomerCallWidget( customer: widget.customer,),
+              CustomerCallWidget(
+                customer: widget.customer,
+              ),
               // order cars
               _carOrder(cars),
               Text(datetime),
-
             ],
           ),
         ),
 
         floatingActionButton: SpeedDial(
           children: [
-           SpeedDialChild(child: Text('car'),onTap: ()=>_floatingCar(update)),
-           SpeedDialChild(child: Text('photo')),
-           SpeedDialChild(child: Text('club')),
+            SpeedDialChild(
+                child: Text('car'), onTap: () => _floatingCar(update)),
+            SpeedDialChild(child: Text('photo')),
+            SpeedDialChild(child: Text('club')),
             //
-
           ],
         ),
         // _floatingActionButton(update),
       );
     });
-
   }
 
   //1 car
   _floatingCar(bool update) {
-    return
-        showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text('Car add'),
-                content: Column(
-                  children: [
-                    TextFormField(
-                      controller: carNameController,
-                    )
-                  ],
-                ),
-                actions: [
-                  ElevatedButton(
-                      onPressed: () {
-                        CarEntity newCar = CarEntity(
-                            carId: uuid.v4(), name: carNameController.text, carNumber: '', color: '', address: '', dateTime: 1, price: 1);
-                        final customerID = widget.customer.customerId;
+    return showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text('Car add'),
+            content: Column(
+              children: [
+                TextFormField(
+                  controller: carNameController,
+                )
+              ],
+            ),
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    CarEntity newCar = CarEntity(
+                        carId: uuid.v4(),
+                        name: carNameController.text,
+                        carNumber: '',
+                        color: '',
+                        address: '',
+                        dateTime: 1,
+                        price: 1);
+                    final customerID = widget.customer.customerId;
 
-                        context
-                            .read<CarBloc>()
-                            .add(CarAddNewEvent(newCar, ));
-                        carNameController.clear();
+                    context.read<CarBloc>().add(CarAddNewEvent(
+                          newCar,
+                        ));
+                    carNameController.clear();
 
-                        setState(() {
-                          update = true;
-                          print("update true buldi button ichida");
-                        });
-                        Navigator.pop(context);
-                      },
-                      child: Text("add"))
-                ],
-              );
-            });
+                    setState(() {
+                      update = true;
+                      print("update true buldi button ichida");
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Text("add"))
+            ],
+          );
+        });
 
-        // MaterialPageRoute route = MaterialPageRoute(
-        //     builder: (_) => CarPage(
-        //           customer: widget.customer, update: update
-        //         ));
-        //
-        // Navigator.push(context, route);
-
-
+    // MaterialPageRoute route = MaterialPageRoute(
+    //     builder: (_) => CarPage(
+    //           customer: widget.customer, update: update
+    //         ));
+    //
+    // Navigator.push(context, route);
   }
 
   //2
@@ -172,11 +187,9 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
               child: ListTile(
                 title: Container(
                     decoration: BoxDecoration(
-                        border:
-                        Border.all(color: Colors.black, width: 3),
+                        border: Border.all(color: Colors.black, width: 3),
                         color: Colors.amber.shade200,
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(11))),
+                        borderRadius: BorderRadius.all(Radius.circular(11))),
                     child: Text(cars[index].name)),
               ),
             );
@@ -184,6 +197,5 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
     );
   }
 
-  //3
-
+//3
 }
