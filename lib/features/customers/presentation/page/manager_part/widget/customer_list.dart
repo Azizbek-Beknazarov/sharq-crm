@@ -25,12 +25,43 @@ class CustomerList extends StatefulWidget {
 
 class _CustomerListState extends State<CustomerList> {
   ActionItems? selectedMenu;
+  List<CustomerEntity> _searchResult = [];
+
+  TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {}
 
   @override
   void setState(VoidCallback fn) {
     super.setState(fn);
   }
 
+  // search function
+  onSearchTextChanged(String text) async {
+    _searchResult.clear();
+    if (text.isEmpty) {
+      setState(() {});
+      return;
+    }
+
+    widget.customersList.forEach((element) {
+      if (element.name.toLowerCase().contains(
+                text.toLowerCase(),
+              ) ||
+          element.phone
+              .toLowerCase()
+              .trim()
+              .contains(text.trim().toLowerCase())) _searchResult.add(element);
+      print("::::searchga qushildi");
+    });
+
+    setState(() {});
+  }
+
+
+
+  //
   @override
   Widget build(BuildContext context) {
     return _listViewSeparated(widget.customersList, context);
@@ -40,56 +71,157 @@ class _CustomerListState extends State<CustomerList> {
   //
   Widget _listViewSeparated(
       List<CustomerEntity> customersList, BuildContext context) {
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        CustomerEntity customerList = customersList[index];
-        print("object::customerId: ${customerList.customerId.toString()}");
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return CustomerDetailPage(
-                customerId: customerList.customerId,
-              );
-            }));
-          },
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(18.0),
           child: ListTile(
-            leading: Icon(Icons.person),
-            trailing: PopupMenuButton<ActionItems>(
-              initialValue: selectedMenu,
-              onSelected: (ActionItems item) {
-                if (item == ActionItems.update) {
-                  _updateCustomer(context, customerList);
-                } else if (item == ActionItems.delete) {
-                  _deleteCustomer(context, customerList);
-                }
-              },
-              itemBuilder: (BuildContext context) =>
-                  <PopupMenuEntry<ActionItems>>[
-                PopupMenuItem<ActionItems>(
-                  value: ActionItems.update,
-                  child: Row(
-                    children: [Icon(Icons.update), Text(" yangilash")],
-                  ),
-                ),
-                PopupMenuItem<ActionItems>(
-                  value: ActionItems.delete,
-                  child: Row(
-                    children: [Icon(Icons.delete), Text(" o\'chirish")],
-                  ),
-                ),
-              ],
+            title: TextFormField(
+              controller: controller,
+              onChanged: onSearchTextChanged,
+              decoration: InputDecoration(
+                  hintText: "Izlash",
+                  filled: true,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none),
+                  prefixIcon: Icon(Icons.search),
+                  prefixIconColor: Colors.purple.shade900),
             ),
-            title: Text(customerList.name),
-            subtitle: Text(customerList.phone),
+            trailing: new IconButton(
+              icon: new Icon(Icons.cancel),
+              onPressed: () {
+                controller.clear();
+                onSearchTextChanged('');
+              },
+            ),
           ),
-        );
-      },
-      separatorBuilder: (context, index) {
-        return Divider(
-          color: Colors.grey[400],
-        );
-      },
-      itemCount: customersList.length,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Expanded(
+          child: _searchResult.length != 0 || controller.text.isNotEmpty
+              ? ListView.separated(
+                  itemBuilder: (context, index) {
+                    CustomerEntity customerList = _searchResult[index];
+                    print(
+                        "object::customerId: ${customerList.customerId.toString()}");
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return CustomerDetailPage(
+                            customerId: customerList.customerId,
+                          );
+                        }));
+                      },
+                      child: ListTile(
+                        leading: Icon(Icons.person),
+                        trailing: PopupMenuButton<ActionItems>(
+                          initialValue: selectedMenu,
+                          onSelected: (ActionItems item) {
+                            if (item == ActionItems.update) {
+                              _updateCustomer(context, customerList);
+                            } else if (item == ActionItems.delete) {
+                              _deleteCustomer(context, customerList);
+                            }
+                          },
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<ActionItems>>[
+                            PopupMenuItem<ActionItems>(
+                              value: ActionItems.update,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.update),
+                                  Text(" yangilash")
+                                ],
+                              ),
+                            ),
+                            PopupMenuItem<ActionItems>(
+                              value: ActionItems.delete,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.delete),
+                                  Text(" o\'chirish")
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        title: Text(customerList.name),
+                        subtitle: Text(customerList.phone),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      color: Colors.grey[400],
+                    );
+                  },
+                  itemCount: _searchResult.length,
+                )
+              : ListView.separated(
+                  itemBuilder: (context, index) {
+                    CustomerEntity customerList = customersList[index];
+                    print(
+                        "object::customerId: ${customerList.customerId.toString()}");
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return CustomerDetailPage(
+                            customerId: customerList.customerId,
+                          );
+                        }));
+                      },
+                      child: ListTile(
+                        leading: Icon(Icons.person),
+                        trailing: PopupMenuButton<ActionItems>(
+                          initialValue: selectedMenu,
+                          onSelected: (ActionItems item) {
+                            if (item == ActionItems.update) {
+                              _updateCustomer(context, customerList);
+                            } else if (item == ActionItems.delete) {
+                              _deleteCustomer(context, customerList);
+                            }
+                          },
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<ActionItems>>[
+                            PopupMenuItem<ActionItems>(
+                              value: ActionItems.update,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.update),
+                                  Text(" yangilash")
+                                ],
+                              ),
+                            ),
+                            PopupMenuItem<ActionItems>(
+                              value: ActionItems.delete,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.delete),
+                                  Text(" o\'chirish")
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        title: Text(customerList.name),
+                        subtitle: Text(customerList.phone),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      color: Colors.grey[400],
+                    );
+                  },
+                  itemCount: customersList.length,
+                ),
+        ),
+      ],
     );
   }
 
@@ -147,3 +279,4 @@ class _CustomerListState extends State<CustomerList> {
   }
 //
 }
+
