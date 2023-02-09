@@ -74,7 +74,7 @@ class _CustomerListState extends State<CustomerList> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(18.0),
+          padding: const EdgeInsets.only(top: 5),
           child: ListTile(
             title: TextFormField(
               controller: controller,
@@ -88,8 +88,8 @@ class _CustomerListState extends State<CustomerList> {
                   prefixIcon: Icon(Icons.search),
                   prefixIconColor: Colors.purple.shade900),
             ),
-            trailing: new IconButton(
-              icon: new Icon(Icons.cancel),
+            trailing:  IconButton(
+              icon:  Icon(Icons.cancel),
               onPressed: () {
                 controller.clear();
                 onSearchTextChanged('');
@@ -97,9 +97,7 @@ class _CustomerListState extends State<CustomerList> {
             ),
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
+
         Expanded(
           child: _searchResult.length != 0 || controller.text.isNotEmpty
               ? ListView.separated(

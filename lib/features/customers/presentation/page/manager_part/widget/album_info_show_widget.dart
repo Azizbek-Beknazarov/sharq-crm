@@ -60,7 +60,7 @@ class _AlbumInfoShowWidgetState extends State<AlbumInfoShowWidget> {
                           borderRadius: BorderRadius.all(
                             Radius.circular(22),
                           ),
-                          color: Colors.white10),
+                          color: Colors.black26),
                       child: Column(
                         children: [
                           ListTile(
@@ -104,41 +104,129 @@ class _AlbumInfoShowWidgetState extends State<AlbumInfoShowWidget> {
                                 ],
                               )),
                           ListTile(
-                              title: Row(
-                                children: [
-                                  Text(
-                                    "Narxi: ",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                  Text(
-                                    "${album.price * album.ordersNumber}",
-                                    style: TextStyle(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Narxi: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Text(
+                                  "${album.price * album.ordersNumber}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  " so\'m",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  "Oldindan to\'lov qilingan: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Text(
+                                  "${album.prepayment}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  " so\'m ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Qolgan so\'mma: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Text(
+                                  "${album.price * album.ordersNumber - album.prepayment}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  " so\'m",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  "ID: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Text(
+                                  "${album.album_id}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "To\'lov qilinganmi: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                album.isPaid
+                                    ? Icon(
+                                        Icons.done_all,
+                                        color: Colors.green,
+                                      )
+                                    : Icon(
+                                        Icons.highlight_remove_rounded,
                                         color: Colors.red,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    " so\'m",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                ],
-                              ),
-                              subtitle: Text("ID: ${album.album_id}")),
-                          Text("isPaid: ${album.isPaid.toString()}"),
+                                      )
+                              ],
+                            ),
+                          ),
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Qo\'shimcha: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Flexible(child: Text(album.description))
+                              ],
+                            ),
+                          ),
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
                                 style: ButtonStyle(
                                     shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
+                                            RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(18.0),
+                                                BorderRadius.circular(18.0),
                                             side:
-                                            BorderSide(color: Colors.red))),
+                                                BorderSide(color: Colors.red))),
                                     backgroundColor:
-                                    MaterialStateProperty.all(Colors.red)),
+                                        MaterialStateProperty.all(Colors.red)),
                                 onPressed: () {
                                   showDialog(
                                       context: contextAlbum,
@@ -159,10 +247,10 @@ class _AlbumInfoShowWidgetState extends State<AlbumInfoShowWidget> {
                                                   contextAlbum
                                                       .read<AlbumBloc>()
                                                       .add(AlbumDeleteEvent(
-                                                      customerId:
-                                                      customerId,
-                                                      albumId:
-                                                      album.album_id));
+                                                          customerId:
+                                                              customerId,
+                                                          albumId:
+                                                              album.album_id));
 
                                                   setState(() {
                                                     // widget.loading = true;
@@ -176,10 +264,10 @@ class _AlbumInfoShowWidgetState extends State<AlbumInfoShowWidget> {
                                                                       .customerId)));
                                                   SnackBarMessage()
                                                       .showSuccessSnackBar(
-                                                      message:
-                                                      'O\'chirildi',
-                                                      context:
-                                                      contextAlbum);
+                                                          message:
+                                                              'O\'chirildi',
+                                                          context:
+                                                              contextAlbum);
                                                 },
                                                 child: Text("Ha")),
                                           ],

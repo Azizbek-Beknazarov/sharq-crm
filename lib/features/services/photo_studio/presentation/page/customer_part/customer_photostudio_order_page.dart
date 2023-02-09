@@ -158,7 +158,7 @@ _ordersNumberController.clear();
                           String date = selectedDate.toString();
 
                           PhotoStudioEntity addStudio = PhotoStudioEntity(
-                            photo_studio_id: docId ?? 'docid',
+                            photo_studio_id: docId ,
                             dateTimeOfWedding: date,
                             ordersNumber: _ordersNumber,
                             price: 700000,
@@ -167,7 +167,9 @@ _ordersNumberController.clear();
                             description: "",
                             largePhotosNumber: 1,
                             smallPhotoNumber: 40,
-                              isPaid:false
+                              isPaid:false,
+                            prepayment:0,
+                            customerId: widget.customerId,
                           );
 
                           setState(() {

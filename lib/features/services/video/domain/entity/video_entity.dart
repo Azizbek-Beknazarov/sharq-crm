@@ -8,6 +8,8 @@ class VideoEntity extends Equatable {
   String description;
   String address;
   bool isPaid;
+  String customerId;
+  int prepayment;
 
   VideoEntity({
     required this.video_id,
@@ -17,6 +19,8 @@ class VideoEntity extends Equatable {
     required this.description,
     required this.address,
     required this.isPaid,
+    required this.customerId,
+    required this.prepayment,
   });
 
   @override
@@ -28,5 +32,7 @@ class VideoEntity extends Equatable {
         ordersNumber,
         description,
         isPaid,
+    customerId,
+    prepayment,
       ];
 }

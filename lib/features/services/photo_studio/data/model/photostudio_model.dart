@@ -12,6 +12,9 @@ class PhotoStudioModel extends PhotoStudioEntity {
     required int smallPhotoNumber,
     required int largePhotosNumber,
     required bool isPaid,
+    required int prepayment,
+    required String customerId,
+
   }) : super(
           photo_studio_id: photo_studio_id,
           price: price,
@@ -23,6 +26,8 @@ class PhotoStudioModel extends PhotoStudioEntity {
           smallPhotoNumber: smallPhotoNumber,
           largePhotosNumber: largePhotosNumber,
       isPaid:isPaid,
+    prepayment:prepayment,
+    customerId:customerId,
         );
 
   factory PhotoStudioModel.fromJson(Map<String, dynamic> json) {
@@ -37,6 +42,8 @@ class PhotoStudioModel extends PhotoStudioEntity {
       smallPhotoNumber: json['smallPhotoNumber'],
       largePhotosNumber: json['largePhotosNumber'],
       isPaid: json['isPaid'],
+      prepayment: json['prepayment'],
+      customerId: json['customerId'],
     );
   }
 
@@ -52,6 +59,8 @@ class PhotoStudioModel extends PhotoStudioEntity {
       'smallPhotoNumber': smallPhotoNumber,
       'largePhotosNumber': largePhotosNumber,
       'isPaid': isPaid,
+      'prepayment': prepayment,
+      'customerId': customerId,
     };
   }
 }

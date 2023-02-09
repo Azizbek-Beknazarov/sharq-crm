@@ -84,11 +84,13 @@ class _VideoUpdatePageForManagerState extends State<VideoUpdatePageForManager> {
                   VideoEntity addVideo = VideoEntity(
                     video_id: docId ?? '',
                     price: _priceInt,
+                    prepayment: 0,
                     dateTimeOfWedding: date,
                     ordersNumber: _ordersNumber,
                     description: _descriptionController.text ?? '',
                     address: _addressController.text??"",
                       isPaid: false,
+                    customerId: "yyyy",
                   );
                   print('object:::${docId}');
                   print('object:::${_descriptionController.text}');

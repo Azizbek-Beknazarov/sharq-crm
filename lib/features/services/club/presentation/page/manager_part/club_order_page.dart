@@ -7,6 +7,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../domain/entity/club_entity.dart';
 import '../../bloc/club_bloc.dart';
+import 'package:sharq_crm/core/util/constants.dart';
 
 class ClubOrderPage extends StatefulWidget {
   String customerId;
@@ -21,8 +22,9 @@ class _ClubOrderPageState extends State<ClubOrderPage> {
   final uuid = Uuid();
 
   TextEditingController _ordersNumberController = TextEditingController();
-
-  // TextEditingController _dateTimeOfWeddingController = TextEditingController();
+  TextEditingController _prepaymentController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
   TextEditingController _fromHourController = TextEditingController();
   TextEditingController _toHourOfWeddingController = TextEditingController();
   DateTime? selectedDate;
@@ -31,7 +33,9 @@ class _ClubOrderPageState extends State<ClubOrderPage> {
   @override
   void dispose() {
     _ordersNumberController.clear();
-    // _dateTimeOfWeddingController.clear();
+    _prepaymentController.clear();
+    _descriptionController.clear();
+    _priceController.clear();
     _fromHourController.clear();
     _toHourOfWeddingController.clear();
 
@@ -72,7 +76,6 @@ class _ClubOrderPageState extends State<ClubOrderPage> {
           child: Scaffold(
             body: SingleChildScrollView(
               scrollDirection: Axis.vertical,
-
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -83,10 +86,8 @@ class _ClubOrderPageState extends State<ClubOrderPage> {
                     Container(
                       child: Column(
                         children: [
-                          Image.asset('assets/images/club.png'),
-                          SizedBox(
-                            height: 15,
-                          ),
+                          // Image.asset('assets/images/club.png'),
+                          sizedBox,
                           DateTimeFormField(
                             decoration: const InputDecoration(
                               hintStyle: TextStyle(color: Colors.black45),
@@ -108,9 +109,7 @@ class _ClubOrderPageState extends State<ClubOrderPage> {
                               print(value);
                             },
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
+                          sizedBox,
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -123,7 +122,7 @@ class _ClubOrderPageState extends State<ClubOrderPage> {
                               hintStyle: TextStyle(color: Colors.black45),
                               errorStyle: TextStyle(color: Colors.redAccent),
                               border: OutlineInputBorder(),
-                              suffixIcon: Icon(Icons.add),
+                              prefixIcon: Icon(Icons.numbers),
                               labelText: 'Zakzlar soni',
                             ),
                             keyboardType: TextInputType.number,
@@ -131,9 +130,7 @@ class _ClubOrderPageState extends State<ClubOrderPage> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    sizedBox,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,9 +149,7 @@ class _ClubOrderPageState extends State<ClubOrderPage> {
                             keyboardType: TextInputType.number,
                           ),
                         ),
-                        SizedBox(
-                          width: 20,
-                        ),
+                        sizedBox,
                         Expanded(
                           child: TextFormField(
                             controller: _toHourOfWeddingController,
@@ -170,33 +165,92 @@ class _ClubOrderPageState extends State<ClubOrderPage> {
                         )
                       ],
                     ),
-                    SizedBox(
-                      height: 13,
+                    sizedBox,
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Iltimos, so\'mmani kiriting!';
+                        }
+                        return null;
+                      },
+                      controller: _priceController,
+                      decoration: const InputDecoration(
+                        hintStyle: TextStyle(color: Colors.black45),
+                        errorStyle: TextStyle(color: Colors.redAccent),
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.price_change_outlined),
+                        hintText: "800000",
+                        labelText: 'Narxi',
+                      ),
+                      keyboardType: TextInputType.number,
                     ),
+                    sizedBox,
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Iltimos, so\'mmani kiriting!';
+                        }
+                        return null;
+                      },
+                      controller: _prepaymentController,
+                      decoration: const InputDecoration(
+                          hintStyle: TextStyle(color: Colors.black45),
+                          errorStyle: TextStyle(color: Colors.redAccent),
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.price_check),
+                          labelText: 'Oldindan to\'lov',
+                          hintText: "100000"),
+                      keyboardType: TextInputType.number,
+                    ),
+                    sizedBox,
+                    TextFormField(
+                      // validator: (value) {
+                      //   if (value == null || value.isEmpty) {
+                      //     return 'Iltimos, sonni kiriting!';
+                      //   }
+                      //   return null;
+                      // },
+                      controller: _descriptionController,
+                      decoration: const InputDecoration(
+                        hintStyle: TextStyle(color: Colors.black45),
+                        errorStyle: TextStyle(color: Colors.redAccent),
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.text_increase),
+                        labelText: 'Qo\'shimcha ma\'lumotlar uchun',
+                      ),
+                      keyboardType: TextInputType.text,
+                    ),
+                    sizedBox,
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green),
                         onPressed: () {
-
-                          if(_formKey.currentState!.validate()){
+                          if (_formKey.currentState!.validate()) {
                             int _ordersNumber =
                                 int.tryParse(_ordersNumberController.text) ?? 1;
+                            int _prepayment =
+                                int.tryParse(_prepaymentController.text) ?? 0;
                             int _from =
                                 int.tryParse(_fromHourController.text) ?? 12;
+                            int _price =
+                                int.tryParse(_priceController.text) ?? 800000;
                             int _to =
-                                int.tryParse(_toHourOfWeddingController.text) ?? 13;
+                                int.tryParse(_toHourOfWeddingController.text) ??
+                                    13;
                             final docId = uuid.v4();
                             String date = selectedDate.toString();
 
                             ClubEntity addClub = ClubEntity(
-                                club_id: docId ?? 'docid',
-                                dateTimeOfWedding: date,
-                                ordersNumber: _ordersNumber,
-                                price: 800000,
-                                description: '',
-                                fromHour: _from,
-                                toHour: _to,
-                                isPaid:false
+                              club_id: docId,
+                              dateTimeOfWedding: date,
+                              ordersNumber: _ordersNumber,
+                              price: _price,
+                              description: _descriptionController.text,
+                              fromHour: _from,
+                              toHour: _to,
+                              isPaid: false,
+                              prepayment: _prepayment,
+                              customerId: widget.customerId,
                             );
 
                             setState(() {
@@ -209,13 +263,10 @@ class _ClubOrderPageState extends State<ClubOrderPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (ctx) => CustomerDetailPage(
-                                      customerId: widget.customerId,
-                                    )),
-                                    (route) => false);
-
+                                          customerId: widget.customerId,
+                                        )),
+                                (route) => false);
                           }
-
-
                         },
                         child: Text('Tasdiqlash'))
                   ],

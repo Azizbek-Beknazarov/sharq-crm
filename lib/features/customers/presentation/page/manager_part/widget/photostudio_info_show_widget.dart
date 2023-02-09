@@ -9,23 +9,20 @@ import '../../../../../services/photo_studio/presentation/bloc/photostudio_event
 import '../customer_detail_page.dart';
 
 class PhotoStudioInfoShow extends StatefulWidget {
-  PhotoStudioInfoShow(
-      {Key? key,
-        required this.photoStudioForCustomerlist,
-        required this.customerId,
-        })
-      : super(key: key);
+  PhotoStudioInfoShow({
+    Key? key,
+    required this.photoStudioForCustomerlist,
+    required this.customerId,
+  }) : super(key: key);
   List<PhotoStudioEntity> photoStudioForCustomerlist;
 
   String customerId;
 
   @override
-  State<PhotoStudioInfoShow> createState() =>
-      _PhotoStudioInfoShowState();
+  State<PhotoStudioInfoShow> createState() => _PhotoStudioInfoShowState();
 }
 
-class _PhotoStudioInfoShowState
-    extends State<PhotoStudioInfoShow> {
+class _PhotoStudioInfoShowState extends State<PhotoStudioInfoShow> {
   @override
   Widget build(BuildContext context) {
     return _currentPhotoStudioInfo(
@@ -56,7 +53,7 @@ class _PhotoStudioInfoShowState
                   );
                 }
                 PhotoStudioEntity photoStudio =
-                photoStudioForCustomerlist[index];
+                    photoStudioForCustomerlist[index];
                 // DateTime? date=DateTime.tryParse(photoStudio.dateTimeOfWedding);
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -123,48 +120,149 @@ class _PhotoStudioInfoShowState
                               ],
                             )),
                         ListTile(
+                          title: Row(
+                            children: [
+                              Text(
+                                "Narxi: ",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black),
+                              ),
+                              Text(
+                                "${photoStudio.price * photoStudio.ordersNumber}",
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                " so\'m",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black),
+                              ),
+                            ],
+                          ),
+                          subtitle: Row(
+                            children: [
+                              Text(
+                                "Oldindan to\'lov qilingan: ",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black),
+                              ),
+                              Text(
+                                "${photoStudio.prepayment}",
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                " so\'m ",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        ListTile(
+                          title: Row(
+                            children: [
+                              Text(
+                                "Qolgan so\'mma: ",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black),
+                              ),
+                              Text(
+                                "${photoStudio.price * photoStudio.ordersNumber - photoStudio.prepayment}",
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                " so\'m",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black),
+                              ),
+                            ],
+                          ),
+                          subtitle: Row(
+                            children: [
+                              Text(
+                                "ID: ",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black),
+                              ),
+                              Text(
+                                "${photoStudio.photo_studio_id}",
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        ListTile(
                             title: Row(
                               children: [
                                 Text(
-                                  "Narxi: ",
+                                  "To\'lov qilinganmi: ",
                                   style: TextStyle(
                                       fontSize: 15, color: Colors.black),
                                 ),
-                                Text(
-                                  "${photoStudio.price * photoStudio.ordersNumber}",
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  " so\'m",
-                                  style: TextStyle(
-                                      fontSize: 15, color: Colors.black),
-                                ),
+                                photoStudio.isPaid
+                                    ? Icon(
+                                  Icons.done_all,
+                                  color: Colors.green,
+                                )
+                                    : Icon(
+                                  Icons.highlight_remove_rounded,
+                                  color: Colors.red,
+                                )
+
                               ],
                             ),
-                            subtitle:
-                            Text("ID: ${photoStudio.photo_studio_id}")),
-                        Text("isPaid: ${photoStudio.isPaid.toString()}"),
+
+
+                            ),
+                        SizedBox(height: 5,),
+                        ListTile(
+                          title: Row(
+                            children: [
+                              Text(
+                                "Qo\'shimcha: ",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black),
+                              ),
+                             Flexible(child: Text(photoStudio.description))
+
+                            ],
+                          ),
+
+
+                        ),
+
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
+                                          RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(18.0),
+                                              BorderRadius.circular(18.0),
                                           side: BorderSide(color: Colors.red))),
                                   backgroundColor:
-                                  MaterialStateProperty.all(Colors.red)),
+                                      MaterialStateProperty.all(Colors.red)),
                               onPressed: () {
                                 showDialog(
                                     context: contextPhotostudio,
                                     builder: (contextPhotostudio) {
                                       return AlertDialog(
                                         title:
-                                        Text("Photo studioni o\'chirish"),
+                                            Text("Photo studioni o\'chirish"),
                                         content: Text(
                                             'Siz rostdan ham Photo studioni olib tashlamoqchimisiz?'),
                                         icon: Icon(
@@ -183,9 +281,9 @@ class _PhotoStudioInfoShowState
                                                 contextPhotostudio
                                                     .read<PhotoStudioBloc>()
                                                     .add(PhotoStudioDeleteEvent(
-                                                    customerId: customerId,
-                                                    photoStudioId: photoStudio
-                                                        .photo_studio_id));
+                                                        customerId: customerId,
+                                                        photoStudioId: photoStudio
+                                                            .photo_studio_id));
 
                                                 setState(() {});
                                                 Navigator.push(
@@ -194,12 +292,12 @@ class _PhotoStudioInfoShowState
                                                         builder: (_) =>
                                                             CustomerDetailPage(
                                                                 customerId:
-                                                                customerId)));
+                                                                    customerId)));
                                                 SnackBarMessage()
                                                     .showSuccessSnackBar(
-                                                    message: 'O\'chirildi',
-                                                    context:
-                                                    contextPhotostudio);
+                                                        message: 'O\'chirildi',
+                                                        context:
+                                                            contextPhotostudio);
                                               },
                                               child: Text("Ha")),
                                         ],

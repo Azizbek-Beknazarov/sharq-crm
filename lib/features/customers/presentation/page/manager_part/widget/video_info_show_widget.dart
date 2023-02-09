@@ -10,8 +10,8 @@ import '../../../../../services/video/presentation/bloc/video_bloc.dart';
 class VideoInfoShowWidget extends StatefulWidget {
   VideoInfoShowWidget(
       {Key? key,
-        required this.videoForCustomerUnPaidlist,
-        required this.customerId})
+      required this.videoForCustomerUnPaidlist,
+      required this.customerId})
       : super(key: key);
   List<VideoEntity> videoForCustomerUnPaidlist;
   String customerId;
@@ -75,6 +75,7 @@ class _VideoInfoShowWidgetState extends State<VideoInfoShowWidget> {
                               ],
                             ),
                           ),
+
                           ListTile(
                               title: Row(
                                 children: [
@@ -102,43 +103,136 @@ class _VideoInfoShowWidgetState extends State<VideoInfoShowWidget> {
                                   ),
                                 ],
                               )),
+
                           ListTile(
-                              title: Row(
-                                children: [
-                                  Text(
-                                    "Narxi: ",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                  Text(
-                                    "${video.price * video.ordersNumber}",
-                                    style: TextStyle(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Narxi: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Text(
+                                  "${video.price * video.ordersNumber}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  " so\'m",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  "Oldindan to\'lov qilingan: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Text(
+                                  "${video.prepayment}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  " so\'m ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Qolgan so\'mma: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Text(
+                                  "${video.price * video.ordersNumber - video.prepayment}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  " so\'m",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  "ID: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Text(
+                                  "${video.video_id}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "To\'lov qilinganmi: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                video.isPaid
+                                    ? Icon(
+                                        Icons.done_all,
+                                        color: Colors.green,
+                                      )
+                                    : Icon(
+                                        Icons.highlight_remove_rounded,
                                         color: Colors.red,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    " so\'m",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                ],
-                              ),
-                              subtitle: Text("ID: ${video.video_id}")),
-                          Text("isPaid: ${video.isPaid.toString()}"),
+                                      )
+                              ],
+                            ),
+                          ),
+
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Qo\'shimcha: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Flexible(child: Text(video.description))
+                              ],
+                            ),
+                          ),
+
                           //Videoni o'chirish button
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
                                 style: ButtonStyle(
                                     shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
+                                            RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(18.0),
+                                                BorderRadius.circular(18.0),
                                             side:
-                                            BorderSide(color: Colors.red))),
+                                                BorderSide(color: Colors.red))),
                                     backgroundColor:
-                                    MaterialStateProperty.all(Colors.red)),
+                                        MaterialStateProperty.all(Colors.red)),
                                 onPressed: () {
                                   showDialog(
                                       context: contextVideo,
@@ -157,12 +251,12 @@ class _VideoInfoShowWidgetState extends State<VideoInfoShowWidget> {
                                             OutlinedButton(
                                                 onPressed: () {
                                                   BlocProvider.of<VideoBloc>(
-                                                      contextVideo)
+                                                          contextVideo)
                                                       .add(VideoDeleteEvent(
-                                                      customerId:
-                                                      customerId,
-                                                      videoId:
-                                                      video.video_id));
+                                                          customerId:
+                                                              customerId,
+                                                          videoId:
+                                                              video.video_id));
 
                                                   setState(() {});
                                                   print(":::: video ochirildi");
@@ -172,14 +266,14 @@ class _VideoInfoShowWidgetState extends State<VideoInfoShowWidget> {
                                                           builder: (ctx) =>
                                                               CustomerDetailPage(
                                                                   customerId:
-                                                                  customerId)));
+                                                                      customerId)));
 
                                                   SnackBarMessage()
                                                       .showSuccessSnackBar(
-                                                      message:
-                                                      'O\'chirildi',
-                                                      context:
-                                                      contextVideo);
+                                                          message:
+                                                              'O\'chirildi',
+                                                          context:
+                                                              contextVideo);
                                                 },
                                                 child: Text("Ha")),
                                           ],

@@ -1,5 +1,3 @@
-
-
 import '../../domain/entity/video_entity.dart';
 
 class VideoModel extends VideoEntity {
@@ -9,16 +7,20 @@ class VideoModel extends VideoEntity {
     required String dateTimeOfWedding,
     required int ordersNumber,
     required String description,
-    required String address
-    ,required bool isPaid,
+    required String address,
+    required bool isPaid,
+    required String customerId,
+    required int prepayment,
   }) : super(
-    address: address,
+          address: address,
           video_id: video_id,
           price: price,
           dateTimeOfWedding: dateTimeOfWedding,
           ordersNumber: ordersNumber,
           description: description,
-    isPaid: isPaid,
+          isPaid: isPaid,
+    customerId: customerId,
+    prepayment: prepayment,
         );
 
   factory VideoModel.fromJson(Map<String, dynamic> json) {
@@ -29,7 +31,9 @@ class VideoModel extends VideoEntity {
       ordersNumber: json['ordersNumber'],
       description: json['description'] ?? '',
       address: json['address'] ?? '',
+      customerId: json['customerId'] ?? '',
       isPaid: json['isPaid'] ?? false,
+      prepayment: json['prepayment'] ?? 0,
     );
   }
 
@@ -42,6 +46,8 @@ class VideoModel extends VideoEntity {
       'description': description,
       'address': address,
       'isPaid': isPaid,
+      'customerId': customerId,
+      'prepayment': prepayment,
     };
   }
 }

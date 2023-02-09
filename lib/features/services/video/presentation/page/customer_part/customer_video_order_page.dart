@@ -157,19 +157,20 @@ class _CustomerVideoOrderPageState extends State<CustomerVideoOrderPage> {
                             String date = selectedDate.toString();
 
                             VideoEntity addAlbum = VideoEntity(
-                                video_id: docId ?? 'docid',
+                                video_id: docId ,
                                 dateTimeOfWedding: date,
+                                prepayment: 0,
                                 ordersNumber: _ordersNumber,
                                 price: 2000000,
                                 description: '',
-                                address: _addressController.text
-                            , isPaid: false);
+                                address: _addressController.text,
+                                customerId: widget.customerId,
+                                isPaid: false);
 
-
-                              context.read<VideoBloc>().add(VideoAddEvent(
-                                  addEvent: addAlbum,
-                                  customerId: widget.customerId));
-                              print('added Video');
+                            context.read<VideoBloc>().add(VideoAddEvent(
+                                addEvent: addAlbum,
+                                customerId: widget.customerId));
+                            print('added Video');
 
                             Navigator.pushAndRemoveUntil(
                                 context,

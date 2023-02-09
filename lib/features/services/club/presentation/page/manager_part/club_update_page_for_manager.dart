@@ -102,9 +102,10 @@ class _ClubUpdatePageForManagerState extends State<ClubUpdatePageForManager> {
                       dateTimeOfWedding: date,
                       isPaid:false,
                       ordersNumber: _ordersNumber,
-
+prepayment: 0,
                       description: _descriptionController.text ?? '',
                       fromHour: _fromHour,
+                      customerId: "",
                       toHour: _toHour);
                   print('object:::${docId}');
                   print('object:::${date.toString()}');

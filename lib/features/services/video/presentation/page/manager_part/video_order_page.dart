@@ -5,14 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/page/manager_part/customer_detail_page.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../../../core/util/constants.dart';
 import '../../../domain/entity/video_entity.dart';
 import '../../bloc/video_bloc.dart';
 
 class VideoOrderPage extends StatefulWidget {
   String customerId;
 
-  VideoOrderPage({Key? key, required this.customerId})
-      : super(key: key);
+  VideoOrderPage({Key? key, required this.customerId}) : super(key: key);
 
   @override
   State<VideoOrderPage> createState() => _VideoOrderPageState();
@@ -23,6 +23,9 @@ class _VideoOrderPageState extends State<VideoOrderPage> {
 
   TextEditingController _ordersNumberController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
+  TextEditingController _prepaymentController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
   DateTime? selectedDate;
   final _formKey = GlobalKey<FormState>();
 
@@ -31,8 +34,10 @@ class _VideoOrderPageState extends State<VideoOrderPage> {
   @override
   void dispose() {
     _ordersNumberController.clear();
-    // _dateTimeOfWeddingController.clear();
 
+    _prepaymentController.clear();
+    _descriptionController.clear();
+    _priceController.clear();
     super.dispose();
   }
 
@@ -80,10 +85,8 @@ class _VideoOrderPageState extends State<VideoOrderPage> {
                     Container(
                       child: Column(
                         children: [
-                          Image.asset('assets/images/video.gif'),
-                          SizedBox(
-                            height: 15,
-                          ),
+                          // Image.asset('assets/images/video.gif'),
+                          sizedBox,
                           DateTimeFormField(
                             decoration: const InputDecoration(
                               hintStyle: TextStyle(color: Colors.black45),
@@ -105,9 +108,7 @@ class _VideoOrderPageState extends State<VideoOrderPage> {
                               print(value);
                             },
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
+                          sizedBox,
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -120,14 +121,12 @@ class _VideoOrderPageState extends State<VideoOrderPage> {
                               hintStyle: TextStyle(color: Colors.black45),
                               errorStyle: TextStyle(color: Colors.redAccent),
                               border: OutlineInputBorder(),
-                              suffixIcon: Icon(Icons.add),
+                              prefixIcon: Icon(Icons.numbers),
                               labelText: 'Zakzlar soni',
                             ),
                             keyboardType: TextInputType.number,
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
+                          sizedBox,
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -140,11 +139,68 @@ class _VideoOrderPageState extends State<VideoOrderPage> {
                               hintStyle: TextStyle(color: Colors.black45),
                               errorStyle: TextStyle(color: Colors.redAccent),
                               border: OutlineInputBorder(),
-                              suffixIcon: Icon(Icons.add_circle),
+                              prefixIcon: Icon(Icons.home),
                               labelText: 'Manzil',
                             ),
                             keyboardType: TextInputType.text,
                           ),
+                          sizedBox,
+                          TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Iltimos, so\'mmani kiriting!';
+                              }
+                              return null;
+                            },
+                            controller: _priceController,
+                            decoration: const InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black45),
+                              errorStyle: TextStyle(color: Colors.redAccent),
+                              border: OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.price_change_outlined),
+                              hintText: "2000000",
+                              labelText: 'Narxi',
+                            ),
+                            keyboardType: TextInputType.number,
+                          ),
+                          sizedBox,
+                          TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Iltimos, so\'mmani kiriting!';
+                              }
+                              return null;
+                            },
+                            controller: _prepaymentController,
+                            decoration: const InputDecoration(
+                                hintStyle: TextStyle(color: Colors.black45),
+                                errorStyle: TextStyle(color: Colors.redAccent),
+                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(Icons.price_check),
+                                labelText: 'Oldindan to\'lov',
+                                hintText: "100000"),
+                            keyboardType: TextInputType.number,
+                          ),
+                          sizedBox,
+
+                          TextFormField(
+                            // validator: (value) {
+                            //   if (value == null || value.isEmpty) {
+                            //     return 'Iltimos, sonni kiriting!';
+                            //   }
+                            //   return null;
+                            // },
+                            controller: _descriptionController,
+                            decoration: const InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black45),
+                              errorStyle: TextStyle(color: Colors.redAccent),
+                              border: OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.text_increase),
+                              labelText: 'Qo\'shimcha ma\'lumotlar uchun',
+                            ),
+                            keyboardType: TextInputType.text,
+                          ),
+                          sizedBox,
                         ],
                       ),
                     ),
@@ -153,19 +209,23 @@ class _VideoOrderPageState extends State<VideoOrderPage> {
                           if (_formKey.currentState!.validate()) {
                             int _ordersNumber =
                                 int.tryParse(_ordersNumberController.text) ?? 1;
-
+                            int _price =
+                                int.tryParse(_priceController.text) ?? 2000000;
+                            int _prepayment =
+                                int.tryParse(_prepaymentController.text) ?? 0;
                             final docId = uuid.v4();
                             String date = selectedDate.toString();
 
                             VideoEntity addAlbum = VideoEntity(
-                                video_id: docId ?? 'docid',
+                                video_id: docId,
                                 dateTimeOfWedding: date,
                                 ordersNumber: _ordersNumber,
-                                price: 2000000,
-                                description: '',
-                                address: _addressController.text
-                                , isPaid: false);
-
+                                price: _price,
+                                description: _descriptionController.text,
+                                prepayment: _prepayment,
+                                customerId: widget.customerId,
+                                address: _addressController.text,
+                                isPaid: false);
 
                             context.read<VideoBloc>().add(VideoAddEvent(
                                 addEvent: addAlbum,
@@ -176,9 +236,9 @@ class _VideoOrderPageState extends State<VideoOrderPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (ctx) => CustomerDetailPage(
-                                      customerId: widget.customerId,
-                                    )),
-                                    (route) => false);
+                                          customerId: widget.customerId,
+                                        )),
+                                (route) => false);
                           }
                         },
                         child: Text('Tasdiqlash'))

@@ -8,6 +8,8 @@ class AlbumEntity extends Equatable {
   String description;
   String address;
   bool isPaid;
+  String customerId;
+  int prepayment;
 
   AlbumEntity({
     required this.album_id,
@@ -17,6 +19,8 @@ class AlbumEntity extends Equatable {
     required this.description,
     required this.address,
     required this.isPaid,
+    required this.customerId,
+    required this.prepayment,
   });
 
   @override
@@ -27,6 +31,8 @@ class AlbumEntity extends Equatable {
         ordersNumber,
         description,
     address,
-    isPaid
+    isPaid,
+    customerId,
+    prepayment,
       ];
 }

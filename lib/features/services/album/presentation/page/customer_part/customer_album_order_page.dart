@@ -172,6 +172,8 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
                                 description: '',
                                 address: _addressController.text,
                               isPaid: false,
+                              customerId: widget.customerId,
+                              prepayment: 0,
 
                             );
 

@@ -28,6 +28,8 @@ class ClubRepoImpl implements ClubRepo {
         fromHour: e.fromHour,
         toHour: e.toHour,
     isPaid: e.isPaid,
+    customerId: e.customerId,
+    prepayment: e.prepayment,
         //
       );
 
@@ -43,6 +45,8 @@ class ClubRepoImpl implements ClubRepo {
       fromHour: newClub.fromHour,
       toHour: newClub.toHour,
       isPaid: newClub.isPaid,
+      customerId: newClub.customerId,
+      prepayment: newClub.prepayment,
     );
     ClubModel model = _convert(entity);
     return await remoteDS.addClub(model, customerId);

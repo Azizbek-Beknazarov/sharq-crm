@@ -24,6 +24,8 @@ class VideoRepoImpl implements VideoRepo {
         description: e.description,
         address: e.address,
       isPaid: e.isPaid,
+    customerId: e.customerId,
+    prepayment: e.prepayment,
         //
       );
 
@@ -37,6 +39,8 @@ class VideoRepoImpl implements VideoRepo {
       description: newVideo.description,
       address: newVideo.address,
         isPaid: newVideo.isPaid,
+      customerId: newVideo.customerId,
+      prepayment: newVideo.prepayment,
     );
     VideoModel model = _convert(entity);
     return await remoteDS.addVideo(model, customerId);

@@ -91,6 +91,8 @@ class _AlbumUpdatePageForManagerState extends State<AlbumUpdatePageForManager> {
                     description: _descriptionController.text ?? '',
                     address: "",
                     isPaid: false,
+                    prepayment: 0,
+                    customerId: "yyyy",
                   );
                   print('object:::${docId}');
                   print('object:::${_descriptionController.text}');

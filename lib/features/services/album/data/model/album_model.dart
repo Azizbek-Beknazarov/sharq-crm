@@ -9,6 +9,8 @@ class AlbumModel extends AlbumEntity {
     required String description,
     required String address,
     required bool isPaid,
+    required String customerId,
+    required int prepayment,
   }) : super(
           album_id: album_id,
           price: price,
@@ -17,6 +19,8 @@ class AlbumModel extends AlbumEntity {
           description: description,
     address: address,
     isPaid: isPaid,
+    customerId: customerId,
+    prepayment: prepayment,
         );
 
   factory AlbumModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +32,8 @@ class AlbumModel extends AlbumEntity {
       description: json['description'] ?? '',
       address: json['address'] ?? '',
       isPaid: json['isPaid'] ?? '',
+      customerId: json['customerId'] ?? '',
+      prepayment: json['prepayment'] ?? '',
     );
   }
 
@@ -40,6 +46,8 @@ class AlbumModel extends AlbumEntity {
       'description': description,
       'address': address,
       'isPaid': isPaid,
+      'customerId': customerId,
+      'prepayment': prepayment,
     };
   }
 }

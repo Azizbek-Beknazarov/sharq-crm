@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,9 +12,6 @@ class ClubInfoShowWidget extends StatefulWidget {
       {Key? key, required this.clubForCustomerlist, required this.customerId})
       : super(key: key);
   List<ClubEntity> clubForCustomerlist;
-
-  //
-  // bool loading = false;
   String customerId;
 
   @override
@@ -61,7 +57,7 @@ class _ClubInfoShowWidgetState extends State<ClubInfoShowWidget> {
                           borderRadius: BorderRadius.all(
                             Radius.circular(22),
                           ),
-                          color: Colors.white10),
+                          color: Colors.black26),
                       child: Column(
                         children: [
                           ListTile(
@@ -113,41 +109,129 @@ class _ClubInfoShowWidgetState extends State<ClubInfoShowWidget> {
                             ),
                           ),
                           ListTile(
-                              title: Row(
-                                children: [
-                                  Text(
-                                    "Narxi: ",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                  Text(
-                                    "${club.price * club.ordersNumber * (club.toHour - club.fromHour)}",
-                                    style: TextStyle(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Narxi: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Text(
+                                  "${club.price * club.ordersNumber * (club.toHour - club.fromHour)}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  " so\'m",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  "Oldindan to\'lov qilingan: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Text(
+                                  "${club.prepayment}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  " so\'m ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Qolgan so\'mma: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Text(
+                                  "${club.price * club.ordersNumber * (club.toHour - club.fromHour) - club.prepayment}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  " so\'m",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  "ID: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Text(
+                                  "${club.club_id}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "To\'lov qilinganmi: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                club.isPaid
+                                    ? Icon(
+                                        Icons.done_all,
+                                        color: Colors.green,
+                                      )
+                                    : Icon(
+                                        Icons.highlight_remove_rounded,
                                         color: Colors.red,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    " so\'m",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                ],
-                              ),
-                              subtitle: Text("ID: ${club.club_id}")),
-                          Text("isPaid: ${club.isPaid.toString()}"),
+                                      )
+                              ],
+                            ),
+                          ),
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Qo\'shimcha: ",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                                Flexible(child: Text(club.description))
+                              ],
+                            ),
+                          ),
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
                                 style: ButtonStyle(
                                     shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
+                                            RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(18.0),
+                                                BorderRadius.circular(18.0),
                                             side:
-                                            BorderSide(color: Colors.red))),
+                                                BorderSide(color: Colors.red))),
                                     backgroundColor:
-                                    MaterialStateProperty.all(Colors.red)),
+                                        MaterialStateProperty.all(Colors.red)),
                                 onPressed: () {
                                   showDialog(
                                       context: contextClub,
@@ -168,10 +252,10 @@ class _ClubInfoShowWidgetState extends State<ClubInfoShowWidget> {
                                                   contextClub
                                                       .read<ClubBloc>()
                                                       .add(ClubDeleteEvent(
-                                                      customerId:
-                                                      customerId,
-                                                      clubId:
-                                                      club.club_id));
+                                                          customerId:
+                                                              customerId,
+                                                          clubId:
+                                                              club.club_id));
 
                                                   setState(() {
                                                     // widget.loading = true;
@@ -185,9 +269,9 @@ class _ClubInfoShowWidgetState extends State<ClubInfoShowWidget> {
                                                                       .customerId)));
                                                   SnackBarMessage()
                                                       .showSuccessSnackBar(
-                                                      message:
-                                                      'O\'chirildi',
-                                                      context: contextClub);
+                                                          message:
+                                                              'O\'chirildi',
+                                                          context: contextClub);
                                                 },
                                                 child: Text("Ha")),
                                           ],

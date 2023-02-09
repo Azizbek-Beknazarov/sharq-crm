@@ -41,6 +41,8 @@ class PhotoStudioRepoImpl implements PhotoStudioRepo {
         smallPhotoNumber: e.smallPhotoNumber,
         largePhotosNumber: e.largePhotosNumber,
     isPaid: e.isPaid,
+    prepayment: e.prepayment,
+    customerId: e.customerId,
         //
       );
 
@@ -57,6 +59,8 @@ class PhotoStudioRepoImpl implements PhotoStudioRepo {
       smallPhotoNumber: newPhotoStudio.smallPhotoNumber,
       largePhotosNumber: newPhotoStudio.largePhotosNumber,
       isPaid: newPhotoStudio.isPaid,
+      prepayment: newPhotoStudio.prepayment,
+      customerId: newPhotoStudio.customerId,
     );
     PhotoStudioModel model = _convert(entity);
     return await remoteDS.addPhotoStudio(model,customerId);

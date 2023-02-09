@@ -22,7 +22,11 @@ const String INVALID_DATE_FAILURE_MESSAGE =
 //
 final primaryColor = Color(0xff082659);
 final secondaryColor = Color(0xff51eec2);
+final iconAndText=Colors.black;
+final apbarBackground= Colors.amber.shade50;
 
+//
+SizedBox sizedBox=SizedBox(height: 20,);
 
 // int ts = widget.customer.dateOfSignUp;
 // DateTime tsdate = DateTime.fromMillisecondsSinceEpoch(ts);

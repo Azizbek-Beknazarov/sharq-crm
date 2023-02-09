@@ -105,6 +105,8 @@ class _PhotoStudioUpdatePageForManagerState
                       description: _descriptionController.text ?? '',
                       largePhotosNumber: 1,
                       smallPhotoNumber: 40,
+                      prepayment: 0,
+                      customerId: "yyyy",
                       isPaid:false);
                   print('object:::${docId}');
                   print('object:::${date.toString()}');

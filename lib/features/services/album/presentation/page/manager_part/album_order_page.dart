@@ -1,4 +1,3 @@
-
 import 'package:date_field/date_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/page/manager_part/customer_detail_page.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../../../core/util/constants.dart';
 import '../../../domain/entity/album_entity.dart';
 import '../../bloc/album_bloc.dart';
 
@@ -23,6 +23,10 @@ class _AlbumOrderPageState extends State<AlbumOrderPage> {
 
   TextEditingController _ordersNumberController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
+  TextEditingController _prepaymentController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
+
   // TextEditingController _dateTimeOfWeddingController = TextEditingController();
   DateTime? selectedDate;
   final _formKey = GlobalKey<FormState>();
@@ -30,8 +34,10 @@ class _AlbumOrderPageState extends State<AlbumOrderPage> {
   @override
   void dispose() {
     _ordersNumberController.clear();
-    // _dateTimeOfWeddingController.clear();
 
+    _prepaymentController.clear();
+    _descriptionController.clear();
+    _priceController.clear();
 
     super.dispose();
   }
@@ -39,7 +45,8 @@ class _AlbumOrderPageState extends State<AlbumOrderPage> {
   //
   @override
   Widget build(BuildContext context) {
-    print("Albumga buyurtma berish page dagi customer ID: ${widget.customerId}");
+    print(
+        "Albumga buyurtma berish page dagi customer ID: ${widget.customerId}");
     return BlocBuilder<AlbumBloc, AlbumStates>(builder: (context, albumState) {
       if (albumState is AlbumLoadingState) {
         return Scaffold(
@@ -68,7 +75,6 @@ class _AlbumOrderPageState extends State<AlbumOrderPage> {
         key: _formKey,
         child: SafeArea(
           child: Scaffold(
-
             body: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Padding(
@@ -81,10 +87,8 @@ class _AlbumOrderPageState extends State<AlbumOrderPage> {
                     Container(
                       child: Column(
                         children: [
-                          Image.asset('assets/images/albumm.png'),
-                          SizedBox(
-                            height: 15,
-                          ),
+                          // Image.asset('assets/images/albumm.png'),
+                          sizedBox,
                           DateTimeFormField(
                             decoration: const InputDecoration(
                               hintStyle: TextStyle(color: Colors.black45),
@@ -106,9 +110,7 @@ class _AlbumOrderPageState extends State<AlbumOrderPage> {
                               print(value);
                             },
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
+                          sizedBox,
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -121,14 +123,12 @@ class _AlbumOrderPageState extends State<AlbumOrderPage> {
                               hintStyle: TextStyle(color: Colors.black45),
                               errorStyle: TextStyle(color: Colors.redAccent),
                               border: OutlineInputBorder(),
-                              suffixIcon: Icon(Icons.add),
+                              prefixIcon: Icon(Icons.numbers),
                               labelText: 'Zakzlar soni',
                             ),
                             keyboardType: TextInputType.number,
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
+                          sizedBox,
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -141,49 +141,107 @@ class _AlbumOrderPageState extends State<AlbumOrderPage> {
                               hintStyle: TextStyle(color: Colors.black45),
                               errorStyle: TextStyle(color: Colors.redAccent),
                               border: OutlineInputBorder(),
-                              suffixIcon: Icon(Icons.add_circle),
+                              prefixIcon: Icon(
+                                Icons.home,
+                              ),
                               labelText: 'Manzil',
                             ),
                             keyboardType: TextInputType.text,
                           ),
                         ],
-                      ),),
-                    SizedBox(
-                      height: 15,
+                      ),
                     ),
-
+                    sizedBox,
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Iltimos, so\'mmani kiriting!';
+                        }
+                        return null;
+                      },
+                      controller: _priceController,
+                      decoration: const InputDecoration(
+                        hintStyle: TextStyle(color: Colors.black45),
+                        errorStyle: TextStyle(color: Colors.redAccent),
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.price_change_outlined),
+                        hintText: "1000000",
+                        labelText: 'Narxi',
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                    sizedBox,
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Iltimos, so\'mmani kiriting!';
+                        }
+                        return null;
+                      },
+                      controller: _prepaymentController,
+                      decoration: const InputDecoration(
+                          hintStyle: TextStyle(color: Colors.black45),
+                          errorStyle: TextStyle(color: Colors.redAccent),
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.price_check),
+                          labelText: 'Oldindan to\'lov',
+                          hintText: "100000"),
+                      keyboardType: TextInputType.number,
+                    ),
+                    sizedBox,
+                    TextFormField(
+                      controller: _descriptionController,
+                      decoration: const InputDecoration(
+                        hintStyle: TextStyle(color: Colors.black45),
+                        errorStyle: TextStyle(color: Colors.redAccent),
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.text_increase),
+                        labelText: 'Qo\'shimcha ma\'lumotlar uchun',
+                      ),
+                      keyboardType: TextInputType.text,
+                    ),
+                    sizedBox,
                     ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green),
                         onPressed: () {
-
-                          if (_formKey.currentState!.validate()){
+                          if (_formKey.currentState!.validate()) {
                             int _ordersNumber =
                                 int.tryParse(_ordersNumberController.text) ?? 1;
+                            int _price =
+                                int.tryParse(_priceController.text) ?? 1000000;
+                            int _prepayment =
+                                int.tryParse(_prepaymentController.text) ?? 0;
 
                             final docId = uuid.v4();
                             String date = selectedDate.toString();
 
                             AlbumEntity addAlbum = AlbumEntity(
-                              album_id: docId ?? 'docid',
+                              album_id: docId,
                               dateTimeOfWedding: date,
                               ordersNumber: _ordersNumber,
-                              price: 1000000,
-                              description: '',
+                              price: _price,
+                              description: _descriptionController.text,
                               address: _addressController.text,
                               isPaid: false,
-
+                              prepayment: _prepayment,
+                              customerId: widget.customerId,
                             );
 
                             setState(() {
                               context.read<AlbumBloc>().add(AlbumAddEvent(
-                                  addEvent: addAlbum, customerId: widget.customerId));
+                                  addEvent: addAlbum,
+                                  customerId: widget.customerId));
                               print('added Album');
                             });
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (ctx)=>CustomerDetailPage(customerId: widget.customerId,)), (route) => false);
-
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (ctx) => CustomerDetailPage(
+                                          customerId: widget.customerId,
+                                        )),
+                                (route) => false);
                           }
-
-
                         },
                         child: Text('Tasdiqlash'))
                   ],

@@ -12,7 +12,9 @@ class PhotoStudioEntity extends Equatable {
   String smallImage;
 
   String description;
+  int prepayment;
   bool isPaid;
+  String customerId;
 
   PhotoStudioEntity({
     required this.photo_studio_id,
@@ -24,7 +26,9 @@ class PhotoStudioEntity extends Equatable {
     required this.description,
     required this.largePhotosNumber,
     required this.smallPhotoNumber,
-    required this.isPaid
+    required this.isPaid,
+    required this.prepayment,
+    required this.customerId,
   });
 
   @override
@@ -38,6 +42,8 @@ class PhotoStudioEntity extends Equatable {
         description,
         smallPhotoNumber,
         largePhotosNumber,
-    isPaid
+    isPaid,
+    prepayment,
+    customerId,
       ];
 }

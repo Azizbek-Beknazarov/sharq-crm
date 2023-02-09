@@ -7,7 +7,9 @@ import 'package:sharq_crm/features/auth/presentation/bloc/m_auth_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/customer_state.dart';
 import 'package:sharq_crm/features/services/service_page.dart';
 import 'package:uuid/uuid.dart';
+import '../../../../../core/util/constants.dart';
 import '../../../../auth/presentation/page/sign_in_page.dart';
+import '../../../../services/photo_studio/presentation/page/manager_part/image_add_page_example.dart';
 import '../../../domain/entity/customer_entity.dart';
 import '../../bloc/customer_cubit.dart';
 import 'customer_add_page.dart';
@@ -53,16 +55,26 @@ class _CustomersPageState extends State<CustomersPage> {
         customersList = customerCubitstate.customersLoaded;
       }
       return Scaffold(
+        backgroundColor: apbarBackground,
         key: _scaffoldKey,
         drawer: _drawerManager(),
         appBar: AppBar(
+          backgroundColor:apbarBackground,
           leading: IconButton(
             onPressed: () {
               return _scaffoldKey.currentState?.openDrawer();
             },
-            icon: Icon(Icons.menu),
+            icon: Icon(Icons.menu,color: iconAndText,),
           ),
-          title: Text('Customers'),
+          // actions: [
+          //   IconButton(
+          //     onPressed: () {
+          //       Navigator.push(context, MaterialPageRoute(builder: (context)=>ImageAddPage()));
+          //     },
+          //     icon: Icon(Icons.add_card,color: iconAndText,),
+          //   ),
+          // ],
+          title: Text('Customers',style: TextStyle(color: iconAndText),),
           centerTitle: true,
         ),
         body: CustomerList(
@@ -203,11 +215,16 @@ class _CustomersPageState extends State<CustomersPage> {
     BuildContext context,
   ) {
     return FloatingActionButton(
+      backgroundColor: apbarBackground,
+      shape: StadiumBorder(
+          side: BorderSide(
+              color: Colors.green, width: 2)),
+      elevation: 11,
       onPressed: () {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => NewCustomerAddPage()));
       },
-      child: Icon(Icons.add),
+      child: Icon(Icons.add,color: Colors.black,),
     );
   }
 }

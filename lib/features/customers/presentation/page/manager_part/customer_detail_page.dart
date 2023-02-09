@@ -15,6 +15,7 @@ import 'package:sharq_crm/features/orders/presentation/bloc/car_bloc/car_state.d
 
 import 'package:uuid/uuid.dart';
 
+import '../../../../../core/util/constants.dart';
 import '../../../../../core/util/loading_widget.dart';
 import '../../../../orders/domain/entity/car_entity.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -54,6 +55,7 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
   List<PhotoStudioEntity> photoStudioForCustomerUnPaidlist = [];
   List<PhotoStudioEntity> photoStudioForCustomerPaidlist = [];
   List<String> photoStudioIds = [];
+
   //
   List<ClubEntity> clubForCustomerlist = [];
   List<ClubEntity> clubForCustomerUnPaidlist = [];
@@ -100,51 +102,58 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
     //
 
     return Scaffold(
-
+      backgroundColor: apbarBackground,
       key: _scaffoldKey,
       drawer: _drawerManager(),
       appBar: AppBar(
+        backgroundColor: apbarBackground,
         leading: IconButton(
           onPressed: () {
             return _scaffoldKey.currentState?.openDrawer();
           },
-          icon: Icon(Icons.menu),
+          icon: Icon(
+            Icons.menu,
+            color: iconAndText,
+          ),
         ),
-        title: Text(widget.customerId),
+        title: Text(
+          widget.customerId,
+          style: TextStyle(color: iconAndText),
+        ),
         centerTitle: true,
       ),
-      body: SafeArea(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                //PhotoStudio infos
-                BlocBuilder<PhotoStudioBloc, PhotoStudioStates>(
-                  builder: (contextPhotostudio, photoState) {
-                    if (photoState is PhotoStudioInitialState) {
-                    } else if (photoState is PhotoStudioLoadingState) {
-                      return LoadingWidget();
-                    } else if (photoState is PhotoStudioErrorState) {
-                      return Center(
-                        child: Text(
-                            'photoState da error bor: ${photoState.message}'),
-                      );
-                    } else if (photoState
-                        is PhotoStudioLoadedForCustomerState) {
-                      photoStudioForCustomerlist = photoState.loaded;
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              //PhotoStudio infos
+              BlocBuilder<PhotoStudioBloc, PhotoStudioStates>(
+                builder: (contextPhotostudio, photoState) {
+                  if (photoState is PhotoStudioInitialState) {
+                  } else if (photoState is PhotoStudioLoadingState) {
+                    return LoadingWidget();
+                  } else if (photoState is PhotoStudioErrorState) {
+                    return Center(
+                      child: Text(
+                          'photoState da error bor: ${photoState.message}'),
+                    );
+                  } else if (photoState is PhotoStudioLoadedForCustomerState) {
+                    photoStudioForCustomerlist = photoState.loaded;
 
-                      if (photoStudioForCustomerlist.length == 0) {
-                        return Text(
-                          'Photo Studio hali buyurtma qilinmadi.',
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
-                        );
-                      }
-                      photoStudioForCustomerlist.forEach((element) {
+                    if (photoStudioForCustomerlist.length == 0) {
+                      return Text(
+                        'Photo Studio hali buyurtma qilinmadi.',
+                        style: TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold),
+                      );
+                    }
+
+                    photoStudioForCustomerlist.forEach((element) {
+                      if (element.customerId == widget.customerId) {
                         //1
                         var containUnPaid = photoStudioForCustomerUnPaidlist
                             .where(//error bulishi mumkin
@@ -171,53 +180,55 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                             }
                           }
                         }
-                      });
-                    }
-
-                    return Column(
-                      children: [
-                        photoStudioForCustomerUnPaidlist.length == 0
-                            ? Container(
-                                child: Text(
-                                  'Photo Studio hali buyurtma qilinmadi.',
-                                  style: TextStyle(
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )
-                            : PhotoStudioInfoShow(
-                                photoStudioForCustomerlist:
-                                    photoStudioForCustomerUnPaidlist,
-                                customerId: widget.customerId,
-                              ),
-                      ],
-                    );
-                  },
-                ),
-                // Club infos
-                BlocBuilder<ClubBloc, ClubStates>(
-                  builder: (contextClub, clubState) {
-                    if (clubState is ClubInitialState) {
-                    } else if (clubState is ClubLoadingState) {
-                      return LoadingWidget();
-                    } else if (clubState is ClubErrorState) {
-                      return Center(
-                        child:
-                        Text('clubState da error bor: ${clubState.message}'),
-                      );
-                    } else if (clubState is ClubLoadedForCustomerState) {
-                      clubForCustomerlist = clubState.loaded;
-                      if (clubForCustomerlist.length == 0) {
-                        return Text(
-                          'Club hali buyurtma qilinmadi.',
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
-                        );
                       }
-                      clubForCustomerlist.forEach((element) {
+                    });
+                  }
+
+                  return Column(
+                    children: [
+                      photoStudioForCustomerUnPaidlist.length == 0
+                          ? Container(
+                              child: Text(
+                                'Photo Studio hali buyurtma qilinmadi.',
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          : PhotoStudioInfoShow(
+                              photoStudioForCustomerlist:
+                                  photoStudioForCustomerUnPaidlist,
+                              customerId: widget.customerId,
+                            ),
+                    ],
+                  );
+                },
+              ),
+              // Club infos
+              BlocBuilder<ClubBloc, ClubStates>(
+                builder: (contextClub, clubState) {
+                  if (clubState is ClubInitialState) {
+                  } else if (clubState is ClubLoadingState) {
+                    return LoadingWidget();
+                  } else if (clubState is ClubErrorState) {
+                    return Center(
+                      child:
+                          Text('clubState da error bor: ${clubState.message}'),
+                    );
+                  } else if (clubState is ClubLoadedForCustomerState) {
+                    clubForCustomerlist = clubState.loaded;
+                    if (clubForCustomerlist.length == 0) {
+                      return Text(
+                        'Club hali buyurtma qilinmadi.',
+                        style: TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold),
+                      );
+                    }
+                    clubForCustomerlist.forEach((element) {
+                      if (element.customerId == widget.customerId) {
                         //1
                         var containUnPaid = clubForCustomerUnPaidlist.where(
-                                (element2) => element2.club_id == element.club_id);
+                            (element2) => element2.club_id == element.club_id);
                         if (containUnPaid.isEmpty) {
                           if (!element.isPaid) {
                             clubForCustomerUnPaidlist.add(element);
@@ -226,8 +237,8 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                           } else {
                             //2
                             var containPaid = clubForCustomerPaidlist.where(
-                                    (element2) =>
-                                element2.club_id == element.club_id);
+                                (element2) =>
+                                    element2.club_id == element.club_id);
                             if (containPaid.isEmpty) {
                               if (element.isPaid) {
                                 clubForCustomerPaidlist.add(element);
@@ -237,50 +248,53 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                             }
                           }
                         }
-                      });
-                    }
-
-                    return Column(
-                      children: [
-                        clubForCustomerUnPaidlist.length == 0
-                            ? Text(
-                          "Club hali buyurtma qilinmadi.",
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold),
-                        )
-                            : ClubInfoShowWidget(
-                            clubForCustomerlist: clubForCustomerUnPaidlist,
-                            customerId: widget.customerId),
-                      ],
-                    );
-                  },
-                ),
-
-                // Album infos
-                BlocBuilder<AlbumBloc, AlbumStates>(
-                  builder: (contextAlbum, albumState) {
-                    if (albumState is AlbumInitialState) {
-                    } else if (albumState is AlbumLoadingState) {
-                      return LoadingWidget();
-                    } else if (albumState is AlbumErrorState) {
-                      return Center(
-                        child: Text(
-                            'AlbumState da error bor: ${albumState.message}'),
-                      );
-                    } else if (albumState is AlbumLoadedForCustomerState) {
-                      albumForCustomerlist = albumState.loaded;
-                      if (albumForCustomerlist.length == 0) {
-                        return Text(
-                          'Album hali buyurtma qilinmadi.',
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
-                        );
                       }
-                      albumForCustomerlist.forEach((element) {
+                    });
+                  }
+
+                  return Column(
+                    children: [
+                      clubForCustomerUnPaidlist.length == 0
+                          ? Text(
+                              "Club hali buyurtma qilinmadi.",
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          : ClubInfoShowWidget(
+                              clubForCustomerlist: clubForCustomerUnPaidlist,
+                              customerId: widget.customerId),
+                    ],
+                  );
+                },
+              ),
+
+              // Album infos
+              BlocBuilder<AlbumBloc, AlbumStates>(
+                builder: (contextAlbum, albumState) {
+                  if (albumState is AlbumInitialState) {
+                  } else if (albumState is AlbumLoadingState) {
+                    return LoadingWidget();
+                  } else if (albumState is AlbumErrorState) {
+                    return Center(
+                      child: Text(
+                          'AlbumState da error bor: ${albumState.message}'),
+                    );
+                  } else if (albumState is AlbumLoadedForCustomerState) {
+                    albumForCustomerlist = albumState.loaded;
+                    if (albumForCustomerlist.length == 0) {
+                      return Text(
+                        'Album hali buyurtma qilinmadi.',
+                        style: TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold),
+                      );
+                    }
+                    albumForCustomerlist.forEach((element) {
+                      if (element.customerId == widget.customerId) {
                         //1
                         var containUnPaid = albumForCustomerUnPaidlist.where(
-                                (element2) => element2.album_id == element.album_id);
+                            (element2) =>
+                                element2.album_id == element.album_id);
                         if (containUnPaid.isEmpty) {
                           if (!element.isPaid) {
                             albumForCustomerUnPaidlist.add(element);
@@ -289,8 +303,8 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                           } else {
                             //2
                             var containPaid = albumForCustomerPaidlist.where(
-                                    (element2) =>
-                                element2.album_id == element.album_id);
+                                (element2) =>
+                                    element2.album_id == element.album_id);
                             if (containPaid.isEmpty) {
                               if (element.isPaid) {
                                 albumForCustomerPaidlist.add(element);
@@ -300,52 +314,55 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                             }
                           }
                         }
-                      });
-                    }
-
-                    return Column(
-                      children: [
-                        albumForCustomerUnPaidlist.length == 0
-                            ? Text(
-                          'Album hali buyurtma qilinmadi.',
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold),
-                        )
-                            : AlbumInfoShowWidget(
-                            albumForCustomerlist: albumForCustomerUnPaidlist,
-                            customerId: widget.customerId),
-                      ],
-                    );
-                  },
-                ),
-                //
-                // Video infos
-                BlocBuilder<VideoBloc, VideoStates>(
-                  builder: (contextVideo, videoState) {
-                    // print("Video States: $videoState");
-                    if (videoState is VideoInitialState) {
-                      // return Text('Initial state...');
-                    } else if (videoState is VideoLoadingState) {
-                      return LoadingWidget();
-                    } else if (videoState is VideoErrorState) {
-                      return Center(
-                        child: Text(
-                            'VideoState da error bor: ${videoState.message}'),
-                      );
-                    } else if (videoState is VideoLoadedForCustomerState) {
-                      videoForCustomerlist = videoState.loaded;
-                      if (videoForCustomerlist.length == 0) {
-                        return Text(
-                          'Video hali buyurtma qilinmadi.',
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
-                        );
                       }
-                      videoForCustomerlist.forEach((element) {
+                    });
+                  }
+
+                  return Column(
+                    children: [
+                      albumForCustomerUnPaidlist.length == 0
+                          ? Text(
+                              'Album hali buyurtma qilinmadi.',
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          : AlbumInfoShowWidget(
+                              albumForCustomerlist: albumForCustomerUnPaidlist,
+                              customerId: widget.customerId),
+                    ],
+                  );
+                },
+              ),
+              //
+              // Video infos
+              BlocBuilder<VideoBloc, VideoStates>(
+                builder: (contextVideo, videoState) {
+                  // print("Video States: $videoState");
+                  if (videoState is VideoInitialState) {
+                    // return Text('Initial state...');
+                  } else if (videoState is VideoLoadingState) {
+                    return LoadingWidget();
+                  } else if (videoState is VideoErrorState) {
+                    return Center(
+                      child: Text(
+                          'VideoState da error bor: ${videoState.message}'),
+                    );
+                  } else if (videoState is VideoLoadedForCustomerState) {
+                    videoForCustomerlist = videoState.loaded;
+                    if (videoForCustomerlist.length == 0) {
+                      return Text(
+                        'Video hali buyurtma qilinmadi.',
+                        style: TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold),
+                      );
+                    }
+                    videoForCustomerlist.forEach((element) {
+                      if (element.customerId == widget.customerId) {
                         //1
                         var containUnPaid = videoForCustomerUnPaidlist.where(
-                                (element2) => element2.video_id == element.video_id);
+                            (element2) =>
+                                element2.video_id == element.video_id);
                         if (containUnPaid.isEmpty) {
                           if (!element.isPaid) {
                             videoForCustomerUnPaidlist.add(element);
@@ -354,8 +371,8 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                           } else {
                             //2
                             var containPaid = videoForCustomerPaidlist.where(
-                                    (element2) =>
-                                element2.video_id == element.video_id);
+                                (element2) =>
+                                    element2.video_id == element.video_id);
                             if (containPaid.isEmpty) {
                               if (element.isPaid) {
                                 videoForCustomerPaidlist.add(element);
@@ -365,112 +382,113 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                             }
                           }
                         }
-                      });
-                      //
-                      print(
-                          "::::videoForCustomerlist ga state orqali doc olindi: ${videoForCustomerlist.toString()}");
-                    }
+                      }
+                    });
+                    //
+                    print(
+                        "::::videoForCustomerlist ga state orqali doc olindi: ${videoForCustomerlist.toString()}");
+                  }
 
-                    return Column(
-                      children: [
-                        videoForCustomerUnPaidlist.length == 0
-                            ? Text(
-                          'Video hali buyurtma qilinmadi.',
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold),
-                        )
-                            : VideoInfoShowWidget(
-                          videoForCustomerUnPaidlist:
-                          videoForCustomerUnPaidlist,
-                          customerId: widget.customerId,
-                        ),
-                      ],
-                    );
+                  return Column(
+                    children: [
+                      videoForCustomerUnPaidlist.length == 0
+                          ? Text(
+                              'Video hali buyurtma qilinmadi.',
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          : VideoInfoShowWidget(
+                              videoForCustomerUnPaidlist:
+                                  videoForCustomerUnPaidlist,
+                              customerId: widget.customerId,
+                            ),
+                    ],
+                  );
+                },
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              //to'lov qilinadigan button
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.all(40),
+                      foregroundColor: Colors.white,
+                      shape: CircleBorder(),
+                      backgroundColor: Colors.green),
+                  onPressed: () {
+                    //
+                    double price1 = 0;
+                    double price2 = 0;
+                    double price3 = 0;
+                    double price4 = 0;
+                    //
+
+                    photoStudioForCustomerUnPaidlist.forEach((element) {
+                      price1 += element.price * element.ordersNumber;
+                      String photoId = element.photo_studio_id;
+                      print("::::PhotoStudio ID: $photoId");
+                      photoStudioIds.add(photoId);
+                    });
+                    clubForCustomerUnPaidlist.forEach((element) {
+                      price2 += element.price *
+                          element.ordersNumber *
+                          (element.toHour - element.fromHour);
+                      String clubId = element.club_id;
+                      print("::::Club ID: $clubId");
+                      clubIds.add(clubId);
+                    });
+                    albumForCustomerUnPaidlist.forEach((element) {
+                      price3 += element.price * element.ordersNumber;
+                      String albumId = element.album_id;
+                      print("::::Album ID: $albumId");
+                      albumIds.add(albumId);
+                    });
+                    videoForCustomerUnPaidlist.forEach((element) {
+                      price4 += element.price * element.ordersNumber;
+                      String videoId = element.video_id;
+                      print("::::Video ID: $videoId");
+                      videoIds.add(videoId);
+                    });
+
+                    //
+                    double totalPrice = price2 + price1 + price4 + price3;
+
+                    //
+                    print(
+                        "::::photoStudioIds.length customer home pagedagi========${photoStudioIds.length.toString()}");
+                    print(
+                        "::::clubIds.length customer home pagedagi========${clubIds.length.toString()}");
+                    print(
+                        "::::albumIds.length customer home pagedagi========${albumIds.length.toString()}");
+                    print(
+                        "::::videoIds.length customer home pagedagi========${videoIds.length.toString()}");
+                    print("::::total price: ${totalPrice.toString()}");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PaymentManagerPage(
+                                  totalPrice: totalPrice,
+                                  customerId: widget.customerId,
+                                  photoIds: photoStudioIds,
+                                  videoIds: videoIds,
+                                  clubIds: clubIds,
+                                  albumIds: albumIds,
+                                )));
+                    // setState(() {});
                   },
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.all(40),
-                        foregroundColor: Colors.white,
-                        shape: CircleBorder(),
-                        backgroundColor: Colors.green),
-                    onPressed: () {
-                      //
-                      double price1 = 0;
-                      double price2 = 0;
-                      double price3 = 0;
-                      double price4 = 0;
-                      //
-
-                      photoStudioForCustomerUnPaidlist.forEach((element) {
-                        price1 += element.price * element.ordersNumber;
-                        String photoId = element.photo_studio_id;
-                        print("::::PhotoStudio ID: $photoId");
-                        photoStudioIds.add(photoId);
-                      });
-                      clubForCustomerUnPaidlist.forEach((element) {
-                        price2 += element.price *
-                            element.ordersNumber *
-                            (element.toHour - element.fromHour);
-                        String clubId = element.club_id;
-                        print("::::Club ID: $clubId");
-                        clubIds.add(clubId);
-                      });
-                      albumForCustomerUnPaidlist.forEach((element) {
-                        price3 += element.price * element.ordersNumber;
-                        String albumId = element.album_id;
-                        print("::::Album ID: $albumId");
-                        albumIds.add(albumId);
-                      });
-                      videoForCustomerUnPaidlist.forEach((element) {
-                        price4 += element.price * element.ordersNumber;
-                        String videoId = element.video_id;
-                        print("::::Video ID: $videoId");
-                        videoIds.add(videoId);
-                      });
-
-                      //
-                      double totalPrice = price2 + price1 + price4 + price3;
-
-                      //
-                      print(
-                          "::::photoStudioIds.length customer home pagedagi========${photoStudioIds.length.toString()}");
-                      print(
-                          "::::clubIds.length customer home pagedagi========${clubIds.length.toString()}");
-                      print(
-                          "::::albumIds.length customer home pagedagi========${albumIds.length.toString()}");
-                      print(
-                          "::::videoIds.length customer home pagedagi========${videoIds.length.toString()}");
-                      print("::::total price: ${totalPrice.toString()}");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PaymentManagerPage(
-                                    totalPrice: totalPrice,
-                                    customerId: widget.customerId,
-                                    photoIds: photoStudioIds,
-                                    videoIds: videoIds,
-                                    clubIds: clubIds,
-                                    albumIds: albumIds,
-                                  )));
-                      // setState(() {});
-                    },
-                    child: Text(info)),
-              ],
-            ),
+                  child: Text(info)),
+            ],
           ),
         ),
       ),
       floatingActionButton: _speedDial(),
-
     );
   }
+
   //
-  _speedDial(){
+  _speedDial() {
     return SpeedDial(
       elevation: 12,
       backgroundColor: Colors.green,
@@ -480,8 +498,8 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
           onTap: () {
             final route = MaterialPageRoute(
                 builder: (context) => PhotoStudioOrderPage(
-                  customerId: widget.customerId,
-                ));
+                      customerId: widget.customerId,
+                    ));
             Navigator.push(context, route);
           },
           child: Text('photo'),
@@ -491,8 +509,8 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
           onTap: () {
             final route = MaterialPageRoute(
                 builder: (context) => ClubOrderPage(
-                  customerId: widget.customerId,
-                ));
+                      customerId: widget.customerId,
+                    ));
             Navigator.push(context, route);
           },
           child: Text('club'),
@@ -501,8 +519,8 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
           onTap: () {
             final route = MaterialPageRoute(
                 builder: (context) => AlbumOrderPage(
-                  customerId: widget.customerId,
-                ));
+                      customerId: widget.customerId,
+                    ));
             Navigator.push(context, route);
           },
           child: Text('album'),
@@ -511,13 +529,12 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
           onTap: () {
             final route = MaterialPageRoute(
                 builder: (context) => VideoOrderPage(
-                  customerId: widget.customerId,
-                ));
+                      customerId: widget.customerId,
+                    ));
             Navigator.push(context, route);
           },
           child: Text('video'),
         ),
-
 
         //
       ],
@@ -563,18 +580,18 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
             leading: Icon(Icons.monetization_on_outlined),
             title: Text("To\'lov qilinganlar"),
             onTap: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => PaidPageForManager(
-                        customerId: widget.customerId,
-                        videoForCustomerPaidlist: videoForCustomerPaidlist,
-                        photoStudioForCustomerPaidlist:
-                        photoStudioForCustomerPaidlist,
-                        albumForCustomerPaidlist: albumForCustomerPaidlist,
-                        clubForCustomerPaidlist: clubForCustomerPaidlist,
-                      )),
-                      (route) => false);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => PaidPageForManager(
+                          customerId: widget.customerId,
+                          videoForCustomerPaidlist: videoForCustomerPaidlist,
+                          photoStudioForCustomerPaidlist:
+                              photoStudioForCustomerPaidlist,
+                          albumForCustomerPaidlist: albumForCustomerPaidlist,
+                          clubForCustomerPaidlist: clubForCustomerPaidlist,
+                        )),
+              );
             },
           ),
           ListTile(
