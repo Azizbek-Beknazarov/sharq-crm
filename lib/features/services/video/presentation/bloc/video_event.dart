@@ -47,3 +47,9 @@ class VideoUpdateEvent extends VideoEvents {
   VideoUpdateEvent({required this.videoId, required this.customerId})
       : super([videoId, customerId]);
 }
+//6
+class VideoStudioGetDateTimeOrdersEvent extends VideoEvents{
+  final DateTime dateTime;
+  VideoStudioGetDateTimeOrdersEvent({required this.dateTime}):super([dateTime]);
+}
+

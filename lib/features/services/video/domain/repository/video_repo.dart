@@ -10,5 +10,5 @@ abstract class VideoRepo {
   Future<void> addVideo(VideoEntity newVideo, String customerId);
   Future<void> updateVideo(String videoId, String customerId );
   Future<void> deleteVideo( String customerId,String videoID);
-
+  Future<List<VideoEntity>> getDateTimeOrders(DateTime dateTime);
 }

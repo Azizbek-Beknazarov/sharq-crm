@@ -43,12 +43,14 @@ import 'package:sharq_crm/features/services/photo_studio/data/datasourse/photost
 import 'package:sharq_crm/features/services/photo_studio/data/repository/photostudio_repo_impl.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/repository/photostudio_repo.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/delete_photo_studio_usecase.dart';
+import 'package:sharq_crm/features/services/photo_studio/domain/usecase/get_datetime_orders_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/get_photostudio_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/getphotostudio_for_customer_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/add_photostudio_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/domain/usecase/update_photostudio_usecase.dart';
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_bloc.dart';
 import 'package:sharq_crm/features/services/video/domain/usecase/delete_video_usecase.dart';
+import 'package:sharq_crm/features/services/video/domain/usecase/get_datetime_orders_usecase.dart';
 import 'package:sharq_crm/features/services/video/domain/usecase/get_video_for_customer_usecase.dart';
 import 'package:sharq_crm/features/services/video/domain/usecase/update_video_usecase.dart';
 import 'package:sharq_crm/features/services/video/presentation/bloc/video_bloc.dart';
@@ -62,7 +64,7 @@ import 'customers/domain/usecase/get_all_cus_usecase.dart';
 import 'customers/domain/usecase/get_current_customer.dart';
 import 'customers/domain/usecase/logout_customer.dart';
 import 'customers/domain/usecase/new_customer_add_usecase.dart';
-
+import 'package:sharq_crm/features/services/album/domain/usecase/get_datetime_orders_usecase.dart';
 import 'customers/domain/usecase/update_customer_usecase.dart';
 
 import 'orders/domain/usecase/car_usecase/get_all_cars.dart';
@@ -98,16 +100,16 @@ Future<void> init() async {
   sl.registerFactory(() => CarBloc(sl(), sl()));
 
   //4
-  sl.registerFactory(() => PhotoStudioBloc(sl(), sl(), sl(), sl(),sl()));
+  sl.registerFactory(() => PhotoStudioBloc(sl(), sl(), sl(), sl(),sl(),sl()));
 
   //5
   sl.registerFactory(() => ClubBloc(sl(), sl(), sl(), sl(),sl()));
 
   //6
-  sl.registerFactory(() => AlbumBloc(sl(), sl(), sl(), sl(),sl()));
+  sl.registerFactory(() => AlbumBloc(sl(), sl(), sl(), sl(),sl(),sl()));
 
   //7
-  sl.registerFactory(() => VideoBloc(sl(), sl(), sl(), sl(),sl()));
+  sl.registerFactory(() => VideoBloc(sl(), sl(), sl(), sl(),sl(),sl()));
 
   //
   // Use cases
@@ -138,6 +140,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DeletePhotoStudioUsecase(repo: sl()));
   sl.registerLazySingleton(() => GetPhotoStudioForCustomerUseCase(repo: sl()));
   sl.registerLazySingleton(() => UpdatePhotoStudioUseCase(repo: sl()));
+  sl.registerLazySingleton(() => PhotoGetDateTimeOrdersUsecase(repo: sl()));
 
   //5
   sl.registerLazySingleton(() => GetClubUseCase(repo: sl()));
@@ -146,12 +149,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetClubForCustomerUseCase(repo: sl()));
   sl.registerLazySingleton(() => UpdateClubUseCase(repo: sl()));
 
+
   //6
   sl.registerLazySingleton(() => DeleteAlbumClubUsecase(repo: sl()));
   sl.registerLazySingleton(() => GetAlbumForCustomerUseCase(repo: sl()));
   sl.registerLazySingleton(() => GetAlbumUseCase(repo: sl()));
   sl.registerLazySingleton(() => AddAlbumUseCase(repo: sl()));
   sl.registerLazySingleton(() => UpdateAlbumUseCase(repo: sl()));
+  sl.registerLazySingleton(() => AlbumGetDateTimeOrdersUsecase(repo: sl()));
 
   //7
   sl.registerLazySingleton(() => DeleteVideoClubUsecase(repo: sl()));
@@ -159,6 +164,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetVideoUseCase(repo: sl()));
   sl.registerLazySingleton(() => AddVideoUseCase(repo: sl()));
   sl.registerLazySingleton(() => UpdateVideoUseCase(repo: sl()));
+  sl.registerLazySingleton(() => VideoGetDateTimeOrdersUsecase(repo: sl()));
 
   //
   // Repository

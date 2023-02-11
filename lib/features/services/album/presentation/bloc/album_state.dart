@@ -42,3 +42,7 @@ class AlbumErrorState extends AlbumStates {
 }
 
 class AlbumDeletedState extends AlbumStates {}
+class AlbumLoadedDateState extends AlbumStates {
+  List<AlbumEntity> albumDateTimelist;
+  AlbumLoadedDateState(this.albumDateTimelist);
+}

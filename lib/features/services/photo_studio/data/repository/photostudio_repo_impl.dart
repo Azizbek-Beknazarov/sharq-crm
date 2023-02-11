@@ -90,4 +90,10 @@ class PhotoStudioRepoImpl implements PhotoStudioRepo {
   Future<void> updatePhotoStudio(String photoStudioId, String customerId) async{
    return await remoteDS.updatePhotoStudio(photoStudioId, customerId);
   }
+
+  @override
+  Future<List<PhotoStudioEntity>> getDateTimeOrders(DateTime dateTime)async {
+    final result=await remoteDS.getDateTimeOrders(dateTime);
+   return Future.value(result);
+  }
 }

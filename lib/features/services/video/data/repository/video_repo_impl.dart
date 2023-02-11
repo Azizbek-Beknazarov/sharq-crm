@@ -86,4 +86,10 @@ class VideoRepoImpl implements VideoRepo {
 
     return await remoteDS.updateVideo(videoId, customerId);
   }
+
+  @override
+  Future<List<VideoEntity>> getDateTimeOrders(DateTime dateTime)async {
+    final result=await remoteDS.getDateTimeOrders(dateTime);
+    return Future.value(result);
+  }
 }

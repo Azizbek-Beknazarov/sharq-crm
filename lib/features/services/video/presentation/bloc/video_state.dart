@@ -42,3 +42,8 @@ class VideoErrorState extends VideoStates {
 }
 
 class VideoDeletedState extends VideoStates {}
+
+class VideoLoadedDateState extends VideoStates {
+  List<VideoEntity> videoDateTimelist;
+  VideoLoadedDateState(this.videoDateTimelist);
+}

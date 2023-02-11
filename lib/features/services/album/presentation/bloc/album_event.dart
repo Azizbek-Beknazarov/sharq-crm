@@ -47,3 +47,9 @@ class AlbumUpdateEvent extends AlbumEvents {
   AlbumUpdateEvent({required this.albumId, required this.customerId})
       : super([albumId, customerId]);
 }
+//6
+class AlbumStudioGetDateTimeOrdersEvent extends AlbumEvents{
+  final DateTime dateTime;
+  AlbumStudioGetDateTimeOrdersEvent({required this.dateTime}):super([dateTime]);
+}
+

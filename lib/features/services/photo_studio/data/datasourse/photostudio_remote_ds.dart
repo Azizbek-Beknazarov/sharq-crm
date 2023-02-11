@@ -13,6 +13,8 @@ abstract class PhotoStudioRemoteDS {
       {required String customerId, required String photostudioID});
 
   Future<void> updatePhotoStudio(String photostudioId, String customerId);
+
+  Future<List<PhotoStudioModel>> getDateTimeOrders(DateTime dateTime);
 }
 
 class PhotoStudioRemoteDSImpl implements PhotoStudioRemoteDS {
@@ -77,5 +79,79 @@ class PhotoStudioRemoteDSImpl implements PhotoStudioRemoteDS {
         .collection('photo_studio_order')
         .doc(photostudioId)
         .update({"isPaid": true}).then((value) => print('ALL OK'));
+  }
+
+  @override
+  Future<List<PhotoStudioModel>> getDateTimeOrders(DateTime dateTime)async {
+    QuerySnapshot customerQuerySnapshot = await photoReferenceForCustomer.get();
+    // int quantity = 0;
+    List<PhotoStudioModel> quantityList=[];
+    final allCustomerIDS = customerQuerySnapshot.docs.map((doc) {
+      return doc["customerId"];
+    }).toList();
+
+    for (int i = 0; i < allCustomerIDS.length; i++) {
+      print(":::: for ichida docs ids: ${allCustomerIDS[i]}");
+      CollectionReference _photo_Ref =
+      photoReferenceForCustomer.doc(allCustomerIDS[i]).collection('photo_studio_order');
+
+      QuerySnapshot  photoQuerySnapshot=await _photo_Ref
+          .where('isPaid', isEqualTo: true)
+      .where('dateTimeOfWedding'.toString(), isEqualTo: dateTime.toString())
+          .get();
+
+      // final allDataPhotoDateTime = photoQuerySnapshot.docs.map((doc) {
+      //   return doc["dateTimeOfWedding"];
+      // }).toList();
+       quantityList.addAll( photoQuerySnapshot.docs.map((doc) {
+         return PhotoStudioModel.fromJson(doc.data() as Map<String, dynamic>);
+       }).toList());
+
+
+      // for(int j=0;j<photoQuerySnapshot.docs.length;j++){
+      //   if(dateTime.toString()==photoQuerySnapshot.docs[j].toString()){
+      //     quantity++;
+      //     quantityList=await  photoQuerySnapshot.docs
+      //         .map((e) => PhotoStudioModel.fromJson(e.data() as Map<String, dynamic>))
+      //         .toList();
+      //
+      //     // print("::::quantityList: ${quantityList.toList()}");
+      //   }
+      // }
+      print("::::quantityList: ${quantityList.toList()}");
+
+      // for (int j = 0; j < allDataPhotoDateTime.length; j++) {
+      //   print("::::allDataPhotoDateTime: ${allDataPhotoDateTime[j]}");
+      //   if(dateTime.toString()==allDataPhotoDateTime[j].toString()){
+      //     quantity++;
+      //
+      //
+      //     quantityList=await  photoQuerySnapshot.docs
+      //         .map((e) => PhotoStudioModel.fromJson(e.data() as Map<String, dynamic>))
+      //         .toList();
+      //
+      //
+      //     print("::::quantityList: ${quantityList.toList()}");
+      //   }
+      // }
+
+      //
+      // for (int j = 0; j < allDataPhotoDateTime.length; j++) {
+      //   print("::::allDataPhotoDateTime: ${allDataPhotoDateTime[j]}");
+      //   if(dateTime.toString()==allDataPhotoDateTime[j].toString()){
+      //     quantity++;
+      //     quantityList=await  photoQuerySnapshot.docs
+      //         .map((e) => PhotoStudioModel.fromJson(e.data() as Map<String, dynamic>))
+      //         .toList();
+      //     print("::::quantityList: ${quantityList.toList()}");
+      //   }
+      // }
+
+      print(dateTime.toString());
+      // print("::::quantity: ${quantity.toString()}");
+    }
+
+    // print("::::quantity ALOHIDA: ${quantity.toString()}");
+    return Future.value(quantityList) ;
   }
 }

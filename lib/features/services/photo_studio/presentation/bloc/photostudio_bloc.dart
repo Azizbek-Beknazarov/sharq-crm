@@ -4,6 +4,7 @@ import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photo
 import 'package:sharq_crm/features/services/photo_studio/presentation/bloc/photostudio_state.dart';
 
 import '../../domain/usecase/delete_photo_studio_usecase.dart';
+import '../../domain/usecase/get_datetime_orders_usecase.dart';
 import '../../domain/usecase/get_photostudio_usecase.dart';
 import '../../domain/usecase/getphotostudio_for_customer_usecase.dart';
 import '../../domain/usecase/add_photostudio_usecase.dart';
@@ -15,13 +16,14 @@ class PhotoStudioBloc extends Bloc<PhotoStudioEvents, PhotoStudioStates> {
   final GetPhotoStudioForCustomerUseCase getPhotoStudioForCustomerUseCase;
   final DeletePhotoStudioUsecase deletePhotoStudioUsecase;
   final UpdatePhotoStudioUseCase updatePhotoStudioUseCase;
+  final PhotoGetDateTimeOrdersUsecase getDateTimeOrdersUsecase;
 
   PhotoStudioBloc(
       this.getPhotoStudioUseCase,
       this.addPhotoStudioUseCase,
       this.getPhotoStudioForCustomerUseCase,
       this.deletePhotoStudioUsecase,
-      this.updatePhotoStudioUseCase)
+      this.updatePhotoStudioUseCase,this.getDateTimeOrdersUsecase)
       : super(PhotoStudioInitialState()) {
     //1
     on<PhotoStudioGetEvent>((event, emit) async {
@@ -81,6 +83,21 @@ class PhotoStudioBloc extends Bloc<PhotoStudioEvents, PhotoStudioStates> {
             .then((value) => emit(PhotoStudioUpdatedState()))
             .catchError((error) =>
                 emit(PhotoStudioErrorState(message: error.toString())));
+      }
+    });
+
+    //6
+    on<PhotoStudioGetDateTimeOrdersEvent>((event, emit) async{
+
+      if (event is PhotoStudioGetDateTimeOrdersEvent) {
+        emit(PhotoStudioLoadingState());
+
+        await getDateTimeOrdersUsecase
+            .call(
+            params: GetDateTimeOrdersParam(event.dateTime))
+            .then((value) => emit(PhotoStudioLoadedDateTimeState(value)))
+            .catchError((error) =>
+            emit(PhotoStudioErrorState(message: error.toString())));
       }
     });
 

@@ -12,6 +12,7 @@ abstract class VideoRemoteDataSource {
       {required String customerId, required String videoID});
 
   Future<void> updateVideo(String videoId, String customerId);
+  Future<List<VideoModel>> getDateTimeOrders(DateTime dateTime);
 
 
 }
@@ -110,4 +111,38 @@ class VideoRemoteDataSourceImpl implements VideoRemoteDataSource {
     // }
     //
   }
-}
+
+  @override
+  Future<List<VideoModel>> getDateTimeOrders(DateTime dateTime) async{
+    QuerySnapshot customerQuerySnapshot = await videoReferenceForCustomer.get();
+
+    List<VideoModel> quantityList=[];
+    final allCustomerIDS = customerQuerySnapshot.docs.map((doc) {
+      return doc["customerId"];
+    }).toList();
+
+    for (int i = 0; i < allCustomerIDS.length; i++) {
+      print(":::: for ichida docs ids: ${allCustomerIDS[i]}");
+      CollectionReference _video_Ref =
+      videoReferenceForCustomer.doc(allCustomerIDS[i]).collection('video_order');
+
+      QuerySnapshot  videoQuerySnapshot=await _video_Ref
+          .where('isPaid', isEqualTo: true)
+          .where('dateTimeOfWedding'.toString(), isEqualTo: dateTime.toString())
+          .get();
+
+      quantityList.addAll( videoQuerySnapshot.docs.map((doc) {
+        return VideoModel.fromJson(doc.data() as Map<String, dynamic>);
+      }).toList());
+
+      print("::::quantityList: ${quantityList.toList()}");
+
+
+      print(dateTime.toString());
+
+    }
+
+    return Future.value(quantityList) ;
+  }
+  }
+

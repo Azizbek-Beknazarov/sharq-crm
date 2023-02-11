@@ -42,3 +42,7 @@ class PhotoStudioErrorState extends PhotoStudioStates {
   List<Object> get props => [message];
 }
 class PhotoStudioDeletedState extends PhotoStudioStates {}
+class PhotoStudioLoadedDateTimeState extends PhotoStudioStates {
+  List<PhotoStudioEntity> photoDateTimelist;
+  PhotoStudioLoadedDateTimeState(this.photoDateTimelist);
+}

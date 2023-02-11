@@ -11,6 +11,7 @@ abstract class AlbumRemoteDataSource {
   Future<void> deleteAlbum(
       {required String customerId, required String albumID});
   Future<void> updateAlbum(String albumId, String customerId);
+  Future<List<AlbumModel>> getDateTimeOrders(DateTime dateTime);
 }
 
 class AlbumRemoteDataSourceImpl implements AlbumRemoteDataSource {
@@ -71,4 +72,39 @@ class AlbumRemoteDataSourceImpl implements AlbumRemoteDataSource {
         .doc(albumId)
         .update({"isPaid": true}).then((value) => print('ALL OK'));
   }
+
+  @override
+  Future<List<AlbumModel>> getDateTimeOrders(DateTime dateTime)async {
+    QuerySnapshot customerQuerySnapshot = await albumReferenceForCustomer.get();
+
+    List<AlbumModel> quantityList=[];
+    final allCustomerIDS = customerQuerySnapshot.docs.map((doc) {
+      return doc["customerId"];
+    }).toList();
+
+    for (int i = 0; i < allCustomerIDS.length; i++) {
+      print(":::: for ichida docs ids: ${allCustomerIDS[i]}");
+      CollectionReference _album_Ref =
+      albumReferenceForCustomer.doc(allCustomerIDS[i]).collection('album_order');
+
+      QuerySnapshot  albumQuerySnapshot=await _album_Ref
+          .where('isPaid', isEqualTo: true)
+          .where('dateTimeOfWedding'.toString(), isEqualTo: dateTime.toString())
+          .get();
+
+      quantityList.addAll( albumQuerySnapshot.docs.map((doc) {
+        return AlbumModel.fromJson(doc.data() as Map<String, dynamic>);
+      }).toList());
+
+      print("::::quantityList: ${quantityList.toList()}");
+
+
+      print(dateTime.toString());
+
+    }
+
+    return Future.value(quantityList) ;
+  }
 }
+
+

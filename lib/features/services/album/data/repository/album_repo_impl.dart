@@ -82,4 +82,10 @@ class AlbumRepoImpl implements AlbumRepo {
   Future<void> updateAlbum(String albumId, String customerId)async {
 return await remoteDS.updateAlbum(albumId, customerId);
   }
+
+  @override
+  Future<List<AlbumEntity>> getDateTimeOrders(DateTime dateTime) async{
+    final result=await remoteDS.getDateTimeOrders(dateTime);
+    return Future.value(result);
+  }
 }

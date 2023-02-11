@@ -50,3 +50,9 @@ class PhotoStudioUpdateEvent extends PhotoStudioEvents {
   PhotoStudioUpdateEvent({required this.photostudioId, required this.customerId})
       : super([photostudioId, customerId]);
 }
+
+//6
+class PhotoStudioGetDateTimeOrdersEvent extends PhotoStudioEvents{
+  final DateTime dateTime;
+  PhotoStudioGetDateTimeOrdersEvent({required this.dateTime}):super([dateTime]);
+}

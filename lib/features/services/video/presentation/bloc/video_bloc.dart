@@ -4,6 +4,7 @@ import 'package:sharq_crm/core/usecase/usecase.dart';
 
 import '../../domain/entity/video_entity.dart';
 import '../../domain/usecase/delete_video_usecase.dart';
+import '../../domain/usecase/get_datetime_orders_usecase.dart';
 import '../../domain/usecase/get_video_for_customer_usecase.dart';
 import '../../domain/usecase/get_video_usecase.dart';
 import '../../domain/usecase/add_video_usecase.dart';
@@ -19,9 +20,10 @@ class VideoBloc extends Bloc<VideoEvents, VideoStates> {
   final GetVideoUseCase _getVideoUseCase;
   final AddVideoUseCase _addVideoUseCase;
   final UpdateVideoUseCase _updateVideoUseCase;
+  final VideoGetDateTimeOrdersUsecase getDateTimeOrdersUsecase;
 
   VideoBloc(this._addVideoUseCase, this._deleteVideoClubUsecase,
-      this._getVideoUseCase, this._getVideoForCustomerUseCase,this._updateVideoUseCase)
+      this._getVideoUseCase, this._getVideoForCustomerUseCase,this._updateVideoUseCase,this.getDateTimeOrdersUsecase)
       : super(VideoInitialState()) {
     //1
     on<VideoGetEvent>((event, emit) async {
@@ -76,6 +78,21 @@ class VideoBloc extends Bloc<VideoEvents, VideoStates> {
             .call(params: VideoUpdateParams(event.videoId, event.customerId))
             .then((value) => emit(VideoUpdateState()))
             .catchError((error) => emit(VideoErrorState(message: error)));
+      }
+    });
+
+    //6
+    on<VideoStudioGetDateTimeOrdersEvent>((event, emit) async{
+
+      if (event is VideoStudioGetDateTimeOrdersEvent) {
+        emit(VideoLoadingState());
+
+        await getDateTimeOrdersUsecase
+            .call(
+            params: GetDateTimeOrdersParam(event.dateTime))
+            .then((value) => emit(VideoLoadedDateState(value)))
+            .catchError((error) =>
+            emit(VideoErrorState(message: error.toString())));
       }
     });
 

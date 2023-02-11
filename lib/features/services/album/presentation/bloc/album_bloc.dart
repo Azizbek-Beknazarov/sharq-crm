@@ -7,6 +7,7 @@ import '../../domain/usecase/delete_album_usecase.dart';
 import '../../domain/usecase/get_album_for_customer_usecase.dart';
 import '../../domain/usecase/get_album_usecase.dart';
 import '../../domain/usecase/add_album_usecase.dart';
+import '../../domain/usecase/get_datetime_orders_usecase.dart';
 import '../../domain/usecase/update_album_usecase.dart';
 
 part 'album_event.dart';
@@ -19,9 +20,10 @@ class AlbumBloc extends Bloc<AlbumEvents, AlbumStates> {
   final GetAlbumUseCase _getAlbumUseCase;
   final AddAlbumUseCase _addAlbumUseCase;
   final UpdateAlbumUseCase _updateAlbumUseCase;
+  final AlbumGetDateTimeOrdersUsecase getDateTimeOrdersUsecase;
 
   AlbumBloc(this._addAlbumUseCase, this._deleteAlbumClubUsecase,
-      this._getAlbumUseCase, this._getAlbumForCustomerUseCase,this._updateAlbumUseCase)
+      this._getAlbumUseCase, this._getAlbumForCustomerUseCase,this._updateAlbumUseCase,this.getDateTimeOrdersUsecase)
       : super(AlbumInitialState()) {
     //1
     on<AlbumGetEvent>((event, emit) async {
@@ -76,6 +78,22 @@ class AlbumBloc extends Bloc<AlbumEvents, AlbumStates> {
             params: AlbumUpdateParams(
                 event.albumId, event.customerId))
             .then((value) => emit(AlbumUpdatedState()))
+            .catchError((error) =>
+            emit(AlbumErrorState(message: error.toString())));
+      }
+    });
+
+
+    //6
+    on<AlbumStudioGetDateTimeOrdersEvent>((event, emit) async{
+
+      if (event is AlbumStudioGetDateTimeOrdersEvent) {
+        emit(AlbumLoadingState());
+
+        await getDateTimeOrdersUsecase
+            .call(
+            params: GetDateTimeOrdersParam(event.dateTime))
+            .then((value) => emit(AlbumLoadedDateState(value)))
             .catchError((error) =>
             emit(AlbumErrorState(message: error.toString())));
       }

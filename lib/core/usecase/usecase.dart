@@ -253,3 +253,14 @@ class AlbumUpdateParams extends Equatable {
   List<Object?> get props => [albumId, customerId];
 }
 
+//21
+class GetDateTimeOrdersParam extends Equatable{
+  DateTime dateTime;
+  GetDateTimeOrdersParam(this.dateTime);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [dateTime];
+
+}
+

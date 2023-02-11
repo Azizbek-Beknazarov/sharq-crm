@@ -10,5 +10,6 @@ abstract class PhotoStudioRepo {
   Future<void> addPhotoStudio(PhotoStudioEntity newPhotoStudio, String customerId);
   Future<void> deletePhotoStudio( String customerId,String photoStudioID);
   Future<void> updatePhotoStudio(String photoStudioId, String customerId );
+  Future<List<PhotoStudioEntity>> getDateTimeOrders(DateTime dateTime);
 
 }

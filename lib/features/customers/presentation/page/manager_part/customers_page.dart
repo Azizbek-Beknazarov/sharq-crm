@@ -12,6 +12,7 @@ import '../../../../auth/presentation/page/sign_in_page.dart';
 import '../../../../services/photo_studio/presentation/page/manager_part/image_add_page_example.dart';
 import '../../../domain/entity/customer_entity.dart';
 import '../../bloc/customer_cubit.dart';
+import 'calendar/calendar_for_manager_page.dart';
 import 'customer_add_page.dart';
 import 'widget/customer_list.dart';
 import 'package:sharq_crm/features/injection_container.dart' as di;
@@ -66,14 +67,14 @@ class _CustomersPageState extends State<CustomersPage> {
             },
             icon: Icon(Icons.menu,color: iconAndText,),
           ),
-          // actions: [
-          //   IconButton(
-          //     onPressed: () {
-          //       Navigator.push(context, MaterialPageRoute(builder: (context)=>ImageAddPage()));
-          //     },
-          //     icon: Icon(Icons.add_card,color: iconAndText,),
-          //   ),
-          // ],
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>CalendarForManagerPage()));
+              },
+              icon: Icon(Icons.calendar_month,color: iconAndText,),
+            ),
+          ],
           title: Text('Customers',style: TextStyle(color: iconAndText),),
           centerTitle: true,
         ),
