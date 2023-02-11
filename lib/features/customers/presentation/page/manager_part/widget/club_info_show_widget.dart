@@ -6,7 +6,7 @@ import 'package:sharq_crm/features/customers/presentation/page/manager_part/cust
 import '../../../../../../core/util/snackbar_message.dart';
 import '../../../../../services/club/domain/entity/club_entity.dart';
 import '../../../../../services/club/presentation/bloc/club_bloc.dart';
-
+import 'package:intl/intl.dart';
 class ClubInfoShowWidget extends StatefulWidget {
   ClubInfoShowWidget(
       {Key? key, required this.clubForCustomerlist, required this.customerId})
@@ -65,7 +65,7 @@ class _ClubInfoShowWidgetState extends State<ClubInfoShowWidget> {
                                 children: [
                                   Text("Zakz sanasi: "),
                                   Text(
-                                    "${club.dateTimeOfWedding}",
+                                    "${DateFormat("dd-MM-yyyy").format(DateTime.parse(club.dateTimeOfWedding))}",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold),

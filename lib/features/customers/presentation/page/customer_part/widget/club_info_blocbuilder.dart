@@ -7,6 +7,7 @@ import '../../../../../../core/util/loading_widget.dart';
 import '../../../../../../core/util/snackbar_message.dart';
 import '../../../../../services/club/domain/entity/club_entity.dart';
 import '../../../../../services/club/presentation/bloc/club_bloc.dart';
+import 'package:intl/intl.dart';
 
 class ClubInfoBlocBuilder extends StatefulWidget {
   ClubInfoBlocBuilder(
@@ -69,7 +70,7 @@ class _ClubInfoBlocBuilderState extends State<ClubInfoBlocBuilder> {
                                 children: [
                                   Text("Zakz sanasi: "),
                                   Text(
-                                    "${club.dateTimeOfWedding}",
+                                    "${DateFormat("dd-MM-yyyy").format(DateTime.parse(club.dateTimeOfWedding))}",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold),

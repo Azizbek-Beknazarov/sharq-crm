@@ -426,7 +426,7 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                     //
 
                     photoStudioForCustomerUnPaidlist.forEach((element) {
-                      price1 += element.price * element.ordersNumber;
+                      price1 += element.price * element.ordersNumber-element.prepayment;
                       String photoId = element.photo_studio_id;
                       print("::::PhotoStudio ID: $photoId");
                       photoStudioIds.add(photoId);
@@ -434,19 +434,19 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                     clubForCustomerUnPaidlist.forEach((element) {
                       price2 += element.price *
                           element.ordersNumber *
-                          (element.toHour - element.fromHour);
+                          (element.toHour - element.fromHour)-element.prepayment;
                       String clubId = element.club_id;
                       print("::::Club ID: $clubId");
                       clubIds.add(clubId);
                     });
                     albumForCustomerUnPaidlist.forEach((element) {
-                      price3 += element.price * element.ordersNumber;
+                      price3 += element.price * element.ordersNumber-element.prepayment;
                       String albumId = element.album_id;
                       print("::::Album ID: $albumId");
                       albumIds.add(albumId);
                     });
                     videoForCustomerUnPaidlist.forEach((element) {
-                      price4 += element.price * element.ordersNumber;
+                      price4 += element.price * element.ordersNumber-element.prepayment;
                       String videoId = element.video_id;
                       print("::::Video ID: $videoId");
                       videoIds.add(videoId);

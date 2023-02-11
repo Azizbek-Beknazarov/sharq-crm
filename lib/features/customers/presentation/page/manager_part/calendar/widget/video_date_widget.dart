@@ -99,7 +99,7 @@ class VideoDateWidget extends StatelessWidget {
                                           children: [
                                             Text("Zakz sanasi: "),
                                             Text(
-                                              "${video.dateTimeOfWedding}",
+                                              "${DateFormat("dd-MM-yyyy").format(DateTime.parse(video.dateTimeOfWedding))}",
                                               style: TextStyle(
                                                   color: Colors.red,
                                                   fontWeight: FontWeight.bold),

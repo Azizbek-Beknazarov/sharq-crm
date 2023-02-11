@@ -86,6 +86,7 @@ class _VideoUpdatePageForManagerState extends State<VideoUpdatePageForManager> {
                     price: _priceInt,
                     prepayment: 0,
                     dateTimeOfWedding: date,
+                    timeOfWedding: "14:45",
                     ordersNumber: _ordersNumber,
                     description: _descriptionController.text ?? '',
                     address: _addressController.text??"",

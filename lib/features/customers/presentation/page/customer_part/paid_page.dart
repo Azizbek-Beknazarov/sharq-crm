@@ -13,7 +13,7 @@ import '../../../../services/video/domain/entity/video_entity.dart';
 import '../../bloc/customer_cubit.dart';
 import 'customer_auth_pages/sign_in_customer_page.dart';
 import 'customer_home_page.dart';
-
+import 'package:intl/intl.dart';
 class PaidCustomerPage extends StatefulWidget {
   PaidCustomerPage(
       {Key? key,
@@ -159,7 +159,7 @@ class _PaidCustomerPageState extends State<PaidCustomerPage> {
                               children: [
                                 Text("Zakz sanasi: "),
                                 Text(
-                                  "${photoStudio.dateTimeOfWedding}",
+                                  "${DateFormat("dd-MM-yyyy").format(DateTime.parse(photoStudio.dateTimeOfWedding))}",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -288,7 +288,7 @@ class _PaidCustomerPageState extends State<PaidCustomerPage> {
                                 children: [
                                   Text("Zakz sanasi: "),
                                   Text(
-                                    "${club.dateTimeOfWedding}",
+                                    "${DateFormat("dd-MM-yyyy").format(DateTime.parse(club.dateTimeOfWedding))}",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold),
@@ -424,7 +424,7 @@ class _PaidCustomerPageState extends State<PaidCustomerPage> {
                                 children: [
                                   Text("Zakz sanasi: "),
                                   Text(
-                                    "${album.dateTimeOfWedding}",
+                                    "${DateFormat("dd-MM-yyyy").format(DateTime.parse(album.dateTimeOfWedding))}",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold),
@@ -539,7 +539,7 @@ class _PaidCustomerPageState extends State<PaidCustomerPage> {
                                 children: [
                                   Text("Zakz sanasi: "),
                                   Text(
-                                    "${video.dateTimeOfWedding}",
+                                    "${DateFormat("dd-MM-yyyy").format(DateTime.parse(video.dateTimeOfWedding))}",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold),

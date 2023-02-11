@@ -7,7 +7,7 @@ import '../../../../../../core/util/loading_widget.dart';
 import '../../../../../../core/util/snackbar_message.dart';
 import '../../../../../services/album/domain/entity/album_entity.dart';
 import '../../../../../services/album/presentation/bloc/album_bloc.dart';
-
+import 'package:intl/intl.dart';
 class AlbumInfoBlocBuilder extends StatefulWidget {
   AlbumInfoBlocBuilder(
       {Key? key, required this.albumForCustomerlist, required this.customerId})
@@ -82,7 +82,7 @@ class _AlbumInfoBlocBuilderState extends State<AlbumInfoBlocBuilder> {
                                 children: [
                                   Text("Zakz sanasi: "),
                                   Text(
-                                    "${album.dateTimeOfWedding}",
+                                    "${DateFormat("dd-MM-yyyy").format(DateTime.parse(album.dateTimeOfWedding))}",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold),

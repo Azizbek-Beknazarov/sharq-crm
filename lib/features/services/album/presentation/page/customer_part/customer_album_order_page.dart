@@ -3,8 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_home_page.dart';
-import 'package:sharq_crm/features/services/club/domain/entity/club_entity.dart';
-import 'package:sharq_crm/features/services/club/presentation/bloc/club_bloc.dart';
+
 import 'package:uuid/uuid.dart';
 
 import '../../../domain/entity/album_entity.dart';
@@ -26,6 +25,7 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
   TextEditingController _addressController = TextEditingController();
   // TextEditingController _dateTimeOfWeddingController = TextEditingController();
   DateTime? selectedDate;
+  DateTime? selectedTime;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -94,7 +94,7 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
                               suffixIcon: Icon(Icons.date_range),
                               labelText: 'Albumga olish sanasi',
                             ),
-                            mode: DateTimeFieldPickerMode.dateAndTime,
+                            mode: DateTimeFieldPickerMode.date,
                             autovalidateMode: AutovalidateMode.always,
                             validator: (value) {
                               if (value == null || value == '') {
@@ -104,6 +104,30 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
                             },
                             onDateSelected: (DateTime value) {
                               selectedDate = value;
+                              print(value);
+                            },
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          DateTimeFormField(
+                            decoration: const InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black45),
+                              errorStyle: TextStyle(color: Colors.redAccent),
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.date_range),
+                              labelText: 'Albumga olish vaqti',
+                            ),
+                            mode: DateTimeFieldPickerMode.time,
+                            autovalidateMode: AutovalidateMode.always,
+                            validator: (value) {
+                              if (value == null || value == '') {
+                                return 'Iltimos, vaqtni kiriting!';
+                              }
+                              return null;
+                            },
+                            onDateSelected: (DateTime value) {
+                              selectedTime = value;
                               print(value);
                             },
                           ),
@@ -163,6 +187,7 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
 
                             final docId = uuid.v4();
                             String date = selectedDate.toString();
+                            String time = selectedTime.toString();
 
                             AlbumEntity addAlbum = AlbumEntity(
                                 album_id: docId ?? 'docid',
@@ -174,6 +199,7 @@ class _CustomerAlbumOrderPageState extends State<CustomerAlbumOrderPage> {
                               isPaid: false,
                               customerId: widget.customerId,
                               prepayment: 0,
+                              timeOfWedding: time,
 
                             );
 

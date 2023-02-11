@@ -4,6 +4,7 @@ class VideoEntity extends Equatable {
   String video_id;
   int price;
   String dateTimeOfWedding;
+  String timeOfWedding;
   int ordersNumber;
   String description;
   String address;
@@ -21,6 +22,7 @@ class VideoEntity extends Equatable {
     required this.isPaid,
     required this.customerId,
     required this.prepayment,
+    required this.timeOfWedding,
   });
 
   @override
@@ -32,7 +34,8 @@ class VideoEntity extends Equatable {
         ordersNumber,
         description,
         isPaid,
-    customerId,
-    prepayment,
+        customerId,
+        prepayment,
+        timeOfWedding,
       ];
 }

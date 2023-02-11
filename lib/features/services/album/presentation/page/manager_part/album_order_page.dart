@@ -29,6 +29,7 @@ class _AlbumOrderPageState extends State<AlbumOrderPage> {
 
   // TextEditingController _dateTimeOfWeddingController = TextEditingController();
   DateTime? selectedDate;
+  DateTime? selectedTime;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -97,7 +98,7 @@ class _AlbumOrderPageState extends State<AlbumOrderPage> {
                               suffixIcon: Icon(Icons.date_range),
                               labelText: 'Albumga olish sanasi',
                             ),
-                            mode: DateTimeFieldPickerMode.dateAndTime,
+                            mode: DateTimeFieldPickerMode.date,
                             autovalidateMode: AutovalidateMode.always,
                             validator: (value) {
                               if (value == null || value == '') {
@@ -107,6 +108,30 @@ class _AlbumOrderPageState extends State<AlbumOrderPage> {
                             },
                             onDateSelected: (DateTime value) {
                               selectedDate = value;
+                              print(value);
+                            },
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          DateTimeFormField(
+                            decoration: const InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black45),
+                              errorStyle: TextStyle(color: Colors.redAccent),
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.date_range),
+                              labelText: 'Albumga olish vaqti',
+                            ),
+                            mode: DateTimeFieldPickerMode.time,
+                            autovalidateMode: AutovalidateMode.always,
+                            validator: (value) {
+                              if (value == null || value == '') {
+                                return 'Iltimos, vaqtni kiriting!';
+                              }
+                              return null;
+                            },
+                            onDateSelected: (DateTime value) {
+                              selectedTime = value;
                               print(value);
                             },
                           ),
@@ -215,7 +240,7 @@ class _AlbumOrderPageState extends State<AlbumOrderPage> {
 
                             final docId = uuid.v4();
                             String date = selectedDate.toString();
-
+                            String time = selectedTime.toString();
                             AlbumEntity addAlbum = AlbumEntity(
                               album_id: docId,
                               dateTimeOfWedding: date,
@@ -225,6 +250,7 @@ class _AlbumOrderPageState extends State<AlbumOrderPage> {
                               address: _addressController.text,
                               isPaid: false,
                               prepayment: _prepayment,
+                              timeOfWedding: time,
                               customerId: widget.customerId,
                             );
 

@@ -92,6 +92,7 @@ class _AlbumUpdatePageForManagerState extends State<AlbumUpdatePageForManager> {
                     address: "",
                     isPaid: false,
                     prepayment: 0,
+                    timeOfWedding: "0000",
                     customerId: "yyyy",
                   );
                   print('object:::${docId}');

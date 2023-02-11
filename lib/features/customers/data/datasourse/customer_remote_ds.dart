@@ -31,7 +31,7 @@ class CustomerRemoteDSImpl implements CustomerRemoteDS {
 
   @override
   Future<List<CustomerModel>> getAllCustomer() async {
-    QuerySnapshot snapshot = await reference.get();
+    QuerySnapshot snapshot = await reference.orderBy("dateOfSignUp",descending: true).get();
 
     print("object::  ${snapshot.docs.map((e) => e.data()).toList()}");
     List<CustomerModel> customers = snapshot.docs

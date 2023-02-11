@@ -6,7 +6,7 @@ import '../../../../../../core/util/snackbar_message.dart';
 import '../../../../../services/video/domain/entity/video_entity.dart';
 import '../../../../../services/video/presentation/bloc/video_bloc.dart';
 import '../customer_home_page.dart';
-
+import 'package:intl/intl.dart';
 class VideoInfoBlocBuilder extends StatefulWidget {
   VideoInfoBlocBuilder(
       {Key? key,
@@ -80,7 +80,7 @@ class _VideoInfoBlocBuilderState extends State<VideoInfoBlocBuilder> {
                                 children: [
                                   Text("Zakz sanasi: "),
                                   Text(
-                                    "${video.dateTimeOfWedding}",
+                                    "${DateFormat("dd-MM-yyyy").format(DateTime.parse(video.dateTimeOfWedding))}",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold),

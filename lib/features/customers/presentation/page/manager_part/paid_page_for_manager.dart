@@ -1,7 +1,8 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharq_crm/features/customers/presentation/page/manager_part/customers_page.dart';
-
+import 'package:intl/intl.dart';
 import '../../../../services/album/domain/entity/album_entity.dart';
 import '../../../../services/club/domain/entity/club_entity.dart';
 import '../../../../services/photo_studio/domain/entity/photostudio_entity.dart';
@@ -166,7 +167,7 @@ class _PaidCustomerPageState extends State<PaidPageForManager> {
                               children: [
                                 Text("Zakz sanasi: "),
                                 Text(
-                                  "${photoStudio.dateTimeOfWedding}",
+                                  "${DateFormat("dd-MM-yyyy").format(DateTime.parse(photoStudio.dateTimeOfWedding))}",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -391,7 +392,7 @@ class _PaidCustomerPageState extends State<PaidPageForManager> {
                                 children: [
                                   Text("Zakz sanasi: "),
                                   Text(
-                                    "${club.dateTimeOfWedding}",
+                                    "${DateFormat("dd-MM-yyyy").format(DateTime.parse(club.dateTimeOfWedding))}",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold),
@@ -624,7 +625,7 @@ class _PaidCustomerPageState extends State<PaidPageForManager> {
                                 children: [
                                   Text("Zakz sanasi: "),
                                   Text(
-                                    "${album.dateTimeOfWedding}",
+                                    "${DateFormat("dd-MM-yyyy").format(DateTime.parse(album.dateTimeOfWedding))}",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold),
@@ -827,7 +828,7 @@ class _PaidCustomerPageState extends State<PaidPageForManager> {
                                 children: [
                                   Text("Zakz sanasi: "),
                                   Text(
-                                    "${video.dateTimeOfWedding}",
+                                    "${DateFormat("dd-MM-yyyy").format(DateTime.parse(video.dateTimeOfWedding))}",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold),

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:intl/intl.dart';
 import '../../../../../../core/util/snackbar_message.dart';
 import '../../../../../services/photo_studio/domain/entity/photostudio_entity.dart';
 import '../../../../../services/photo_studio/presentation/bloc/photostudio_bloc.dart';
@@ -70,7 +70,7 @@ class _PhotoStudioInfoShowState extends State<PhotoStudioInfoShow> {
                               children: [
                                 Text("Zakz sanasi: "),
                                 Text(
-                                  "${photoStudio.dateTimeOfWedding}",
+                                  "${DateFormat("dd-MM-yyyy").format(DateTime.parse(photoStudio.dateTimeOfWedding))}",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),

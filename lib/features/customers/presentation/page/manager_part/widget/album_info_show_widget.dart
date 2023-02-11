@@ -6,7 +6,7 @@ import 'package:sharq_crm/features/customers/presentation/page/manager_part/cust
 import '../../../../../../core/util/snackbar_message.dart';
 import '../../../../../services/album/domain/entity/album_entity.dart';
 import '../../../../../services/album/presentation/bloc/album_bloc.dart';
-
+import 'package:intl/intl.dart';
 class AlbumInfoShowWidget extends StatefulWidget {
   AlbumInfoShowWidget(
       {Key? key, required this.albumForCustomerlist, required this.customerId})
@@ -81,7 +81,7 @@ class _AlbumInfoShowWidgetState extends State<AlbumInfoShowWidget> {
                                 children: [
                                   Text("Zakz sanasi: "),
                                   Text(
-                                    "${album.dateTimeOfWedding}",
+                                    "${DateFormat("dd-MM-yyyy").format(DateTime.parse(album.dateTimeOfWedding))}",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold),

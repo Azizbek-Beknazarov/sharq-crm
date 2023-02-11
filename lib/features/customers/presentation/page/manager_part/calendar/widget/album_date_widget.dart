@@ -99,7 +99,7 @@ class AlbumDateWidget extends StatelessWidget {
                                           children: [
                                             Text("Zakz sanasi: "),
                                             Text(
-                                              "${album.dateTimeOfWedding}",
+                                              "${DateFormat("dd-MM-yyyy").format(DateTime.parse(album.dateTimeOfWedding))}",
                                               style: TextStyle(
                                                   color: Colors.red,
                                                   fontWeight: FontWeight.bold),

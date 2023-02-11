@@ -27,6 +27,7 @@ class _VideoOrderPageState extends State<VideoOrderPage> {
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
   DateTime? selectedDate;
+  DateTime? selectedTime;
   final _formKey = GlobalKey<FormState>();
 
   // TextEditingController _dateTimeOfWeddingController = TextEditingController();
@@ -93,9 +94,9 @@ class _VideoOrderPageState extends State<VideoOrderPage> {
                               errorStyle: TextStyle(color: Colors.redAccent),
                               border: OutlineInputBorder(),
                               suffixIcon: Icon(Icons.date_range),
-                              labelText: 'Videoga olish sanasi va vaqti',
+                              labelText: 'Videoga olish sanasi ',
                             ),
-                            mode: DateTimeFieldPickerMode.dateAndTime,
+                            mode: DateTimeFieldPickerMode.date,
                             autovalidateMode: AutovalidateMode.always,
                             validator: (value) {
                               if (value == null || value == '') {
@@ -105,6 +106,28 @@ class _VideoOrderPageState extends State<VideoOrderPage> {
                             },
                             onDateSelected: (DateTime value) {
                               selectedDate = value;
+                              print(value);
+                            },
+                          ),
+                          sizedBox,
+                          DateTimeFormField(
+                            decoration: const InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black45),
+                              errorStyle: TextStyle(color: Colors.redAccent),
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.date_range),
+                              labelText: 'Videoga olish vaqti ',
+                            ),
+                            mode: DateTimeFieldPickerMode.time,
+                            autovalidateMode: AutovalidateMode.always,
+                            validator: (value) {
+                              if (value == null || value == '') {
+                                return 'Iltimos, vaqtni kiriting!';
+                              }
+                              return null;
+                            },
+                            onDateSelected: (DateTime value) {
+                              selectedTime = value;
                               print(value);
                             },
                           ),
@@ -215,10 +238,12 @@ class _VideoOrderPageState extends State<VideoOrderPage> {
                                 int.tryParse(_prepaymentController.text) ?? 0;
                             final docId = uuid.v4();
                             String date = selectedDate.toString();
+                            String time = selectedTime.toString();
 
                             VideoEntity addAlbum = VideoEntity(
                                 video_id: docId,
                                 dateTimeOfWedding: date,
+                                timeOfWedding: time,
                                 ordersNumber: _ordersNumber,
                                 price: _price,
                                 description: _descriptionController.text,

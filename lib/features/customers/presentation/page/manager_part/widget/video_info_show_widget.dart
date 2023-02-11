@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/page/manager_part/customer_detail_page.dart';
-
+import 'package:intl/intl.dart';
 import '../../../../../../core/util/snackbar_message.dart';
 import '../../../../../services/video/domain/entity/video_entity.dart';
 import '../../../../../services/video/presentation/bloc/video_bloc.dart';
@@ -81,7 +81,7 @@ class _VideoInfoShowWidgetState extends State<VideoInfoShowWidget> {
                                 children: [
                                   Text("Zakz sanasi: "),
                                   Text(
-                                    "${video.dateTimeOfWedding}",
+                                    "${DateFormat("dd-MM-yyyy").format(DateTime.parse(video.dateTimeOfWedding))}",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold),

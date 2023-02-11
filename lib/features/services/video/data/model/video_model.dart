@@ -10,6 +10,7 @@ class VideoModel extends VideoEntity {
     required String address,
     required bool isPaid,
     required String customerId,
+    required String timeOfWedding,
     required int prepayment,
   }) : super(
           address: address,
@@ -19,8 +20,9 @@ class VideoModel extends VideoEntity {
           ordersNumber: ordersNumber,
           description: description,
           isPaid: isPaid,
-    customerId: customerId,
-    prepayment: prepayment,
+          customerId: customerId,
+          prepayment: prepayment,
+          timeOfWedding: timeOfWedding,
         );
 
   factory VideoModel.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,7 @@ class VideoModel extends VideoEntity {
       description: json['description'] ?? '',
       address: json['address'] ?? '',
       customerId: json['customerId'] ?? '',
+      timeOfWedding: json['timeOfWedding'] ?? '',
       isPaid: json['isPaid'] ?? false,
       prepayment: json['prepayment'] ?? 0,
     );
@@ -48,6 +51,7 @@ class VideoModel extends VideoEntity {
       'isPaid': isPaid,
       'customerId': customerId,
       'prepayment': prepayment,
+      'timeOfWedding': timeOfWedding,
     };
   }
 }

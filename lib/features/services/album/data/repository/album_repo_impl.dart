@@ -24,6 +24,7 @@ class AlbumRepoImpl implements AlbumRepo {
     isPaid: e.isPaid,
     customerId: e.customerId,
     prepayment: e.prepayment,
+    timeOfWedding: e.timeOfWedding,
         //
       );
 
@@ -39,6 +40,7 @@ class AlbumRepoImpl implements AlbumRepo {
       isPaid: newAlbum.isPaid,
       customerId: newAlbum.customerId,
       prepayment: newAlbum.prepayment,
+      timeOfWedding: newAlbum.timeOfWedding,
     );
     AlbumModel model = _convert(entity);
     return await remoteDS.addAlbum(model, customerId);
