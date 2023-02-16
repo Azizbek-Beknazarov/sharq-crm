@@ -12,6 +12,7 @@ import '../../../../auth/presentation/page/sign_in_page.dart';
 import '../../../../services/photo_studio/presentation/page/manager_part/image_add_page_example.dart';
 import '../../../domain/entity/customer_entity.dart';
 import '../../bloc/customer_cubit.dart';
+import '../customer_part/customer_auth_pages/signup_customer_page.dart';
 import 'calendar/calendar_for_manager_page.dart';
 import 'customer_add_page.dart';
 import 'widget/customer_list.dart';
@@ -75,7 +76,7 @@ class _CustomersPageState extends State<CustomersPage> {
               icon: Icon(Icons.calendar_month,color: iconAndText,),
             ),
           ],
-          title: Text('Customers',style: TextStyle(color: iconAndText),),
+          title: Text('Mijozlar',style: TextStyle(color: iconAndText),),
           centerTitle: true,
         ),
         body: CustomerList(
@@ -101,7 +102,7 @@ class _CustomersPageState extends State<CustomersPage> {
                   bottom: 8.0,
                   left: 4.0,
                   child: Text(
-                    "  widget.customerId,",
+                    "Manager ",
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 )
@@ -186,7 +187,7 @@ class _CustomersPageState extends State<CustomersPage> {
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => SignInPage()),
+                                      builder: (context) => SignUpCustomerPage()),
                                   (route) => false);
                               setState(() {});
                               SnackBarMessage().showSuccessSnackBar(

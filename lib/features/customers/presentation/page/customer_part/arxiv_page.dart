@@ -6,6 +6,7 @@ import 'package:sharq_crm/features/customers/presentation/page/customer_part/pai
 import '../../../../../core/util/snackbar_message.dart';
 import '../../bloc/customer_cubit.dart';
 import 'customer_auth_pages/sign_in_customer_page.dart';
+import 'customer_auth_pages/signup_customer_page.dart';
 import 'customer_home_page.dart';
 
 class ArxivCustomerPage extends StatefulWidget {
@@ -114,7 +115,7 @@ class _ArxivCustomerPageState extends State<ArxivCustomerPage> {
                                 print("cus ID: ${widget.customerId}");
                                 Navigator.pushAndRemoveUntil(
                                     context,
-                                    MaterialPageRoute(builder: (context) => SignInCustomerPage()),
+                                    MaterialPageRoute(builder: (context) => SignUpCustomerPage()),
                                         (route) => false);
 
 

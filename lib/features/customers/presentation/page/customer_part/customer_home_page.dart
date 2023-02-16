@@ -556,7 +556,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          SignInCustomerPage()),
+                                          SignUpCustomerPage()),
                                   (route) => false);
 
                               SnackBarMessage().showSuccessSnackBar(

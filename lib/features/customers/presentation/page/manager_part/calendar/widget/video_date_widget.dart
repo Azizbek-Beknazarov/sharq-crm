@@ -78,7 +78,7 @@ class VideoDateWidget extends StatelessWidget {
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(22),
                                     ),
-                                    color: Colors.green.shade100),
+                                    color: Colors.amberAccent.shade100),
                                 child: Column(
                                   children: [
                                     ListTile(

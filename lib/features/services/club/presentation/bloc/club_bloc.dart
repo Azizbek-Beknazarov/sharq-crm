@@ -7,6 +7,7 @@ import '../../domain/usecase/delete_club_usecase.dart';
 import '../../domain/usecase/get_club_for_customer_usecase.dart';
 import '../../domain/usecase/get_club_usecase.dart';
 import '../../domain/usecase/add_club_usecase.dart';
+import '../../domain/usecase/get_datetime_orders_usecase.dart';
 import '../../domain/usecase/update_club_usecase.dart';
 part  'club_event.dart';
 part  'club_state.dart';
@@ -17,9 +18,10 @@ class ClubBloc extends Bloc<ClubEvents, ClubStates> {
   final GetClubUseCase _clubUseCase;
   final AddClubUseCase _addClubUseCase;
   final UpdateClubUseCase _updateClubUseCase;
+  final ClubGetDateTimeOrdersUsecase getDateTimeOrdersUsecase;
 
   ClubBloc(this._clubUseCase, this._addClubUseCase,
-      this._clubForCustomerUseCase, this._deleteClubUsecase,this._updateClubUseCase)
+      this._clubForCustomerUseCase, this._deleteClubUsecase,this._updateClubUseCase, this.getDateTimeOrdersUsecase)
       : super(ClubInitialState()) {
     //1
     on<ClubGetEvent>((event, emit) async {
@@ -78,6 +80,21 @@ class ClubBloc extends Bloc<ClubEvents, ClubStates> {
             params: ClubUpdateParams(
                 event.clubId, event.customerId))
             .then((value) => emit(ClubUpdatedState()))
+            .catchError((error) =>
+            emit(ClubErrorState(message: error.toString())));
+      }
+    });
+
+    //6
+    on<ClubStudioGetDateTimeOrdersEvent>((event, emit) async{
+
+      if (event is ClubStudioGetDateTimeOrdersEvent) {
+        emit(ClubLoadingState());
+
+        await getDateTimeOrdersUsecase
+            .call(
+            params: GetDateTimeOrdersParam(event.dateTime))
+            .then((value) => emit(ClubLoadedDateState(value)))
             .catchError((error) =>
             emit(ClubErrorState(message: error.toString())));
       }

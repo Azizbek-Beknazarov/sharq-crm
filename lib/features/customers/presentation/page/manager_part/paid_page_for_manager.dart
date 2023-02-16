@@ -1,8 +1,12 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'package:sharq_crm/features/customers/domain/entity/customer_entity.dart';
+
 import 'package:sharq_crm/features/customers/presentation/page/manager_part/customers_page.dart';
 import 'package:intl/intl.dart';
+import '../../../../../core/util/constants.dart';
 import '../../../../services/album/domain/entity/album_entity.dart';
 import '../../../../services/club/domain/entity/club_entity.dart';
 import '../../../../services/photo_studio/domain/entity/photostudio_entity.dart';
@@ -16,9 +20,10 @@ class PaidPageForManager extends StatefulWidget {
       required this.photoStudioForCustomerPaidlist,
       required this.videoForCustomerPaidlist,
       required this.albumForCustomerPaidlist,
-      required this.clubForCustomerPaidlist})
+      required this.clubForCustomerPaidlist, required this.currentCustomer})
       : super(key: key);
   final String customerId;
+  CustomerEntity? currentCustomer;
   List<PhotoStudioEntity> photoStudioForCustomerPaidlist;
   List<VideoEntity> videoForCustomerPaidlist;
   List<ClubEntity> clubForCustomerPaidlist;
@@ -33,97 +38,103 @@ class _PaidCustomerPageState extends State<PaidPageForManager> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              return _scaffoldKey.currentState?.openDrawer();
-            },
-            icon: Icon(Icons.menu),
+
+
+
+        return SafeArea(
+          child: Scaffold(
+            key: _scaffoldKey,
+            appBar: AppBar(
+              backgroundColor: apbarBackground,
+              leading: IconButton(
+                onPressed: () {
+                  return _scaffoldKey.currentState?.openDrawer();
+                },
+                icon: Icon(Icons.menu,color: iconAndText,),
+              ),
+              title: Text(   widget.currentCustomer?.name??"", style: TextStyle(color: iconAndText),),
+              centerTitle: true,
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  //
+                  widget.photoStudioForCustomerPaidlist.length == 0
+                      ? Padding(
+                          padding: const EdgeInsets.all(28.0),
+                          child: Center(
+                            child: Text(
+                              'Tasdiqlangan Photo Studio buyurtma mavjud emas.',
+                              style: TextStyle(
+                                  color: Colors.green, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      : _currentPhotoStudioInfo(
+                          widget.photoStudioForCustomerPaidlist,
+                          context,
+                          widget.customerId),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  widget.clubForCustomerPaidlist.length == 0
+                      ? Padding(
+                          padding: const EdgeInsets.all(28.0),
+                          child: Center(
+                            child: Text(
+                              'Tasdiqlangan Club buyurtma mavjud emas.',
+                              style: TextStyle(
+                                  color: Colors.green, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      : _currentClubInfo(widget.clubForCustomerPaidlist, context,
+                          widget.customerId),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  widget.albumForCustomerPaidlist.length == 0
+                      ? Padding(
+                          padding: const EdgeInsets.all(28.0),
+                          child: Center(
+                            child: Text(
+                              'Tasdiqlangan Album buyurtma mavjud emas.',
+                              style: TextStyle(
+                                  color: Colors.green, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      : _currentAlbumInfo(widget.albumForCustomerPaidlist, context,
+                          widget.customerId),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  //
+                  widget.videoForCustomerPaidlist.length == 0
+                      ? Padding(
+                          padding: const EdgeInsets.all(28.0),
+                          child: Center(
+                            child: Text(
+                              'Tasdiqlangan Video buyurtma mavjud emas.',
+                              style: TextStyle(
+                                  color: Colors.green, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      : _currentVideoInfoPaid(widget.videoForCustomerPaidlist,
+                          context, widget.customerId),
+                ],
+              ),
+            ),
+            drawer: _drawer(widget.customerId),
           ),
-          title: Text(widget.customerId),
-          centerTitle: true,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              //
-              widget.photoStudioForCustomerPaidlist.length == 0
-                  ? Padding(
-                      padding: const EdgeInsets.all(28.0),
-                      child: Center(
-                        child: Text(
-                          'Tasdiqlangan Photo Studio buyurtma mavjud emas.',
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    )
-                  : _currentPhotoStudioInfo(
-                      widget.photoStudioForCustomerPaidlist,
-                      context,
-                      widget.customerId),
-              SizedBox(
-                height: 10,
-              ),
-              widget.clubForCustomerPaidlist.length == 0
-                  ? Padding(
-                      padding: const EdgeInsets.all(28.0),
-                      child: Center(
-                        child: Text(
-                          'Tasdiqlangan Club buyurtma mavjud emas.',
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    )
-                  : _currentClubInfo(widget.clubForCustomerPaidlist, context,
-                      widget.customerId),
-              SizedBox(
-                height: 10,
-              ),
-              widget.albumForCustomerPaidlist.length == 0
-                  ? Padding(
-                      padding: const EdgeInsets.all(28.0),
-                      child: Center(
-                        child: Text(
-                          'Tasdiqlangan Album buyurtma mavjud emas.',
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    )
-                  : _currentAlbumInfo(widget.albumForCustomerPaidlist, context,
-                      widget.customerId),
-              SizedBox(
-                height: 10,
-              ),
-              //
-              widget.videoForCustomerPaidlist.length == 0
-                  ? Padding(
-                      padding: const EdgeInsets.all(28.0),
-                      child: Center(
-                        child: Text(
-                          'Tasdiqlangan Video buyurtma mavjud emas.',
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    )
-                  : _currentVideoInfoPaid(widget.videoForCustomerPaidlist,
-                      context, widget.customerId),
-            ],
-          ),
-        ),
-        drawer: _drawer(widget.customerId),
-      ),
-    );
+        );
+      }
+
     // });
-  }
+
 
 //
   //
@@ -159,7 +170,7 @@ class _PaidCustomerPageState extends State<PaidPageForManager> {
                         borderRadius: BorderRadius.all(
                           Radius.circular(22),
                         ),
-                        color: Colors.white70),
+                        color: Colors.green.shade100),
                     child: Column(
                       children: [
                         ListTile(
@@ -1095,4 +1106,5 @@ class _PaidCustomerPageState extends State<PaidPageForManager> {
       ),
     );
   }
+
 }

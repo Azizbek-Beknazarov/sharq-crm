@@ -48,3 +48,8 @@ class ClubUpdateEvent extends ClubEvents {
   ClubUpdateEvent({required this.clubId, required this.customerId})
       : super([clubId, customerId]);
 }
+//6
+class ClubStudioGetDateTimeOrdersEvent extends ClubEvents{
+  final DateTime dateTime;
+  ClubStudioGetDateTimeOrdersEvent({required this.dateTime}):super([dateTime]);
+}

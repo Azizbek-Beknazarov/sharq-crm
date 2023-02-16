@@ -90,4 +90,10 @@ class ClubRepoImpl implements ClubRepo {
   Future<void> updateClub(String clubId, String customerId) async{
     return await remoteDS.updateClub(clubId, customerId);
   }
+
+  @override
+  Future<List<ClubEntity>> getDateTimeOrders(DateTime dateTime)async {
+    final result=await remoteDS.getDateTimeOrders(dateTime);
+    return Future.value(result);
+  }
 }

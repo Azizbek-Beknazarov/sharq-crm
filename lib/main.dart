@@ -12,6 +12,7 @@ import 'package:sharq_crm/features/services/video/presentation/bloc/video_bloc.d
 import 'features/auth/presentation/bloc/m_auth_bloc.dart';
 import 'features/choose_page.dart';
 import 'features/injection_container.dart' as di;
+import 'features/splash_screen_for_customer.dart';
 
 
 void main() async {
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
           title: 'CRM',
 
           // home: CustomersPage(),
-          home: ChoosePage(),
+          home: SplashScreenForCustomer(),
         ));
   }
 }

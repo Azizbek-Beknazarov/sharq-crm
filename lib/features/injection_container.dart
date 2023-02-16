@@ -37,6 +37,7 @@ import 'package:sharq_crm/features/services/club/domain/usecase/delete_club_usec
 import 'package:sharq_crm/features/services/club/domain/usecase/get_club_for_customer_usecase.dart';
 import 'package:sharq_crm/features/services/club/domain/usecase/get_club_usecase.dart';
 import 'package:sharq_crm/features/services/club/domain/usecase/add_club_usecase.dart';
+import 'package:sharq_crm/features/services/club/domain/usecase/get_datetime_orders_usecase.dart';
 import 'package:sharq_crm/features/services/club/domain/usecase/update_club_usecase.dart';
 import 'package:sharq_crm/features/services/club/presentation/bloc/club_bloc.dart';
 import 'package:sharq_crm/features/services/photo_studio/data/datasourse/photostudio_remote_ds.dart';
@@ -103,7 +104,7 @@ Future<void> init() async {
   sl.registerFactory(() => PhotoStudioBloc(sl(), sl(), sl(), sl(),sl(),sl()));
 
   //5
-  sl.registerFactory(() => ClubBloc(sl(), sl(), sl(), sl(),sl()));
+  sl.registerFactory(() => ClubBloc(sl(), sl(), sl(), sl(),sl(),sl()));
 
   //6
   sl.registerFactory(() => AlbumBloc(sl(), sl(), sl(), sl(),sl(),sl()));
@@ -148,6 +149,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DeleteClubUsecase(repo: sl()));
   sl.registerLazySingleton(() => GetClubForCustomerUseCase(repo: sl()));
   sl.registerLazySingleton(() => UpdateClubUseCase(repo: sl()));
+  sl.registerLazySingleton(() => ClubGetDateTimeOrdersUsecase(repo: sl()));
 
 
   //6

@@ -5,11 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/customer_cubit.dart';
 import 'package:sharq_crm/features/customers/presentation/bloc/customer_state.dart';
 import 'package:sharq_crm/features/customers/presentation/page/customer_part/customer_home_page.dart';
-import 'package:sharq_crm/features/customers/presentation/page/manager_part/customers_page.dart';
+import 'package:sharq_crm/features/splash_screen.dart';
+
 
 import '../core/util/constants.dart';
 import '../core/util/loading_widget.dart';
-import 'auth/presentation/bloc/m_auth_bloc.dart';
+
 import 'customers/presentation/page/customer_part/customer_auth_pages/signup_customer_page.dart';
 import 'package:sharq_crm/features/injection_container.dart' as di;
 
@@ -33,15 +34,17 @@ class _SplashScreenForCustomerState extends State<SplashScreenForCustomer> {
               print('customer load buldi');
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                      builder: (_) => CustomerHomePage(
-                            customerId: state.getLoadedCustomer.customerId!,
+                      builder: (context) => CustomerHomePage(
+                            customerId: state.getLoadedCustomer.customerId,
                           )),
                   (_) => false);
             } else if (state is CustomerEmpty) {
               print('customer load bulmadi');
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                      builder: (BuildContext _) => SignUpCustomerPage()),
+                      builder: (BuildContext context) =>SplashScreen()// SignUpCustomerPage()
+
+                  ),
                   (_) => false);
             }
           });

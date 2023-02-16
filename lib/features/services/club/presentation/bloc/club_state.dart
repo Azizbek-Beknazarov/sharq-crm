@@ -41,3 +41,7 @@ class ClubErrorState extends ClubStates{
   List<Object> get props => [message];
 }
 class ClubDeletedState extends ClubStates {}
+class ClubLoadedDateState extends ClubStates {
+  List<ClubEntity> clubDateTimelist;
+  ClubLoadedDateState(this.clubDateTimelist);
+}

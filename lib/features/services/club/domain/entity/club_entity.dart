@@ -12,6 +12,7 @@ class ClubEntity extends Equatable {
   String customerId;
   int prepayment;
 
+
   ClubEntity({
     required this.club_id,
     required this.price,
@@ -23,6 +24,7 @@ class ClubEntity extends Equatable {
     required this.isPaid,
     required this.customerId,
     required this.prepayment,
+
   });
 
   @override
@@ -37,5 +39,6 @@ class ClubEntity extends Equatable {
     isPaid,
     customerId,
     prepayment,
+
       ];
 }

@@ -10,4 +10,5 @@ abstract class ClubRepo {
   Future<void> addClub(ClubEntity newClub, String customerId);
   Future<void> deleteClub( String customerId,String clubID);
   Future<void> updateClub(String clubId, String customerId );
+  Future<List<ClubEntity>> getDateTimeOrders(DateTime dateTime);
 }

@@ -9,6 +9,7 @@ import 'package:sharq_crm/features/customers/presentation/page/manager_part/cust
 import '../core/util/constants.dart';
 import '../core/util/loading_widget.dart';
 import 'auth/presentation/bloc/m_auth_bloc.dart';
+import 'customers/presentation/page/customer_part/customer_auth_pages/signup_customer_page.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -25,13 +26,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   if (state is LoadedManagerState) {
                     print("::::auth state is ${state.toString()}");
                     Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (ctx) => CustomersPage()),
+                        MaterialPageRoute(builder: (context) => CustomersPage()),
                             (_) => false);
                   } else if (state is AuthInitial) {
                     print("::::auth state is ${state.toString()}");
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                            builder: ( context)=>SignInPage()),
+                            builder: ( context)=>SignUpCustomerPage()//SignInPage()
+                        ),
                             (_) => false);
                   }
                 });

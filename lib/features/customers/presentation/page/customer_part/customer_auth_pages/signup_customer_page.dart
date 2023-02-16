@@ -7,6 +7,7 @@ import 'package:sharq_crm/features/customers/presentation/page/customer_part/cus
 
 import '../../../../../../core/util/build_logo_widget.dart';
 
+import '../../../../../auth/presentation/page/sign_in_page.dart';
 import '../../../bloc/customer_cubit.dart';
 import '../../../bloc/customer_state.dart';
 
@@ -120,13 +121,18 @@ class _SignUpCustomerPageState extends State<SignUpCustomerPage> {
                           }
                         },
                         child: Text('Ro\'yxatdan o\'tish')),
+                    // Row(children: [
+                    //   Text("Avval ro\'yxatdan o\'tgan bo\'lsangiz:", style: TextStyle(fontWeight: FontWeight.bold),),
+                    //   TextButton(onPressed: (){
+                    //     Navigator.push(context, MaterialPageRoute(builder: (ctx)=>SignInCustomerPage()));
+                    //   }, child: Text('Kirish'))
+                    // ],),
                     Row(children: [
-                      Text("Avval ro\'yxatdan o\'tgan bo\'lsangiz:", style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text("For managers:", style: TextStyle(fontWeight: FontWeight.bold),),
                       TextButton(onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (ctx)=>SignInCustomerPage()));
-                      }, child: Text('Kirish'))
+                        Navigator.push(context, MaterialPageRoute(builder: (ctx)=>SignInPage()));
+                      }, child: Text('LogIn'))
                     ],),
-
                   ],
                 ),
               ),

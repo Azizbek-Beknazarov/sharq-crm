@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sharq_crm/features/customers/presentation/page/manager_part/calendar/widget/album_date_widget.dart';
+import 'package:sharq_crm/features/customers/presentation/page/manager_part/calendar/widget/club_date_widget.dart';
 import 'package:sharq_crm/features/customers/presentation/page/manager_part/calendar/widget/photo_date_widget.dart';
 import 'package:sharq_crm/features/customers/presentation/page/manager_part/calendar/widget/video_date_widget.dart';
 
@@ -25,7 +26,7 @@ class _CalendarServicePageState extends State<CalendarServicePage> {
         );
         break;
       case 1:
-        child = FlutterLogo(style: FlutterLogoStyle.horizontal);
+        child = ClubDateWidget(dateTime: widget.dateTime!,);
         break;
       case 2:
         child = AlbumDateWidget(dateTime: widget.dateTime!,);

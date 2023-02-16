@@ -83,7 +83,7 @@ class _CustomerListState extends State<CustomerList> {
                   hintText: "Izlash",
                   filled: true,
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(20),
                       borderSide: BorderSide.none),
                   prefixIcon: Icon(Icons.search),
                   prefixIconColor: Colors.purple.shade900),
@@ -175,6 +175,7 @@ class _CustomerListState extends State<CustomerList> {
                       },
                       child: ListTile(
                         leading: Icon(Icons.person),
+
                         trailing: PopupMenuButton<ActionItems>(
                           initialValue: selectedMenu,
                           onSelected: (ActionItems item) {

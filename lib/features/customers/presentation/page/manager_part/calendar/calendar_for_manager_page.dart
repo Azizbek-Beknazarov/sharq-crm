@@ -1,6 +1,7 @@
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../../core/util/constants.dart';
 import 'calendar_service_page.dart';
 
 class CalendarForManagerPage extends StatefulWidget {
@@ -16,10 +17,16 @@ class _CalendarForManagerPageState extends State<CalendarForManagerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
-        title: Text("Kalendar"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: apbarBackground,
+        title: Text("Kalendar",style:  TextStyle(color: iconAndText),),
       ),
       body: Container(
+        decoration: BoxDecoration(color: apbarBackground),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(18.0),
@@ -54,7 +61,7 @@ class _CalendarForManagerPageState extends State<CalendarForManagerPage> {
                       CalendarServicePage(dateTime: selectedDate,)
                       ));
                     },
-                    child: Text("get"))
+                    child: Text("Davom etish"))
               ],
             ),
           ),
